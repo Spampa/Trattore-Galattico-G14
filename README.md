@@ -1,4 +1,4 @@
 # Trattore-Galattico-G14
 
-Si non è trattore la traduzione ma fa ridere.
-👀 Riferimenti a persone o oggetti è puramente casuale
+Si lo sappiamo trattore non è la traduzione ma fa molto ridere.
+👀 Riferimenti a persone o oggetti è puramente casuale.
