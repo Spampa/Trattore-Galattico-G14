@@ -2,6 +2,10 @@ package entities;
 
 public class Ship {
 
+    private final GameLevel level;
+
+	private final ShipTile[][] shipComponents;
+
 	private float firePower;
 	private int motorPower;
 	private int waresValue;
@@ -9,19 +13,69 @@ public class Ship {
 	private int humansCounter;
 	private int cellsCounter;
 	private int aliensCounter;
-	// private Components[][] shipComponents; TODO: implementare classe "Components"
 
-	public void scanShip(){
-		// TODO
+    public Ship(ShipTile[][] components, GameLevel level){
+            shipComponents = components;
+            this.level = level;
+
+            scanShip();
+    }
+
+    private void checkComponent(int x, int y){
+
+        if(shipComponents[x][y].getComponent() != null){
+            shipComponents[x][y].setScanned(true);
+
+            if(!shipComponents[x+1][y].isScanned()){
+                checkComponent(x+1, y);
+            }
+            
+            if(!shipComponents[x-1][y].isScanned()){
+                checkComponent(x-1, y);
+            }
+
+            if(!shipComponents[x][y+1].isScanned()){
+                checkComponent(x, y+1);
+            }
+
+            if(!shipComponents[x][y-1].isScanned()){
+                checkComponent(x, y-1);
+            }
+        }
+    }
+
+	private  void scanShip(){
+
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                shipComponents[i][j].setScanned(false);
+            }
+        }
+
+        checkComponent((level.getBoardX()/2)+1, (level.getBoardY()/2)+1);
+
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                if(!shipComponents[i][j].isScanned()){
+                    shipComponents[i][j].setComponent(null);
+                }
+                else{
+                    // TODO add a switch case to update ship values
+                }
+            }
+        }
 	}
 
 	public void getHit(){
 		// TODO
 	}
 
+    public void storeWares( ){
+        // TODO 
+    }
+
 	public boolean isPlayable(){
-		// TODO
-		return true;
+		return (shipComponents[(level.getBoardX()/2)+1][(level.getBoardY()/2)+1].getComponent() != null);
 	}
 
     public float getFirePower() {
