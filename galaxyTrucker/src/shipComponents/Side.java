@@ -3,7 +3,7 @@ package shipComponents;
 public enum Side {
 	UP(0), RIGHT(1), DOWN(2), LEFT(3);
 	
-	private int number;
+	private final int number;
 	
 	Side(int number){
 		this.number = number;
