@@ -1,8 +1,9 @@
-package shipComponents;
+package components;
+import components.enums.Side;
 
 public abstract class Component {
 	private final Connector connectors[]; //element 0: top of the square, element 2: bottom of the square
-	private Side orientation = Side.UP;
+	protected Side orientation = Side.UP;
 	
 	public static final int sideCount = 4;
 	
@@ -23,10 +24,6 @@ public abstract class Component {
 	
 	public Side getOrientation() {
 		return orientation;
-	}
-	
-	public void rotate() {
-		orientation = orientation.rotate();
 	}
 	
 	@Override

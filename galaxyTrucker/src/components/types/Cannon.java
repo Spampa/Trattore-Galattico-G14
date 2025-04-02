@@ -1,11 +1,17 @@
-package shipComponents;
+package components.types;
 
-public class Cannon extends Component {
-	private final ComponentType type;
+import components.Component;
+import components.Connector;
+import components.Rotatable;
+import components.enums.MountType;
+import components.enums.Side;
+
+public class Cannon extends Component implements Rotatable {
+	private final MountType type;
 	private double firePower;
 	private final int batteryRequired;
 	
-	public Cannon(ComponentType type, Connector[] connectors ) {
+	public Cannon(MountType type, Connector[] connectors ) {
 		//exception
 		if(connectors[Side.UP.getNumber()] != null) {
 			//TODO manage exception, there isn't connectors at the top of the Cannon
@@ -15,7 +21,7 @@ public class Cannon extends Component {
 		super(connectors);
 		firePower = type.getNumber();
 		
-		if(type == ComponentType.DOUBLE) {
+		if(type == MountType.DOUBLE) {
 			batteryRequired = 1;
 		}
 		else {
@@ -23,7 +29,7 @@ public class Cannon extends Component {
 		}
 	}
 	
-	public ComponentType getType() {
+	public MountType getType() {
 		return type;
 	}
 	
@@ -33,8 +39,8 @@ public class Cannon extends Component {
 	
 	@Override
 	public void rotate() {
-		super.rotate();
-		if(super.getOrientation() == Side.UP) {
+		super.orientation = super.orientation.rotate();
+		if(super.orientation == Side.UP) {
 			firePower = type.getNumber();
 		}
 		else {

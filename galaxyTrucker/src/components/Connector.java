@@ -1,7 +1,7 @@
-package shipComponents;
+package components;
 
 public enum Connector {
-	EMPTY(0), SINGLE(1), DOUBLE(2), TRIPLE(3);
+	EMPTY(0), SINGLE(1), DOUBLE(2), UNIVERSAL(3);
 	
 	private int number;
 	

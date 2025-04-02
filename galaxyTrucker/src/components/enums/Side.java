@@ -1,4 +1,4 @@
-package shipComponents;
+package components.enums;
 
 public enum Side {
 	UP(0), RIGHT(1), DOWN(2), LEFT(3);

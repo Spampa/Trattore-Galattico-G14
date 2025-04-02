@@ -1,6 +1,6 @@
 package entities;
 
-import shipComponents.*;
+import components.*;
 
 public class ShipTile {
     private boolean scanned = false;
