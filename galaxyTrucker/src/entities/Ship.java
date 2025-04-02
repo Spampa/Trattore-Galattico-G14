@@ -26,19 +26,19 @@ public class Ship {
         if(shipComponents[x][y].getComponent() != null){
             shipComponents[x][y].setScanned(true);
 
-            if(!shipComponents[x+1][y].isScanned()){
+            if(x+1 <= level.getBoardX() && !shipComponents[x+1][y].isScanned()){
                 checkComponent(x+1, y);
             }
             
-            if(!shipComponents[x-1][y].isScanned()){
+            if(x-1 >= 0 && !shipComponents[x-1][y].isScanned()){
                 checkComponent(x-1, y);
             }
 
-            if(!shipComponents[x][y+1].isScanned()){
+            if(y+1 <= level.getBoardY() && !shipComponents[x][y+1].isScanned()){
                 checkComponent(x, y+1);
             }
 
-            if(!shipComponents[x][y-1].isScanned()){
+            if(y-1 >= 0 && !shipComponents[x][y-1].isScanned()){
                 checkComponent(x, y-1);
             }
         }
