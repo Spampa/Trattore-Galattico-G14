@@ -1,10 +1,11 @@
 package components;
 import components.enums.Side;
+import gameEvents.Actions.ProjectileType;
 
 public abstract class Component {
 	private final Connector connectors[]; //element 0: top of the square, element 2: bottom of the square
 	protected Side orientation = Side.UP;
-	
+	private boolean broke = false;
 	public static final int sideCount = 4;
 	
 	public Component(Connector[] connectors) {
@@ -25,6 +26,11 @@ public abstract class Component {
 	public Side getOrientation() {
 		return orientation;
 	}
+
+	public boolean tryBreak(ProjectileType projectile){  // TODO implement this method to prevent not exposed component to be broke by small asteroid, and if it the component is broken set the broke parameter to true;
+		this.broke = true;
+		return true;
+	}
 	
 	@Override
 	public String toString() {
@@ -36,4 +42,8 @@ public abstract class Component {
 		s += "Orientation: " + orientation;
 		return s;
 	}
+
+    public boolean isBroke() {
+        return broke;
+    }
 }

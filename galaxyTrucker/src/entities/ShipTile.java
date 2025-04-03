@@ -6,9 +6,10 @@ public class ShipTile {
     private boolean scanned = false;
     private final boolean  isSpace;
     private Component component;
+    private boolean protectedTile = false;
 
     public ShipTile(){
-        isSpace = false;
+        this.isSpace = false;
     }
 
     public ShipTile(boolean isSpace){
@@ -31,6 +32,14 @@ public class ShipTile {
     
     public boolean isScanned() {
         return scanned;
+    }
+
+    public boolean isProtectedTile() {
+        return protectedTile;
+    }
+
+    public void setProtectedTile(boolean protectedTile) {
+        this.protectedTile = protectedTile;
     }
 
 

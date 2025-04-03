@@ -1,5 +1,9 @@
 package entities;
 
+import components.enums.*;
+import components.types.containers.Container;
+import gameEvents.Actions.*;
+
 public class Ship {
 
     private final GameLevel level;
@@ -66,12 +70,106 @@ public class Ship {
         }
 	}
 
-	public void getHit(){
-		// TODO
+	public boolean  getHit(Shoot s){
+        
+        switch (s.getDirection()) {
+            
+            case ProjectileDirection.FRONT -> {
+                for(int i = 0; i < level.getBoardY(); i++){
+                    
+                    if(shipComponents[i][s.getComingTile()].getComponent() != null){
+                        
+                        if(!shipComponents[i][s.getComingTile()].isProtectedTile()){
+                            scanShip();
+                            return shipComponents[i][s.getComingTile()].getComponent().tryBreak(s.getType());
+                        }
+                        else{
+                            scanShip();
+                            return false;
+                        }
+                    }
+                }
+                scanShip();
+                return false;
+            }
+
+            case ProjectileDirection.BACK -> {
+                for(int i = (level.getBoardY()-1); i >= 0; i--){
+                    
+                    if(shipComponents[i][s.getComingTile()].getComponent() != null){
+                        
+                        if(!shipComponents[i][s.getComingTile()].isProtectedTile()){
+                            scanShip();
+                            return shipComponents[i][s.getComingTile()].getComponent().tryBreak(s.getType());
+                        }
+                        else{
+                            scanShip();
+                            return false;
+                        }
+                    }
+                }
+                scanShip();
+                return false;
+            }
+
+            case ProjectileDirection.LEFT -> {
+                for(int i = 0; i < level.getBoardX(); i++){
+                    
+                    if(shipComponents[s.getComingTile()][i].getComponent() != null){
+                        
+                        if(!shipComponents[s.getComingTile()][i].isProtectedTile()){
+                            scanShip();
+                            return shipComponents[s.getComingTile()][i].getComponent().tryBreak(s.getType());
+                        }
+                        else{
+                            scanShip();
+                            return false;
+                        }
+                    }
+                }
+                scanShip();
+                return false; 
+            }
+
+            case ProjectileDirection.RIGHT -> {
+                for(int i = (level.getBoardX()-1); i >= 0 ; i--){
+                    
+                    if(shipComponents[s.getComingTile()][i].getComponent() != null){
+                        
+                        if(!shipComponents[s.getComingTile()][i].isProtectedTile()){
+                            scanShip();
+                            return shipComponents[s.getComingTile()][i].getComponent().tryBreak(s.getType());
+                        }
+                        else{
+                            scanShip();
+                            return false;
+                        }
+                    }
+                }
+                scanShip();
+                return false; 
+            }
+
+            default -> {
+                scanShip();
+                return false;
+            }
+
+        }
 	}
 
-    public void storeWares( ){
-        // TODO 
+    public boolean storeWares(Ware[] w){
+
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                if(shipComponents[i][j].getComponent() instanceof Container){
+                    //if(shipComponents[i][j].getComponent().store(w)) 
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 	public boolean isPlayable(){
