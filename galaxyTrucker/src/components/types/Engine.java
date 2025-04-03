@@ -10,13 +10,13 @@ public class Engine extends Component {
 	private final int batteryRequired;
 	
 	public Engine(MountType type, Connector[] connectors) {
+		super(connectors);
 		//exception
 		if(connectors[Side.DOWN.getNumber()] != null) {
-			//TODO manage exception, there isn't connectors at the bottom of the engine
+			//TODO: manage exception, there isn't connectors at the bottom of the engine
 		}
 		
 		this.type = type;
-		super(connectors);
 		
 		if(type == MountType.DOUBLE) {
 			batteryRequired = 1;

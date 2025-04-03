@@ -12,13 +12,14 @@ public class Cannon extends Component implements Rotatable {
 	private final int batteryRequired;
 	
 	public Cannon(MountType type, Connector[] connectors ) {
+		super(connectors);
+		
 		//exception
 		if(connectors[Side.UP.getNumber()] != null) {
 			//TODO manage exception, there isn't connectors at the top of the Cannon
 		}
-		
 		this.type = type;
-		super(connectors);
+		
 		firePower = type.getNumber();
 		
 		if(type == MountType.DOUBLE) {
