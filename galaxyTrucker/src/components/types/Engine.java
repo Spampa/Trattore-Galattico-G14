@@ -14,6 +14,7 @@ public class Engine extends Component {
 		//exception
 		if(connectors[Side.DOWN.getNumber()] != null) {
 			//TODO: manage exception, there isn't connectors at the bottom of the engine
+			System.out.println("Not possible create a connector in the DOWN side");
 		}
 		
 		this.type = type;

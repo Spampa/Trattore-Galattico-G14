@@ -17,6 +17,7 @@ public class Cannon extends Component implements Rotatable {
 		//exception
 		if(connectors[Side.UP.getNumber()] != null) {
 			//TODO manage exception, there isn't connectors at the top of the Cannon
+			System.out.println("Not possible create a connector in the UP side");
 		}
 		this.type = type;
 		
