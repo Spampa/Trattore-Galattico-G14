@@ -12,8 +12,6 @@ public abstract class Container extends Component {
 		this.currentCapacity = 0;
 	}
 	
-	public abstract void add(ContentType content);
-	
 	public int getCurrentCapacity() {
 		return currentCapacity;
 	}
@@ -22,11 +20,23 @@ public abstract class Container extends Component {
 		return maxCapacity;
 	}
 	
-	public void remove() {
+	protected void increment() {
+		if(currentCapacity + 1 > maxCapacity) {
+			//TODO: throw error
+			System.out.println("The container is full");
+			return;
+		}
+		currentCapacity++;
+	}
+	
+	protected void decrement() {
 		if(currentCapacity > 0) {
 			currentCapacity--;
 		}
 	}
+	
+	public abstract void add(ContentType content);
+	public abstract void remove();
 	
 	@Override
 	public String toString() {

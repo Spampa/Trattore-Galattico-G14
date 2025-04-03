@@ -16,6 +16,4 @@ public abstract  class Event {
     public EventType getType() {
         return type;
     }
-
-
 }
