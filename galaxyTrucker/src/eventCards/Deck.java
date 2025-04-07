@@ -9,61 +9,65 @@ public class Deck {
 
     public Deck() {
         this.cards = new Stack<>();
-        initializeBaseDeck();
+        initializeDeck();
         shuffle();
     }
 
-    private void initializeBaseDeck() {
+    private void initializeDeck() {
         cards.add(new SimpleEventCard(
-            "Asteroid Field",
-            "La nave subisce 2 danni",
-            EventType.ASTEROIDS
+            "Campo Asteroidi", 
+            "2 danni casuali alla nave", 
+            EventType.ASTEROID_FIELD
         ));
+        
         cards.add(new SimpleEventCard(
-            "Pirate Attack",
-            "2 proiettili a sinistra",
-            EventType.PIRATE_ATTACK
+            "Incursione Pirata", 
+            "3 proiettili da destra", 
+            EventType.PIRATE_RAID
         ));
+        
         cards.add(new SimpleEventCard(
-            "Abandoned Station",
-            "Guadagni 3 crediti se hai almeno 1 alieno a bordo",
+            "Stazione Abbandonata", 
+            "Vendi alieni per crediti", 
             EventType.ABANDONED_STATION
         ));
+        
         cards.add(new SimpleEventCard(
-            "Slavers",
-            "Perdi 1 membro dell'equipaggio a caso",
-            EventType.SLAVERS
+            "Nave Schiavista", 
+            "Perdi 1 membro equipaggio", 
+            EventType.SLAVER_SHIP
         ));
+        
         cards.add(new SimpleEventCard(
-            "Comet",
-            "Danno a tutta una colonna della nave",
-            EventType.COMET
+            "Impatto Cometa", 
+            "Distrugge una colonna", 
+            EventType.COMET_STRIKE
         ));
+        
         cards.add(new SimpleEventCard(
-            "Merchant Planet",
-            "Vendi merci per crediti (1-3 per tipo)",
-            EventType.MERCHANT_PLANET
+            "Avamposto Mercantile", 
+            "Vendi merci a prezzi doppi", 
+            EventType.MERCHANT_OUTPOST
         ));
+        
         cards.add(new SimpleEventCard(
-            "Sabotage",
-            "Perdi 1 componente non essenziale a caso",
+            "Sabotaggio", 
+            "Perdi 1 componente casuale", 
             EventType.SABOTAGE
         ));
+        
         cards.add(new SimpleEventCard(
-            "Cosmic Radiation",
-            "Tutti gli equipaggi subiscono 1 danno",
-            EventType.COSMIC_RADIATION
+            "Tempesta Cosmica", 
+            "Danno a tutti i sistemi", 
+            EventType.COSMIC_STORM
         ));
-        // TODO aggiungere tutte le altre carte
     }
-    
+
     public void shuffle() {
         Collections.shuffle(cards);
     }
 
     public EventCard drawCard() {
         return cards.isEmpty() ? null : cards.pop();
-
-        //idea di sviluppo: switch(card.getType()){case ASTEROIDS[...], case PIRATE_ATTACK[...], ecc...}
     }
 }
