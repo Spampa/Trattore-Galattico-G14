@@ -12,4 +12,18 @@ public enum Connector {
 	public int getNumber() {
 		return number;
 	}
+	
+	public static Connector intToConnector(int value) {
+		switch(value) {
+			case 0:
+				return EMPTY;
+			case 1:
+				return SINGLE;
+			case 2:
+				return DOUBLE;
+			default:
+				return UNIVERSAL;
+			
+		}
+	}
 }

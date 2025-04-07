@@ -15,9 +15,9 @@ public class Cannon extends Component implements Rotatable {
 		super(connectors);
 		
 		//exception
-		if(connectors[Side.UP.getNumber()] != null) {
+		if(connectors[Side.UP.getNumber()] != Connector.EMPTY) {
 			//TODO manage exception, there isn't connectors at the top of the Cannon
-			System.out.println("Not possible create a connector in the UP side");
+			System.out.println("Connector in UP side must be EMPTY");
 		}
 		this.type = type;
 		

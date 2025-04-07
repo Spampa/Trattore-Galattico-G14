@@ -13,4 +13,10 @@ public class Pipe extends Component implements Rotatable {
 	public void rotate() {
 		super.orientation = super.orientation.rotate();
 	}
+	
+	@Override
+	public String toString() {
+		return "Component: Pipe" + "\n" +
+				super.toString();
+	}
 }
