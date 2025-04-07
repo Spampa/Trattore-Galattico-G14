@@ -1,9 +1,22 @@
 package eventCards;
 
+import entities.Ship;
 import gameEvents.EventType;
 
-public interface EventCard {
-    String getName();
-    String getDescription();
-    EventType getType();
+public abstract class EventCard {
+    private final String name;
+    private final String description;
+    private final EventType type;
+
+    protected EventCard(String name, String description, EventType type) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+    }
+
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public EventType getType() { return type; }
+
+    public abstract void executeEvent(Ship ship);
 }

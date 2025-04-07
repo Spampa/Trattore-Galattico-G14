@@ -1,24 +1,15 @@
 package eventCards;
 
+import entities.Ship;
 import gameEvents.EventType;
 
-public class SimpleEventCard implements EventCard {
-    private final String name;
-    private final String description;
-    private final EventType type;
-
+public class SimpleEventCard extends EventCard {
     public SimpleEventCard(String name, String description, EventType type) {
-        this.name = name;
-        this.description = description;
-        this.type = type;
+        super(name, description, type);
     }
 
     @Override
-    public String getName() { return name; }
-
-    @Override
-    public String getDescription() { return description; }
-
-    @Override
-    public EventType getType() { return type; }
+    public void executeEvent(Ship ship) {
+        getType().execute(ship);
+    }
 }
