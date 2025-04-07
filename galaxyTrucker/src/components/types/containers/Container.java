@@ -1,8 +1,9 @@
 package components.types.containers;
 import components.Component;
 import components.Connector;
+import components.Rotatable;
 
-public abstract class Container extends Component {
+public abstract class Container extends Component implements Rotatable {
 	private final int maxCapacity;
 	private int currentCapacity;
 	
@@ -35,8 +36,13 @@ public abstract class Container extends Component {
 		}
 	}
 	
-	public abstract void add(ContentType content);
-	public abstract void remove();
+	@Override
+	public void rotate() {
+		super.orientation = super.orientation.rotate();
+	}
+	
+	public abstract boolean add(ContentType content);
+	public abstract boolean remove();
 	
 	@Override
 	public String toString() {

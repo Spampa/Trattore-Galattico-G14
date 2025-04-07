@@ -20,26 +20,28 @@ public class SpecialStorage extends Container {
 	}
 
 	@Override
-	public void add(ContentType content) {
+	public boolean add(ContentType content) {
 		if(content == ContentType.ASTRONAUT || content == ContentType.BATTERY) {
 			//TODO: error
 			System.out.println("Error only wares are allowed");
-			return;
+			return false;
 		}
 		
 		if(super.getCurrentCapacity() >= super.getMaxCapacity()) {
 			//TODO: throw error
 			System.out.println("Error the container is filled");
-			return;
+			return false;
 		}
 		wares[super.getCurrentCapacity()] = content;
 		super.increment();
+		return true;
 	}
 
 	@Override
-	public void remove() {
+	public boolean remove() {
 		super.decrement();
 		wares[super.getCurrentCapacity()] = null;
+		return true;
 	}
 	
 	public ContentType[] getWares() {

@@ -16,18 +16,20 @@ public class HousingUnit extends Container {
 	}
 
 	@Override
-	public void add(ContentType content) {
+	public boolean add(ContentType content) {
 		if(content != ContentType.ASTRONAUT) {
 			//TODO: throw error
 			System.out.println("Error Only astronaut allowed");
-			return;
+			return false;
 		}
 		super.increment();
+		return true;
 	}
 
 	@Override
-	public void remove() {
+	public boolean remove() {
 		super.decrement();
+		return true;
 	}
 	
 	public boolean isCore() {

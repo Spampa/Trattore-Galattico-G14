@@ -18,20 +18,21 @@ public class BatteryContainer extends Container {
 	}
 
 	@Override
-	public void add(ContentType content) {
+	public boolean add(ContentType content) {
 		if(content != ContentType.BATTERY) {
 			// TODO Error only batteries allowed
 			System.out.println("Error Only batteries allowed");
-			return;
+			return false;
 		}
 		
 		super.increment();
+		return true;
 	}
 
 	@Override
-	public void remove() {
-		// TODO Auto-generated method stub
+	public boolean remove() {
 		super.decrement();
+		return true;
 	}
 	
 	@Override

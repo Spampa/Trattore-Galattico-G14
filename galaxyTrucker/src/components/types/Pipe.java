@@ -1,0 +1,16 @@
+package components.types;
+import components.Component;
+import components.Connector;
+import components.Rotatable;
+
+public class Pipe extends Component implements Rotatable {
+	
+	public Pipe(Connector[] connectors ) {
+		super(connectors);
+	}
+
+	@Override
+	public void rotate() {
+		super.orientation = super.orientation.rotate();
+	}
+}

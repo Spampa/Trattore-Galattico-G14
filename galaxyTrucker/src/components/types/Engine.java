@@ -27,6 +27,18 @@ public class Engine extends Component {
 		}
 	}
 	
+	public MountType getType() {
+		return type;
+	}
+
+	public int getBatteryRequired() {
+		return batteryRequired;
+	}
+	
+	public int getEnginePower() {
+		return type.getNumber();
+	}
+	
 	@Override
 	public String toString() {
 		return "Component: Engine" + "\n" +

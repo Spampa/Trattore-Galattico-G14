@@ -10,7 +10,7 @@ public class Cannon extends Component implements Rotatable {
 	private final MountType type;
 	private double firePower;
 	private final int batteryRequired;
-	
+
 	public Cannon(MountType type, Connector[] connectors ) {
 		super(connectors);
 		
@@ -37,6 +37,10 @@ public class Cannon extends Component implements Rotatable {
 	
 	public double getFirePower() {
 		return firePower;
+	}
+	
+	public int getBatteryRequired() {
+		return batteryRequired;
 	}
 	
 	@Override
