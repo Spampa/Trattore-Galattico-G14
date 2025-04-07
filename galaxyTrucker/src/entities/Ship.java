@@ -1,7 +1,7 @@
 package entities;
 
-import components.enums.*;
 import components.types.containers.Container;
+import components.types.containers.ContentType;
 import gameEvents.Actions.*;
 
 public class Ship {
@@ -158,12 +158,12 @@ public class Ship {
         }
 	}
 
-    public boolean storeWares(Ware[] w){
+    public boolean storeWares(ContentType[] ware){
 
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
                 if(shipComponents[i][j].getComponent() instanceof Container){
-                    //if(shipComponents[i][j].getComponent().store(w)) 
+                    //if(shipComponents[i][j].getComponent().store(ware)) 
                     return true;
                 }
             }
