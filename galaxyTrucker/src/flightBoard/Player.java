@@ -44,7 +44,7 @@ public class Player {								//class Player MAY HAVE TO BE MOVED TO ANOTHER PACK
 		this.position=p;
 	}
 	
-	public static void updatePosition(Player[] players) {
+/*	public static void updatePosition(Player[] players) {
 		int[] temp=new int[players.length];					//static method which updates the position attribute of each player
 		for(int i=0;i<players.length-1;i++) {
 			for(int j=i+1;j<players.length;j++) {
@@ -59,7 +59,7 @@ public class Player {								//class Player MAY HAVE TO BE MOVED TO ANOTHER PACK
 			players[t].setPosition(temp[t]+1);
 		}			
 	}
-	
+*/	
 	public boolean checkIfLapped(Player[] players) {		//method which checks if the player has been lapped
 		for(int i=0; i<players.length;i++) {
 			if(players[i].getGeneralPosition()-this.generalPosition>=Board.NUM_OF_SPACES)

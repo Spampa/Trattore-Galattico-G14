@@ -61,5 +61,29 @@ public class Board {
 				movements--;
 		}
 		spaces[currentSpace].putPlayer(player);				
-	}	
+	}
+	
+	public Player getPlayerFromPosition(int pos, Player[] players) {
+		for(int i=0; i<players.length; i++) {
+			if(players[i].getPosition()==pos)
+				return players[i];
+		}
+		return null;
+	}
+	
+	public void updatePosition(Player[] players) {
+		int[] temp=new int[players.length];					//static method which updates the position attribute of each player
+		for(int i=0;i<players.length-1;i++) {
+			for(int j=i+1;j<players.length;j++) {
+				if(players[i].getGeneralPosition()<players[j].getGeneralPosition())
+					temp[i]++;
+				else
+					temp[j]++;
+			}
+		}
+		
+		for(int t=0;t<players.length;t++) {
+			players[t].setPosition(temp[t]+1);
+		}			
+	}
 }
