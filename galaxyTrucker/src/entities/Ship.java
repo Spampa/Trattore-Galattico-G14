@@ -1,8 +1,7 @@
 package entities;
 
-import components.enums.*;
-import components.types.containers.Container;
-import gameEvents.Actions.*;
+import components.types.*;
+import components.types.containers.*;
 
 public class Ship {
 
@@ -48,7 +47,9 @@ public class Ship {
         }
     }
 
-	private  void scanShip(){
+	public  void scanShip(){
+
+        //TODO reset al ship parameter before sanning the ship
 
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
@@ -64,112 +65,48 @@ public class Ship {
                     shipComponents[i][j].setComponent(null);
                 }
                 else{
-                    // TODO add a switch case to update ship values
+
+                    switch (shipComponents[i][j].getComponent()) {
+                        
+                        case Cannon c-> {
+                            firePower += c.getFirePower();
+                        }
+
+                        case Engine e ->{
+                            //TODO use method e.getEnginePower();
+                        }
+
+                        case HousingUnit h ->{
+                            humansCounter += h.getCurrentCapacity();
+                        }
+
+                        case NormalStorage ns->{
+                            for (ContentType ct : ns.getWares()) {
+                                waresValue += ct.getValue();
+                            }
+                        }
+
+                        default ->{
+                            return;
+                        }
+
+                    }
+
                 }
             }
         }
 	}
 
-	public boolean  getHit(Shoot s){
+    public boolean storeWares(ContentType w, int x, int y){
         
-        switch (s.getDirection()) {
-            
-            case ProjectileDirection.FRONT -> {
-                for(int i = 0; i < level.getBoardY(); i++){
-                    
-                    if(shipComponents[i][s.getComingTile()].getComponent() != null){
-                        
-                        if(!shipComponents[i][s.getComingTile()].isProtectedTile()){
-                            scanShip();
-                            return shipComponents[i][s.getComingTile()].getComponent().tryBreak(s.getType());
-                        }
-                        else{
-                            scanShip();
-                            return false;
-                        }
-                    }
-                }
-                scanShip();
-                return false;
-            }
-
-            case ProjectileDirection.BACK -> {
-                for(int i = (level.getBoardY()-1); i >= 0; i--){
-                    
-                    if(shipComponents[i][s.getComingTile()].getComponent() != null){
-                        
-                        if(!shipComponents[i][s.getComingTile()].isProtectedTile()){
-                            scanShip();
-                            return shipComponents[i][s.getComingTile()].getComponent().tryBreak(s.getType());
-                        }
-                        else{
-                            scanShip();
-                            return false;
-                        }
-                    }
-                }
-                scanShip();
-                return false;
-            }
-
-            case ProjectileDirection.LEFT -> {
-                for(int i = 0; i < level.getBoardX(); i++){
-                    
-                    if(shipComponents[s.getComingTile()][i].getComponent() != null){
-                        
-                        if(!shipComponents[s.getComingTile()][i].isProtectedTile()){
-                            scanShip();
-                            return shipComponents[s.getComingTile()][i].getComponent().tryBreak(s.getType());
-                        }
-                        else{
-                            scanShip();
-                            return false;
-                        }
-                    }
-                }
-                scanShip();
-                return false; 
-            }
-
-            case ProjectileDirection.RIGHT -> {
-                for(int i = (level.getBoardX()-1); i >= 0 ; i--){
-                    
-                    if(shipComponents[s.getComingTile()][i].getComponent() != null){
-                        
-                        if(!shipComponents[s.getComingTile()][i].isProtectedTile()){
-                            scanShip();
-                            return shipComponents[s.getComingTile()][i].getComponent().tryBreak(s.getType());
-                        }
-                        else{
-                            scanShip();
-                            return false;
-                        }
-                    }
-                }
-                scanShip();
-                return false; 
-            }
-
-            default -> {
-                scanShip();
-                return false;
-            }
-
+        if(shipComponents[x][y].getComponent() instanceof Container container){
+            if(container.add(w)) return true;
         }
-	}
-
-    public boolean storeWares(Ware[] w){
-
-        for(int i = 0; i < level.getBoardX(); i++){
-            for(int j = 0; j < level.getBoardY(); j++){
-                if(shipComponents[i][j].getComponent() instanceof Container){
-                    //if(shipComponents[i][j].getComponent().store(w)) 
-                    return true;
-                }
-            }
-        }
-
         return false;
+    }
+
+    public ShipTile[][] getShipComponets(){
+        return shipComponents;
     }
 
 	public boolean isPlayable(){
@@ -203,5 +140,9 @@ public class Ship {
     public int getAliensCounter() {
         return aliensCounter;
 	}
+
+    public GameLevel getGameLevel(){
+        return level;
+    }
 
 }
