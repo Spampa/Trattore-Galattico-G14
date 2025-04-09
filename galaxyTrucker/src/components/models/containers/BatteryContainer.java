@@ -1,4 +1,4 @@
-package components.types.containers;
+package components.models.containers;
 
 import components.Connector;
 

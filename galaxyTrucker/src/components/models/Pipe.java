@@ -1,4 +1,4 @@
-package components.types;
+package components.models;
 import components.Component;
 import components.Connector;
 import components.Rotatable;

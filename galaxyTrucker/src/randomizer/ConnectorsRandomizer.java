@@ -6,7 +6,7 @@ import components.enums.Side;
 import java.util.Random;
 
 public class ConnectorsRandomizer {
-	public static Connector[] getRandomConnectors() {
+	public Connector[] getRandomConnectors() {
 		Random r = new Random();
 		Connector[] connectors = new Connector[Component.sideCount];
 		
@@ -18,7 +18,7 @@ public class ConnectorsRandomizer {
 		return connectors;
 	}
 	
-	public static Connector[] getRandomConnectors(Side exceptSide) {
+	public Connector[] getRandomConnectors(Side exceptSide) {
 		Random r = new Random();
 		Connector[] connectors = new Connector[Component.sideCount];
 		

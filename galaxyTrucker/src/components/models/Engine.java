@@ -1,4 +1,4 @@
-package components.types;
+package components.models;
 
 import components.Component;
 import components.Connector;
@@ -12,7 +12,7 @@ public class Engine extends Component {
 	public Engine(MountType type, Connector[] connectors) {
 		super(connectors);
 		//exception
-		if(connectors[Side.DOWN.getNumber()] != null) {
+		if(connectors[Side.DOWN.getNumber()] != Connector.EMPTY) {
 			//TODO: manage exception, there isn't connectors at the bottom of the engine
 			System.out.println("Not possible create a connector in the DOWN side");
 		}

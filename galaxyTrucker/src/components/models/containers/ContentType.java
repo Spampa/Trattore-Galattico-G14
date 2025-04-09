@@ -1,4 +1,4 @@
-package components.types.containers;
+package components.models.containers;
 
 public enum ContentType {
 	BATTERY(0), ASTRONAUT(0), RED_WARES(4), YELLOW_WARES(3), GREEN_WARES(2), BLUE_WARES(1);

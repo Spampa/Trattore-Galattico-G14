@@ -1,7 +1,10 @@
 package entities;
 
-import components.types.*;
-import components.types.containers.*;
+import components.models.*;
+import components.models.containers.Container;
+import components.models.containers.ContentType;
+import components.models.containers.HousingUnit;
+import components.models.containers.NormalStorage;
 
 public class Ship {
 
