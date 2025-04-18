@@ -1,10 +1,10 @@
 package entities;
 
 import components.models.*;
-import components.models.containers.Container;
-import components.models.containers.ContentType;
 import components.models.containers.HousingUnit;
-import components.models.containers.NormalStorage;
+import components.models.containers.NormalWareStorage;
+import components.models.containers.WareStorage;
+import items.Ware;
 
 public class Ship {
 
@@ -82,9 +82,9 @@ public class Ship {
                         case HousingUnit h ->{
                             humansCounter += h.getCurrentCapacity();
                         }
-
-                        case NormalStorage ns->{
-                            for (ContentType ct : ns.getWares()) {
+                        
+                        case NormalWareStorage ns->{
+                            for (Ware ct : ns.getContent()) {
                                 waresValue += ct.getValue();
                             }
                         }
@@ -100,10 +100,10 @@ public class Ship {
         }
 	}
 
-    public boolean storeWares(ContentType w, int x, int y){
+    public boolean storeWares(Ware w, int x, int y){
         
-        if(shipComponents[x][y].getComponent() instanceof Container container){
-            if(container.add(w)) return true;
+        if(shipComponents[x][y].getComponent() instanceof WareStorage container){
+            return container.add(w);
         }
         return false;
     }

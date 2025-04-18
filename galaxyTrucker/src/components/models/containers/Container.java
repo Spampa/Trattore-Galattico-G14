@@ -1,53 +1,50 @@
 package components.models.containers;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import components.Component;
 import components.Connector;
 import components.Rotatable;
+import items.Item;
 
-public abstract class Container extends Component implements Rotatable {
+public abstract class Container<T extends Item> extends Component implements Rotatable {
 	private final int maxCapacity;
-	private int currentCapacity;
+	private List<T> content;
 	
 	public Container(int maxCapacity, Connector[] connectors) {
 		super(connectors);
+		
 		this.maxCapacity = maxCapacity;
-		this.currentCapacity = 0;
+		content = new ArrayList<T>();	
+	}
+	
+	public boolean add(T item) {
+		if(content.size() >= maxCapacity) {
+			return false;
+		}
+		return content.add(item);
+	}
+	
+	public T remove() {
+		return content.removeFirst();
 	}
 	
 	public int getCurrentCapacity() {
-		return currentCapacity;
+		return content.size();
 	}
 	
-	public int getMaxCapacity() {
-		return maxCapacity;
+	public List<T> getContent() {
+		return content;
 	}
-	
-	protected void increment() {
-		if(currentCapacity + 1 > maxCapacity) {
-			//TODO: throw error
-			System.out.println("The container is full");
-			return;
-		}
-		currentCapacity++;
-	}
-	
-	protected void decrement() {
-		if(currentCapacity > 0) {
-			currentCapacity--;
-		}
-	}
-	
+
 	@Override
 	public void rotate() {
 		super.orientation = super.orientation.rotate();
 	}
 	
-	public abstract boolean add(ContentType content);
-	public abstract boolean remove();
-	
 	@Override
 	public String toString() {
-		return "Max Capacity: " + maxCapacity + "\n"
-				+ "Current Capacity: " + currentCapacity + "\n"
-				+ super.toString();
+		return "Capacity: " + content.size() + "/" + maxCapacity + "\n" + super.toString();
 	}
 }

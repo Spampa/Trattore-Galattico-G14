@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import components.Component;
-import components.enums.MountType;
-import components.enums.Side;
+import components.enums.*;
 import components.models.*;
+import components.models.containers.*;
 
 public class ComponentRandomizer {
 	
@@ -26,6 +26,17 @@ public class ComponentRandomizer {
 		
 		componentSet.addAll(this.generateEngines(21, MountType.SINGLE));
 		componentSet.addAll(this.generateEngines(9, MountType.DOUBLE));
+		
+		componentSet.addAll(this.generateBatteriesContainer(6, ContainerSize.BIG));
+		componentSet.addAll(this.generateBatteriesContainer(11, ContainerSize.SMALL));
+		
+		componentSet.addAll(this.generateSpecialStorage(3, ContainerSize.BIG));
+		componentSet.addAll(this.generateSpecialStorage(6, ContainerSize.SMALL));
+		
+		componentSet.addAll(this.generateNormalStorage(6, ContainerSize.BIG));
+		componentSet.addAll(this.generateNormalStorage(9, ContainerSize.SMALL));
+		
+		componentSet.addAll(this.generateHousingUnit(17));
 		
 		return componentSet;
 	}
@@ -50,6 +61,38 @@ public class ComponentRandomizer {
 		List<Component> s = new ArrayList<Component>();
 		for(int i = 0; i < max; i++) {
 			s.add(new Pipe(connectorsRandomizer.getRandomConnectors()));
+		}
+		return s;
+	}
+	
+	private List<Component> generateBatteriesContainer(int max, ContainerSize size) {
+		List<Component> s = new ArrayList<Component>();
+		for(int i = 0; i < max; i++) {
+			s.add(new BatteryStorage(size, connectorsRandomizer.getRandomConnectors()));
+		}
+		return s;
+	}
+	
+	private List<Component> generateSpecialStorage(int max, ContainerSize size) {
+		List<Component> s = new ArrayList<Component>();
+		for(int i = 0; i < max; i++) {
+			s.add(new SpecialWareStorage(size, connectorsRandomizer.getRandomConnectors()));
+		}
+		return s;
+	}
+	
+	private List<Component> generateNormalStorage(int max, ContainerSize size) {
+		List<Component> s = new ArrayList<Component>();
+		for(int i = 0; i < max; i++) {
+			s.add(new NormalWareStorage(size, connectorsRandomizer.getRandomConnectors()));
+		}
+		return s;
+	}
+	
+	private List<Component> generateHousingUnit(int max) {
+		List<Component> s = new ArrayList<Component>();
+		for(int i = 0; i < max; i++) {
+			s.add(new HousingUnit(connectorsRandomizer.getRandomConnectors()));
 		}
 		return s;
 	}

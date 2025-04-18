@@ -3,14 +3,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import components.*;
+import components.Component;
 import randomizer.ComponentRandomizer;
 
 public class ComponentPool {
 	
 	private static List<Component> discardedComponents;
 	private static List<Component> pool;
-	
 	private Component lastDrawComponent;
 	
 	public ComponentPool() {
@@ -51,8 +50,8 @@ public class ComponentPool {
 	public static void main(String[] args) {
 		ComponentPool p = new ComponentPool();
 		
-		System.out.println(p.draw());
-		p.discardDraw();
-		System.out.println(p.getDiscardedComponents());
+		for(int i = 0; i < 10; i++) {
+			System.out.println(p.draw() + "\n");
+		}
 	}
 }
