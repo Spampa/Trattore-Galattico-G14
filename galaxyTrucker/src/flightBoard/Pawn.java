@@ -1,17 +1,17 @@
 package flightBoard;
 
-public class Player {								//class Player MAY HAVE TO BE MOVED TO ANOTHER PACKAGE (GameLogic or so)
+public class Pawn {								
 	private static final int MAX_NUM_PLAYERS=4;
 	private static int numPlayers=0;				//initially 0, can go up to 4
 	private int position;							//indicates the position (1st, 2nd, 3rd, 4th)
 	private int generalPosition;					//indicates the number of spaces cleared (can be negative)
-	//TODO private final Ship;						
+	//TODO private final Color color;						
 	
-	public Player() {
+	public Pawn(/*Color color*/) {
 		if(numPlayers<=MAX_NUM_PLAYERS) {
 			this.generalPosition=0;
 			this.position=0;
-			//TODO this.Ship=new Ship();
+			//TODO this.color=color;
 			numPlayers++;
 		}
 		else
@@ -21,7 +21,7 @@ public class Player {								//class Player MAY HAVE TO BE MOVED TO ANOTHER PACK
 	public void setStartingPosition(int numberOfArrival, Board board) {	//invoked only after ship-building-phase
 		generalPosition=MAX_NUM_PLAYERS-numberOfArrival;				//sets the position on the starting grid
 		position=numberOfArrival+1;										//sets the initial position of the player
-		board.getSpace(generalPosition-1).putPlayer(this);				//fills out the space with corresponding player
+		board.getSpace(generalPosition-1).putPawn(this);				//fills out the space with corresponding player
 	}
 	
 	public void increaseGeneralPosition() {
@@ -60,9 +60,9 @@ public class Player {								//class Player MAY HAVE TO BE MOVED TO ANOTHER PACK
 		}			
 	}
 */	
-	public boolean checkIfLapped(Player[] players) {		//method which checks if the player has been lapped
-		for(int i=0; i<players.length;i++) {
-			if(players[i].getGeneralPosition()-this.generalPosition>=Board.NUM_OF_SPACES)
+	public boolean checkIfLapped(Pawn[] pawns) {		//method which checks if the player has been lapped
+		for(int i=0; i<pawns.length;i++) {
+			if(pawns[i].getGeneralPosition()-this.generalPosition>=Board.NUM_OF_SPACES)
 				return true;
 		}
 		return false;		
