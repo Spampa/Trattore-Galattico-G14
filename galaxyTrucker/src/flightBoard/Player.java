@@ -1,70 +1,62 @@
 package flightBoard;
 
-public class Player {								//class Player MAY HAVE TO BE MOVED TO ANOTHER PACKAGE (GameLogic or so)
-	private static final int MAX_NUM_PLAYERS=4;
-	private static int numPlayers=0;				//initially 0, can go up to 4
-	private int position;							//indicates the position (1st, 2nd, 3rd, 4th)
-	private int generalPosition;					//indicates the number of spaces cleared (can be negative)
-	//TODO private final Ship;						
+public class Player {								
+	private static int playerCount = 0;
+	private final int  playerID;
+	private final Ship playerShip;
+	private int position;							
+	private int generalPosition;					
+							
 	
-	public Player() {
-		if(numPlayers<=MAX_NUM_PLAYERS) {
-			this.generalPosition=0;
-			this.position=0;
-			//TODO this.Ship=new Ship();
-			numPlayers++;
+	public Player(Ship ship) throw Exeception {
+		if (playerCount >=4) {
+			throw new Exception("Massimo 4 giocatori consentiti");
 		}
-		else
-			System.out.println("Number of players exceeded!");
+		
+		this.playerID = ++playerCount;
+        this.playerShip = ship;
+        this.position = 1;
+        this.generalPosition = 0;
 	}
 	
-	public void setStartingPosition(int numberOfArrival, Board board) {	//invoked only after ship-building-phase
-		generalPosition=MAX_NUM_PLAYERS-numberOfArrival;				//sets the position on the starting grid
-		position=numberOfArrival+1;										//sets the initial position of the player
-		board.getSpace(generalPosition-1).putPlayer(this);				//fills out the space with corresponding player
+	public int getPlayerID() {
+		return playerID;
 	}
 	
-	public void increaseGeneralPosition() {
-		this.generalPosition++;						//used in board when moving forward	
+	public Ship getPlayerShip() {
+		return playerShip;
 	}
 	
-	public void decreaseGeneralPosition() {
-		this.generalPosition--;						//used in board when moving backwards
+	public boolean checkPlayer() {
+		return playerShip.isPlayable();
 	}
 	
-	public int getGeneralPosition() {
-		return this.generalPosition;
+	public boolean isInGame() {
+		return checkPlayer();
 	}
 	
 	public int getPosition() {
-		return this.position;
+		return position;
 	}
 	
-	public void setPosition(int p) {
-		this.position=p;
+	public int getGeneralPosition() {
+		return generalPosition;
 	}
 	
-/*	public static void updatePosition(Player[] players) {
-		int[] temp=new int[players.length];					//static method which updates the position attribute of each player
-		for(int i=0;i<players.length-1;i++) {
-			for(int j=i+1;j<players.length;j++) {
-				if(players[i].getGeneralPosition()<players[j].getGeneralPosition())
-					temp[i]++;
-				else
-					temp[j]++;
-			}
-		}
+	public void increaseGeneralPosition() {
+		this.generalPosition++;
+	}
+	
+	public void decreaseGeneralPosition() {
+        this.generalPosition--;
+    }
+	
+	public void setStartingPosition(int startingPosition) {
+        this.generalPosition = startingPosition;
+    }
+	
+	public boolean isLappedBy(Player other) {
+        return other.getGeneralPosition() - this.getGeneralPosition() >= Board.NUM_OF_SPACES;
+    }
 		
-		for(int t=0;t<players.length;t++) {
-			players[t].setPosition(temp[t]+1);
-		}			
-	}
-*/	
-	public boolean checkIfLapped(Player[] players) {		//method which checks if the player has been lapped
-		for(int i=0; i<players.length;i++) {
-			if(players[i].getGeneralPosition()-this.generalPosition>=Board.NUM_OF_SPACES)
-				return true;
-		}
-		return false;		
-	}	
 }
