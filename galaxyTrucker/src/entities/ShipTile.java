@@ -17,7 +17,7 @@ public class ShipTile {
     }
     
     public void setComponent(Component component) {
-        if(isSpace){
+        if(!isSpace){
             this.component = component;
         }
     }
@@ -40,6 +40,10 @@ public class ShipTile {
 
     public void setProtectedTile(boolean protectedTile) {
         this.protectedTile = protectedTile;
+    }
+
+    public boolean isIsSpace() {
+        return isSpace;
     }
 
 

@@ -37,7 +37,7 @@ public class Shoot extends Action {
                         
                         if(!s.getShipComponets()[i][comingTile].isProtectedTile()){
                             s.scanShip();
-                            return s.getShipComponets()[i][comingTile].getComponent().tryBreak(type);
+                            return s.getShipComponets()[i][comingTile].getComponent().tryBreak(type); //TODO cambia in controllo dei connettori esposti
                         }
                         else{
                             s.scanShip();

@@ -1,9 +1,8 @@
 package entities;
 
+import components.*;
 import components.models.*;
-import components.models.containers.HousingUnit;
-import components.models.containers.NormalWareStorage;
-import components.models.containers.WareStorage;
+import components.models.containers.*;
 import items.Ware;
 
 public class Ship {
@@ -20,16 +19,131 @@ public class Ship {
 	private int cellsCounter;
 	private int aliensCounter;
 
-    public Ship(ShipTile[][] components, GameLevel level){
-            shipComponents = components;
+    public Ship(GameLevel level){
+            shipComponents = getShipBoard();
             this.level = level;
+    }
 
-            scanShip();
+    private ShipTile[][] getShipBoard(){
+
+        ShipTile[][] s = new ShipTile[level.getBoardY()][level.getBoardX()];
+
+        switch (level) {
+            case GameLevel.I -> {
+                s[0][3] = new ShipTile();
+
+                s[1][2] = new ShipTile();
+                s[1][3] = new ShipTile();
+                s[1][4] = new ShipTile();
+
+                s[2][1] = new ShipTile();
+                s[2][2] = new ShipTile();
+                s[2][3] = new ShipTile();
+                s[2][4] = new ShipTile();
+                s[2][5] = new ShipTile();
+
+                s[3][1] = new ShipTile();
+                s[3][2] = new ShipTile();
+                s[3][3] = new ShipTile();
+                s[3][4] = new ShipTile();
+                s[3][5] = new ShipTile();
+
+                s[4][1] = new ShipTile();
+                s[4][2] = new ShipTile();
+                s[4][4] = new ShipTile();
+                s[4][5] = new ShipTile();
+            }
+            case GameLevel.II -> {
+                s[0][2] = new ShipTile();
+                s[0][4] = new ShipTile();
+
+                s[1][1] = new ShipTile();
+                s[1][2] = new ShipTile();
+                s[1][3] = new ShipTile();
+                s[1][4] = new ShipTile();
+                s[1][5] = new ShipTile();
+
+                s[2][0] = new ShipTile();
+                s[2][1] = new ShipTile();
+                s[2][2] = new ShipTile();
+                s[2][3] = new ShipTile();
+                s[2][4] = new ShipTile();
+                s[2][5] = new ShipTile();
+                s[2][6] = new ShipTile();
+
+                s[3][0] = new ShipTile();
+                s[3][1] = new ShipTile();
+                s[3][2] = new ShipTile();
+                s[3][3] = new ShipTile();
+                s[3][4] = new ShipTile();
+                s[3][5] = new ShipTile();
+                s[3][6] = new ShipTile();
+
+                s[4][0] = new ShipTile();
+                s[4][1] = new ShipTile();
+                s[4][2] = new ShipTile();
+                s[4][4] = new ShipTile();
+                s[4][5] = new ShipTile();
+                s[4][6] = new ShipTile();
+            }
+            case GameLevel.III ->{
+                s[0][4] = new ShipTile();
+                
+                s[1][3] = new ShipTile();
+                s[1][4] = new ShipTile();
+                s[1][5] = new ShipTile();
+
+                s[2][0] = new ShipTile();
+                s[2][2] = new ShipTile();
+                s[2][3] = new ShipTile();
+                s[2][4] = new ShipTile();
+                s[2][5] = new ShipTile();
+                s[2][6] = new ShipTile();
+                s[2][8] = new ShipTile();
+
+                s[3][0] = new ShipTile();
+                s[3][1] = new ShipTile();
+                s[3][2] = new ShipTile();
+                s[3][3] = new ShipTile();
+                s[3][4] = new ShipTile();
+                s[3][5] = new ShipTile();
+                s[3][6] = new ShipTile();
+                s[3][7] = new ShipTile();
+                s[3][8] = new ShipTile(); 
+
+                s[4][0] = new ShipTile();
+                s[4][1] = new ShipTile();
+                s[4][2] = new ShipTile();
+                s[4][3] = new ShipTile();
+                s[4][4] = new ShipTile();
+                s[4][5] = new ShipTile();
+                s[4][6] = new ShipTile();
+                s[4][7] = new ShipTile();
+                s[4][8] = new ShipTile();
+
+                s[5][0] = new ShipTile();
+                s[5][1] = new ShipTile();
+                s[5][3] = new ShipTile();
+                s[5][4] = new ShipTile();
+                s[5][5] = new ShipTile();
+                s[5][7] = new ShipTile();
+                s[5][8] = new ShipTile();
+
+            }
+        }
+
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                if(s[i][j] == null) s[i][j] = new ShipTile(true);
+            }
+        }
+
+        return s;
     }
 
     private void checkComponent(int x, int y){
 
-        if(shipComponents[x][y].getComponent() != null){
+        if(!shipComponents[x][y].isIsSpace() && shipComponents[x][y].getComponent() != null){
             shipComponents[x][y].setScanned(true);
 
             if(x+1 <= level.getBoardX() && !shipComponents[x+1][y].isScanned()){
@@ -52,7 +166,13 @@ public class Ship {
 
 	public  void scanShip(){
 
-        //TODO reset al ship parameter before sanning the ship
+        this.firePower = 0;
+        this.motorPower = 0;
+        this.waresValue = 0;
+        this.voidConnectors = 0;
+        this.humansCounter = 0;
+        this.cellsCounter = 0;
+        this.aliensCounter = 0;
 
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
@@ -76,7 +196,7 @@ public class Ship {
                         }
 
                         case Engine e ->{
-                            //TODO use method e.getEnginePower();
+                            e.getEnginePower();
                         }
 
                         case HousingUnit h ->{
@@ -115,6 +235,13 @@ public class Ship {
 	public boolean isPlayable(){
 		return (shipComponents[(level.getBoardX()/2)+1][(level.getBoardY()/2)+1].getComponent() != null);
 	}
+
+    public boolean  setComponet(Component c, int x, int y){
+        //TODO implementare controlli per definire se un dato componente può essere collocato in una precisa posizione (verso, connettori, ecc...)
+        
+        scanShip();
+        return false; 
+    }
 
     public float getFirePower() {
         return firePower;
