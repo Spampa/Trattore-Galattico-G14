@@ -1,6 +1,7 @@
 package entities;
 
 import components.*;
+import components.enums.Side;
 import components.models.*;
 import components.models.containers.*;
 import items.Ware;
@@ -237,10 +238,61 @@ public class Ship {
 	}
 
     public boolean  setComponet(Component c, int x, int y){
-        //TODO implementare controlli per definire se un dato componente può essere collocato in una precisa posizione (verso, connettori, ecc...)
+
+        if(shipComponents[y][x].isIsSpace() || shipComponents[y][x].getComponent() != null) return false;
+
+        if(c instanceof Engine){
+           if(shipComponents[y+1][x].getComponent() != null) return false;
+        }
+
+        if(c instanceof Cannon){
+            switch (c.getOrientation()) {
+                case Side.UP -> {
+                    if(shipComponents[y-1][x].getComponent() != null) return false;
+                }
+                case Side.DOWN ->{
+                    if(shipComponents[y+1][x].getComponent() != null) return false;
+                }
+                case Side.LEFT ->{
+                    if(shipComponents[y][x-1].getComponent() != null) return false;
+                }
+                case Side.RIGHT ->{
+                    if(shipComponents[y][x+1].getComponent() != null) return false;
+                }
+            }
+        }
+
+        //TODO fix this shit cause it's awful 
+        if(shipComponents[y-1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.UP), shipComponents[y-1][x].getComponent().getConnector(Side.DOWN))) return false;
+        if(shipComponents[y+1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.DOWN), shipComponents[y+1][x].getComponent().getConnector(Side.UP))) return false;
+        if(shipComponents[y][x+1].getComponent() != null && !checkConnectors(c.getConnector(Side.RIGHT), shipComponents[y][x+1].getComponent().getConnector(Side.LEFT))) return false;
+        if(shipComponents[y][x-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[y][x-1].getComponent().getConnector(Side.RIGHT))) return false;
         
+        shipComponents[y][x].setComponent(c);
         scanShip();
-        return false; 
+        return true; 
+    }
+
+    private boolean checkConnectors(Connector c1, Connector c2){
+
+        if(c1 == null || c2 == null) return true;
+
+        switch (c1) {
+            case UNIVERSAL -> {
+                if(c2 != Connector.EMPTY) return true;
+            }
+            case DOUBLE -> {
+                if(c2 == Connector.DOUBLE || c2 == Connector.UNIVERSAL) return true;
+            }
+            case SINGLE -> {
+                if(c2 == Connector.SINGLE || c2 == Connector.UNIVERSAL) return true;
+            }
+            case EMPTY ->{
+                if(c2 == Connector.EMPTY) return true;
+            }
+        }
+
+        return false;
     }
 
     public float getFirePower() {
