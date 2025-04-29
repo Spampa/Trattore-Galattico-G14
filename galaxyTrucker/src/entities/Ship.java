@@ -28,6 +28,7 @@ public class Ship {
     private ShipTile[][] getShipBoard(){
 
         ShipTile[][] s = new ShipTile[level.getBoardY()][level.getBoardX()];
+        Connector[] c = {Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL};
 
         switch (level) {
             case GameLevel.I -> {
@@ -53,6 +54,8 @@ public class Ship {
                 s[4][2] = new ShipTile();
                 s[4][4] = new ShipTile();
                 s[4][5] = new ShipTile();
+                
+                s[2][3].setComponent(new HousingUnit(c, true));
             }
             case GameLevel.II -> {
                 s[0][2] = new ShipTile();
@@ -86,6 +89,8 @@ public class Ship {
                 s[4][4] = new ShipTile();
                 s[4][5] = new ShipTile();
                 s[4][6] = new ShipTile();
+                
+                s[2][3].setComponent(new HousingUnit(c, true));
             }
             case GameLevel.III ->{
                 s[0][4] = new ShipTile();
@@ -130,6 +135,7 @@ public class Ship {
                 s[5][7] = new ShipTile();
                 s[5][8] = new ShipTile();
 
+                s[3][4].setComponent(new HousingUnit(c, true));
             }
         }
 
