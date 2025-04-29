@@ -63,7 +63,7 @@ public class Board {
 		spaces[currentSpace].putPawn(pawn);				
 	}
 	
-	public Pawn getPlayerFromPosition(int pos, Pawn[] pawns) {
+	public Pawn getPawnFromPosition(int pos, Pawn[] pawns) {
 		for(int i=0; i<pawns.length; i++) {
 			if(pawns[i].getPosition()==pos)
 				return pawns[i];
