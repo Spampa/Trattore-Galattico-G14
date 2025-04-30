@@ -11,14 +11,13 @@ public class Player {
     private final Ship playerShip;
     private final Pawn pawn;  
 
-    public Player(Ship ship, Pawn pawn) throws Exception {
+    public Player() {
         if (playerCount >= 4) {
-            throw new Exception("Massimo 4 giocatori consentiti.");
+        	System.out.println("Massimo 4 giocatori consentiti.");
         }
-
         this.playerID = ++playerCount;
-        this.playerShip = ship;
-        this.pawn = pawn;
+        this.playerShip = null;  // Ship non definita
+        this.pawn = null;        // Pawn non definito
     }
 
     public int getPlayerID() {
