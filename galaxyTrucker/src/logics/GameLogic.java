@@ -1,6 +1,11 @@
 package logics;
 
 import entities.*;
+import logics.phases.BuildPhase;
+import logics.phases.EndPhase;
+import logics.phases.FlyPhase;
+import logics.phases.InitPhase;
+import logics.phases.Phase;
 
 public class GameLogic {
 	private Player[] players;
@@ -38,6 +43,9 @@ public class GameLogic {
 	}
 
     public void setPlayers(Player[] players) {
+    	for(Player p : players) {
+    		System.out.println(p);
+    	}
         this.players = players;
     }
 

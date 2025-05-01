@@ -1,6 +1,5 @@
-package logics;
+package entities;
 
-import entities.Ship;
 import flightBoard.Board;
 import flightBoard.Pawn;
 

@@ -1,8 +1,10 @@
-package logics;
+package logics.phases;
 
-public class EndPhase extends Phase{
+import logics.GameLogic;
 
-    public EndPhase(GameLogic game) {
+public class FlyPhase extends Phase{
+
+    public FlyPhase(GameLogic game) {
         super(game);
         //TODO Auto-generated constructor stub
     }

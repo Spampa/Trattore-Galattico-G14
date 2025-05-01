@@ -1,7 +1,10 @@
-package logics;
+package logics.phases;
 
 import entities.GameLevel;
+import entities.Player;
 import entities.Ship;
+import logics.GameLogic;
+
 import java.util.Scanner;
 
 public class InitPhase extends  Phase {
@@ -70,8 +73,6 @@ public class InitPhase extends  Phase {
 			name = sc.nextLine();
 			players[i] = new Player(name, new Ship(level));
 		}
-		
-		sc.close();
 
 		game.switchPhase();
     }

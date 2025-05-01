@@ -1,4 +1,6 @@
-package logics;
+package logics.phases;
+
+import logics.GameLogic;
 
 public abstract class Phase {
     protected  final GameLogic game;
@@ -8,10 +10,10 @@ public abstract class Phase {
     }
 
     //funzione richiamate nel loop di gioco ad ogni iterazione
-    public abstract void update(); 
-
     public abstract  void start();
-
+    
+    public abstract void update(); 
+    
     public abstract void end();
 
 }

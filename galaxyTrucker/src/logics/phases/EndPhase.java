@@ -1,9 +1,12 @@
-package logics;
+package logics.phases;
 
-public class BuildPhase extends  Phase{
+import logics.GameLogic;
 
-    public BuildPhase(GameLogic game) {
+public class EndPhase extends Phase{
+
+    public EndPhase(GameLogic game) {
         super(game);
+        //TODO Auto-generated constructor stub
     }
 
     @Override
