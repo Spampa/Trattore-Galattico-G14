@@ -1,15 +1,15 @@
 package entities;
 
 import flightBoard.Board;
-import flightBoard.Pawn;
 
 public class Player {
 
     private static int playerCount = 0;
     private final int playerID;
     private final Ship playerShip;
-    private Pawn pawn;
     private final String playerName;
+    private int position;							//indicates the position (1st, 2nd, 3rd, 4th)
+	private int generalPosition;
 
     public Player(String playerName, Ship playerShip) {
         if (playerCount >= 4) {
@@ -18,6 +18,8 @@ public class Player {
         this.playerID = ++playerCount;
         this.playerShip = playerShip;
         this.playerName = playerName;
+        this.generalPosition=0;
+        this.position=0;
 
     }
 
@@ -29,9 +31,6 @@ public class Player {
         return playerShip;
     }
 
-    public Pawn getPawn() {
-        return pawn;
-    }
 
     public boolean checkPlayer() {
         return playerShip.isPlayable();
@@ -51,28 +50,30 @@ public class Player {
     
 
     public int getPosition() {
-        return pawn.getPosition();
-    }
-
-    public void setPosition(int position) {
-        pawn.setPosition(position);
-    }
-
-    public int getGeneralPosition() {
-        return pawn.getGeneralPosition();
-    }
+		return this.position;
+	}
+	
+	public void setPosition(int p) {
+		this.position=p;
+	}
 
     public void increaseGeneralPosition() {
-        pawn.increaseGeneralPosition();
-    }
+		this.generalPosition++;						//used in board when moving forward	
+	}
+	
+	public void decreaseGeneralPosition() {
+		this.generalPosition--;						//used in board when moving backwards
+	}
+	
+	public int getGeneralPosition() {
+		return this.generalPosition;
+	}
 
-    public void decreaseGeneralPosition() {
-        pawn.decreaseGeneralPosition();
-    }
-
-    public void setStartingPosition(int numberOfArrival, Board board) {
-        pawn.setStartingPosition(numberOfArrival, board);
-    }
+	public void setStartingPosition(int numberOfArrival, Board board) {	//invoked only after ship-building-phase
+		generalPosition=4-numberOfArrival;				//sets the position on the starting grid
+		position=numberOfArrival+1;										//sets the initial position of the player
+		board.getSpace(generalPosition-1).putPlayer(this);				//fills out the space with corresponding player
+	}
 
     public boolean isLappedBy(Player other) {
         return other.getGeneralPosition() - this.getGeneralPosition() >= Board.NUM_OF_SPACES;
