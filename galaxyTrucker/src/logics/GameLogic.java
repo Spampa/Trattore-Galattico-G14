@@ -43,9 +43,6 @@ public class GameLogic {
 	}
 
     public void setPlayers(Player[] players) {
-    	for(Player p : players) {
-    		System.out.println(p);
-    	}
         this.players = players;
     }
 

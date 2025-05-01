@@ -30,6 +30,15 @@ public class ComponentPool {
 		return discardedComponents;
 	}
 	
+	public String printDiscardedComponents() {
+		String s = "";
+		for(int i = 0; i < discardedComponents.size(); i++) {
+			s += "ID elemento: " + i + "\n";
+			s += discardedComponents.get(i)+"\n\n";
+		}
+		return s;
+	}
+	
 	public Component draw() {
 		if(pool.size() == 0) {
 			System.out.println("Pool Vuoto");
@@ -38,6 +47,11 @@ public class ComponentPool {
 		
 		lastDrawComponent = pool.getFirst();
 		pool.removeFirst();
+		return lastDrawComponent;
+	}
+	
+	public Component getDiscard(int index) {
+		lastDrawComponent = discardedComponents.get(index);
 		return lastDrawComponent;
 	}
 	

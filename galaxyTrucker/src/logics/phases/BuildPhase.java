@@ -31,53 +31,54 @@ public class BuildPhase extends  Phase{
     		return;
     	}
     	
-    	Scanner sc = new Scanner(System.in);
-    	
     	for(Player player : players) {
+    		cli.printMessage("Giocatore \u001B[34m" + player.getPlayerName() + "\u001B[0m tocca a te! \n");
+    		
     		boolean endTurn = false;
-    		int choice;
-    		
-    		System.out.println(player.getPlayerName() + " tocca a te!");
-    		
-    		do {
-        		System.out.println("Premi 0 per pescare, Premi 1 per guardare gli scarti");
-        		
-        		choice = Integer.parseInt(sc.nextLine());
-    		}while(choice != 0 && choice != 1);
-    		
+    		int choice = cli.drawOrPeekComponent(pool.getDiscardedComponents().size());
+    		cli.clear();
     		
     		if(choice == 0) { //draw component
     			Component component = pool.draw();
-    			System.out.println("Hai ottenuto: \n" + component);
+    			cli.printComponent(component);
+    			cli.printRow();
     			
     			do {
-    				System.out.println("Vuoi scartare il componente? (1 Si, 0 No)");
-    				
-    				choice = Integer.parseInt(sc.nextLine());
-    				
-    				if(choice == 1) {
-    					pool.discardDraw();
-    					endTurn = true;
-    				}
-    				else {
-    					int x, y;
-    					System.out.println("Inserire posizione x del componente sulla nave: ");
-    					x = Integer.parseInt(sc.nextLine());
-    					
-    					System.out.println("Inserire posizione y del componente sulla nave: ");
-    					y = Integer.parseInt(sc.nextLine());
-    					
-    					if(player.getPlayerShip().setComponet(component, x, y)) {
-    						endTurn = true;
+    				if(cli.acceptComponentDraw()) {
+    					endTurn = cli.insertComponent(player, component);
+    					if(!endTurn) {
+    						cli.clear();
+    						cli.printAlert("Posizione non valida!");
     					}
     				}
-    			}while(!endTurn);
+    				else {
+    	    			pool.discardDraw();
+    					endTurn = true;
+    				}
+    			} while(!endTurn);
+    			
+    			cli.printRow();
+    			cli.printMessage("\u001B[32mInserimento corretto\u001B[0m");
+    			cli.clear();
     		}
     		else {
+    			/*
     			//TODO: select component from pool
+    			System.out.println("Scegli uno dei componenti nella pila degli scarti:\n");
+    			System.out.println(pool.printDiscardedComponents());
+    			
+    			do {
+        			System.out.println("Inserisci id del componente per selezionarlo: ");
+        			choice = Integer.parseInt(sc.nextLine());
+        			
+        			if(choice < 0 || choice >= pool.printDiscardedComponents().length()) {
+        				System.out.println("\nId inserito non valido!\n");
+        			}
+    			}while(choice < 0 || choice >= pool.printDiscardedComponents().length());
+
+    			Component component = pool.getDiscard(choice);*/
+    			
     		}
-    		
-    		
     	}
     }
 
