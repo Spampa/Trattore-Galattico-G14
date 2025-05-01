@@ -1,23 +1,25 @@
 package logics;
 
+import entities.Ship;
 import flightBoard.Board;
 import flightBoard.Pawn;
-import entities.Ship;
 
 public class Player {
 
     private static int playerCount = 0;
     private final int playerID;
     private final Ship playerShip;
-    private final Pawn pawn;  
+    private Pawn pawn;
+    private final String playerName;
 
-    public Player() {
+    public Player(String playerName, Ship playerShip) {
         if (playerCount >= 4) {
         	System.out.println("Massimo 4 giocatori consentiti.");
         }
         this.playerID = ++playerCount;
-        this.playerShip = null;  // Ship non definita
-        this.pawn = null;        // Pawn non definito
+        this.playerShip = playerShip;
+        this.playerName = playerName;
+
     }
 
     public int getPlayerID() {
@@ -75,6 +77,10 @@ public class Player {
 
     public boolean isLappedBy(Player other) {
         return other.getGeneralPosition() - this.getGeneralPosition() >= Board.NUM_OF_SPACES;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 
 }

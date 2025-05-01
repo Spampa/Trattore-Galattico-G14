@@ -21,8 +21,8 @@ public class Ship {
 	private int aliensCounter;
 
     public Ship(GameLevel level){
-            shipComponents = getShipBoard();
-            this.level = level;
+        this.level = level;
+        shipComponents = getShipBoard();
     }
 
     private ShipTile[][] getShipBoard(){
@@ -139,8 +139,8 @@ public class Ship {
             }
         }
 
-        for(int i = 0; i < level.getBoardX(); i++){
-            for(int j = 0; j < level.getBoardY(); j++){
+        for(int i = 0; i < level.getBoardY(); i++){
+            for(int j = 0; j < level.getBoardX(); j++){
                 if(s[i][j] == null) s[i][j] = new ShipTile(true);
             }
         }
@@ -275,7 +275,7 @@ public class Ship {
         if(shipComponents[y][x-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[y][x-1].getComponent().getConnector(Side.RIGHT))) return false;
         
         shipComponents[y][x].setComponent(c);
-        scanShip();
+        //scanShip();
         return true; 
     }
 
