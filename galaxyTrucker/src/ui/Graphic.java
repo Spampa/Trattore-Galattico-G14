@@ -1,15 +1,16 @@
 package ui;
 
-import java.util.List;
 import components.Component;
-import entities.GameLevel;
-import entities.Player;
+import entities.*;
+import java.util.List;
 
 public interface Graphic {
 	
 	//global function
 	public void printAlert(String message);
 	public void printMessage(String message);
+	public void printShip(Ship s);
+	public String getComponentIcon(Component c);
 	
 	//initialize phase function
 	public GameLevel setGameLevel();

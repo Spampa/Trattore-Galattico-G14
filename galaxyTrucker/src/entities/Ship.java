@@ -1,10 +1,10 @@
 package entities;
 
 import components.*;
-import components.enums.Side;
+import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
-import items.Ware;
+import items.*;
 
 public class Ship {
 
@@ -268,11 +268,19 @@ public class Ship {
             }
         }
 
-        //TODO fix this shit cause it's awful 
-        if(shipComponents[y-1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.UP), shipComponents[y-1][x].getComponent().getConnector(Side.DOWN))) return false;
-        if(shipComponents[y+1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.DOWN), shipComponents[y+1][x].getComponent().getConnector(Side.UP))) return false;
-        if(shipComponents[y][x+1].getComponent() != null && !checkConnectors(c.getConnector(Side.RIGHT), shipComponents[y][x+1].getComponent().getConnector(Side.LEFT))) return false;
-        if(shipComponents[y][x-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[y][x-1].getComponent().getConnector(Side.RIGHT))) return false;
+        //TODO fix this shit cause it's awful
+        if(y > 0) {
+            if(shipComponents[y-1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.UP), shipComponents[y-1][x].getComponent().getConnector(Side.DOWN))) return false;
+        }
+        if(y < level.getBoardY()-1){
+            if(shipComponents[y+1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.DOWN), shipComponents[y+1][x].getComponent().getConnector(Side.UP))) return false;
+        }
+        if(x < level.getBoardX()-1){
+            if(shipComponents[y][x+1].getComponent() != null && !checkConnectors(c.getConnector(Side.RIGHT), shipComponents[y][x+1].getComponent().getConnector(Side.LEFT))) return false;
+        }
+        if(x > 0) {
+            if(shipComponents[y][x-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[y][x-1].getComponent().getConnector(Side.RIGHT))) return false;   
+        }
         
         shipComponents[y][x].setComponent(c);
         //scanShip();

@@ -1,11 +1,7 @@
 package logics;
 
 import entities.*;
-import logics.phases.BuildPhase;
-import logics.phases.EndPhase;
-import logics.phases.FlyPhase;
-import logics.phases.InitPhase;
-import logics.phases.Phase;
+import logics.phases.*;
 
 public class GameLogic {
 	private Player[] players;

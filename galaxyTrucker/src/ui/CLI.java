@@ -1,12 +1,16 @@
 package ui;
 
-import java.util.List;
-import java.util.Scanner;
-
 import components.Component;
+import components.models.*;
+import components.models.containers.BatteryStorage;
+import components.models.containers.HousingUnit;
+import components.models.containers.WareStorage;
 import entities.GameLevel;
 import entities.Player;
 import entities.Ship;
+import entities.ShipTile;
+import java.util.List;
+import java.util.Scanner;
 
 public class CLI implements Graphic{
 	Scanner sc;
@@ -153,5 +157,50 @@ public class CLI implements Graphic{
 		// TODO Auto-generated method stub
 		return null;
 		
+	}
+
+	@Override
+	public void printShip(Ship s) {
+		ShipTile[][] board = s.getShipComponets();
+		String out = "";
+		for(int j = 0; j < s.getGameLevel().getBoardY(); j++){
+			for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
+				out+=getComponentIcon(board[j][i].getComponent());
+				if(i+1 == s.getGameLevel().getBoardX()){
+					out+="\n";
+				}
+			}
+		}
+
+		System.out.println(out);
+	}
+
+	@Override
+	public String getComponentIcon(Component c) {
+		char icon;
+
+		switch (c) {
+			case Cannon can -> {
+				icon = 'C';
+            }
+			case Engine en ->{
+				icon = 'E';
+			}
+			case WareStorage con ->{
+				icon = 'S';
+			}
+			case HousingUnit house ->{
+				icon = 'H';
+			}
+			case BatteryStorage bat ->{
+				icon = 'B';
+			}
+			case null ->{
+				icon = ' ';
+			}
+			default -> icon = '?';
+		}
+
+		return " "+icon+" ";
 	}
 }

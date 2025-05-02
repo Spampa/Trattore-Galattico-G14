@@ -1,6 +1,4 @@
 package logics.phases;
-import java.util.Scanner;
-
 import components.Component;
 import entities.ComponentPool;
 import entities.Player;
@@ -50,6 +48,7 @@ public class BuildPhase extends  Phase{
     						cli.clear();
     						cli.printAlert("Posizione non valida!");
     					}
+						//else cli.printShip(player.getPlayerShip());
     				}
     				else {
     	    			pool.discardDraw();
