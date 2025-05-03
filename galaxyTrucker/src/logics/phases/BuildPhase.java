@@ -2,6 +2,7 @@ package logics.phases;
 import components.Component;
 import entities.ComponentPool;
 import entities.Player;
+import entities.Position;
 import logics.GameLogic;
 
 public class BuildPhase extends  Phase{
@@ -34,18 +35,15 @@ public class BuildPhase extends  Phase{
     		
     		boolean endTurn = false;
     		int choice = cli.drawOrPeekComponent(pool.getDiscardedComponents().size());
-    		cli.clear();
     		
     		if(choice == 0) { //draw component
     			Component component = pool.draw();
     			cli.printComponent(component);
-    			cli.printRow();
     			
     			do {
     				if(cli.acceptComponentDraw()) {
-    					endTurn = cli.insertComponent(player, component);
+    					endTurn = this.insertComponent(player, component);
     					if(!endTurn) {
-    						cli.clear();
     						cli.printAlert("Posizione non valida!");
     					}
     				}
@@ -55,11 +53,9 @@ public class BuildPhase extends  Phase{
     				}
     			} while(!endTurn);
     			
-				cli.printRow();
+				
 				cli.printShip(player.getPlayerShip());
-    			cli.printRow();
     			cli.printMessage("\u001B[32mInserimento corretto\u001B[0m");
-    			//cli.clear();
     		}
     		else {
     			/*
@@ -100,4 +96,10 @@ public class BuildPhase extends  Phase{
     	return false;
     }
     
+    private boolean insertComponent(Player player, Component component) {
+		cli.printShip(player.getPlayerShip());
+		Position position = cli.setComponentPosition();
+		
+		return player.getPlayerShip().setComponet(component, position);
+    }
 }

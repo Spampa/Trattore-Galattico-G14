@@ -23,13 +23,10 @@ public class InitPhase extends  Phase {
     @Override
     public void update(){
     	level = cli.setGameLevel();
-    	cli.clear();
     	
     	int playerCount = cli.setPlayerCount();
-    	cli.clear();
     	
 		players = cli.setPlayers(playerCount, level);
-		cli.clear();
 
 		game.switchPhase();
     }
@@ -39,9 +36,7 @@ public class InitPhase extends  Phase {
 		game.setPlayers(players);
 		game.setLevel(level);
 
-		cli.printMessage("Fine fase di inizializazione");
-		cli.printMessage("players:" + players.length + " " + "livello partita:" + level);
-		cli.clear();
+		cli.printMessage("Fine fase di inizializazione\n" + "Players:" + players.length + " " + "livello partita:" + level);
     }
 
 }

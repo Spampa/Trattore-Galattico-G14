@@ -11,6 +11,7 @@ public interface Graphic {
 	public void printMessage(String message);
 	public void printShip(Ship s);
 	public String getComponentIcon(Component c);
+	public Position setComponentPosition();
 	
 	//initialize phase function
 	public GameLevel setGameLevel();
@@ -21,7 +22,6 @@ public interface Graphic {
 	public int drawOrPeekComponent(int poolSize);
 	public void printComponent(Component component);
 	public boolean acceptComponentDraw();
-	public boolean insertComponent(Player player, Component component);
 	public Component selectItemFromDiscards(List<Component> discardedComponents);
 
 }
