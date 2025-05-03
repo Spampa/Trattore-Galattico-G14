@@ -142,6 +142,9 @@ public class CLI implements Graphic{
 	
 	@Override
 	public boolean insertComponent(Player player, Component component) {
+		printRow();
+		printShip(player.getPlayerShip());
+		printRow();
 		int x, y;
 		System.out.print("Inserire posizione x del componente sulla nave: ");
 		x = Integer.parseInt(sc.nextLine());
@@ -162,13 +165,20 @@ public class CLI implements Graphic{
 	@Override
 	public void printShip(Ship s) {
 		ShipTile[][] board = s.getShipComponets();
-		String out = "";
+		String out = "   ";
+
+		for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
+			out += " "+i+" ";
+		}
+		out += "\n";
+
 		for(int j = 0; j < s.getGameLevel().getBoardY(); j++){
 			for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
-				out+=getComponentIcon(board[j][i].getComponent());
-				if(i+1 == s.getGameLevel().getBoardX()){
-					out+="\n";
+				if(i == 0){
+					out+="\n "+j+" ";
 				}
+				if(!board[j][i].isIsSpace()) out+=getComponentIcon(board[j][i].getComponent());
+				else out+="   ";
 			}
 		}
 
@@ -190,17 +200,18 @@ public class CLI implements Graphic{
 				icon = 'S';
 			}
 			case HousingUnit house ->{
-				icon = 'H';
+				if(house.isCore()) icon = 'N';
+				else icon = 'H';
 			}
 			case BatteryStorage bat ->{
 				icon = 'B';
 			}
 			case null ->{
-				icon = ' ';
+				icon = 'X';
 			}
 			default -> icon = '?';
 		}
 
-		return " "+icon+" ";
+		return (" "+icon+" ");
 	}
 }

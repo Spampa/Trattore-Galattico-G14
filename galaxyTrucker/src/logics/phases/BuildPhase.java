@@ -48,7 +48,6 @@ public class BuildPhase extends  Phase{
     						cli.clear();
     						cli.printAlert("Posizione non valida!");
     					}
-						//else cli.printShip(player.getPlayerShip());
     				}
     				else {
     	    			pool.discardDraw();
@@ -56,9 +55,11 @@ public class BuildPhase extends  Phase{
     				}
     			} while(!endTurn);
     			
+				cli.printRow();
+				cli.printShip(player.getPlayerShip());
     			cli.printRow();
     			cli.printMessage("\u001B[32mInserimento corretto\u001B[0m");
-    			cli.clear();
+    			//cli.clear();
     		}
     		else {
     			/*
