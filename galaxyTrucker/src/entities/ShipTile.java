@@ -4,7 +4,7 @@ import components.*;
 
 public class ShipTile {
     private boolean scanned = false;
-    private final boolean  isSpace;
+    private boolean  isSpace;
     private Component component;
     private boolean protectedTile = false;
 
@@ -16,10 +16,12 @@ public class ShipTile {
         this.isSpace = isSpace;
     }
     
-    public void setComponent(Component component) {
+    public boolean  setComponent(Component component) {
         if(!isSpace){
             this.component = component;
+            return true;
         }
+        else return false;
     }
 
     public Component getComponent() {
@@ -44,6 +46,10 @@ public class ShipTile {
 
     public boolean isIsSpace() {
         return isSpace;
+    }
+
+    public void setIsSpace(boolean isSpace) {
+        this.isSpace = isSpace;
     }
 
 
