@@ -150,24 +150,14 @@ public class Ship {
 
     private void checkComponent(Position p){
 
-        if(!shipComponents[p.getY()][p.getX()].isIsSpace() && shipComponents[p.getY()][p.getX()].getComponent() != null){
-            shipComponents[p.getY()][p.getX()].setScanned(true);
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                shipComponents[j][i].setScanned(false);
+            }
+        }
 
-            if(p.getY()+1 <= level.getBoardY()&& !shipComponents[p.getY()+1][p.getX()].isScanned()){
-                checkComponent(new Position(p.getX(), p.getY()+1)); 
-            }
-            
-            if(p.getY()-1 >= 0 && !shipComponents[p.getY()-1][p.getX()].isScanned()){
-                checkComponent(new Position(p.getX(), p.getY()-1));
-            }
-
-            if(p.getX()+1 <= level.getBoardX() && !shipComponents[p.getY()][p.getX()+1].isScanned()){
-                checkComponent(new Position(p.getX()+1, p.getY()));
-            }
-
-            if(p.getX()-1 >= 0 && !shipComponents[p.getY()][p.getX()-1].isScanned()){
-                checkComponent( new Position(p.getX()-1, p.getY()) );
-            }
+        if(!shipComponents[p.getY()][p.getX()].isIsSpace() && !findPathToCore(p)){
+            shipComponents[p.getY()][p.getX()].setComponent(null);
         }
     }
 
@@ -183,29 +173,25 @@ public class Ship {
 
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
-                shipComponents[j][i].setScanned(false);
+                checkComponent(new Position( i, j));
             }
         }
-
-        checkComponent(new Position( level.getBoardX()/2, level.getBoardY()/2 ));
+        
 
         for(int i = 0; i < level.getBoardY(); i++){
             for(int j = 0; j < level.getBoardX(); j++){
-                if(!shipComponents[i][j].isScanned()){
-                    shipComponents[i][j].setComponent(null);
-                }
-                else{
+                if(shipComponents[i][j].getComponent() != null){
 
                     switch (shipComponents[i][j].getComponent()) {
                         
                         case Cannon c-> {
                             firePower += c.getFirePower();
                         }
-
+    
                         case Engine e ->{
                             e.getEnginePower();
                         }
-
+    
                         case HousingUnit h ->{
                             humansCounter += h.getCurrentCapacity();
                         }
@@ -215,21 +201,20 @@ public class Ship {
                                 waresValue += ct.getValue();
                             }
                         }
-
+    
                         default ->{
                             return;
                         }
-
-                    }
-
+    
+                    }              
                 }
             }
         }
 	}
 
-    public boolean storeWares(Ware w, int x, int y){
+    public boolean storeWares(Ware w, Position p){
         
-        if(shipComponents[x][y].getComponent() instanceof WareStorage container){
+        if(shipComponents[p.getY()][p.getX()].getComponent() instanceof WareStorage container){
             return container.add(w);
         }
         return false;
@@ -240,17 +225,13 @@ public class Ship {
     }
 
 	public boolean isPlayable(){
-		return (shipComponents[(level.getBoardX()/2)+1][(level.getBoardY()/2)+1].getComponent() != null);
+		return (shipComponents[(level.getBoardY()/2)][(level.getBoardX()/2)].getComponent() != null);
 	}
 
     public boolean  setComponet(Component c, Position p){
 
         if(shipComponents[p.getY()][p.getX()].isIsSpace() || shipComponents[p.getY()][p.getX()].getComponent() != null) return false;
 
-        if(shipComponents[p.getY()+1][p.getX()].getComponent() == null 
-        && shipComponents[p.getY()-1][p.getX()].getComponent() == null 
-        && shipComponents[p.getY()][p.getX()+1].getComponent() == null 
-        && shipComponents[p.getY()][p.getX()-1].getComponent() == null) return false;
 
         if(c instanceof Engine){
            if(shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
@@ -273,24 +254,23 @@ public class Ship {
             }
         }
 
-        if(p.getY() > 0) {
-            if(shipComponents[p.getY()-1][p.getX()].getComponent() != null && !checkConnectors(c.getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) return false;
-        }
-        if(p.getY() < level.getBoardY()-1){
-            if(shipComponents[p.getY()+1][p.getX()].getComponent() != null && !checkConnectors(c.getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) return false;
-        }
-        if(p.getX() < level.getBoardX()-1){
-            if(shipComponents[p.getY()][p.getX()+1].getComponent() != null && !checkConnectors(c.getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) return false;
-        }
-        if(p.getX() > 0) {
-            if(shipComponents[p.getY()][p.getX()-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) return false;   
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                shipComponents[j][i].setScanned(false);
+            }
         }
         
-        if(shipComponents[p.getY()][p.getX()].setComponent(c)){
+        shipComponents[p.getY()][p.getX()].setComponent(c);
+
+        if(!findPathToCore(p)){
+            shipComponents[p.getY()][p.getX()].setComponent(null);
+            return false;  
+        } 
+        else{
             if(c instanceof Engine){
                 shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
             }
-
+    
             if(c instanceof Cannon){
                 switch (c.getOrientation()) {
                     case Side.UP -> {
@@ -307,12 +287,10 @@ public class Ship {
                     }
                 }
             }
-
+    
             scanShip();
             return true; 
         }
-
-        return false;
     }
 
     private boolean checkConnectors(Connector c1, Connector c2){
@@ -333,6 +311,48 @@ public class Ship {
         }
 
         return false;
+    }
+
+    private boolean  findPathToCore(Position p){
+
+        boolean r1 = false, r2 = false, r3 = false, r4 = false;
+
+        if(shipComponents[p.getY()][p.getX()].getComponent() != null){
+            if(shipComponents[p.getY()][p.getX()].getComponent() instanceof HousingUnit possibleCore){
+                if(possibleCore.isCore()) return true;
+            }
+            else shipComponents[p.getY()][p.getX()].setScanned(true);
+        }
+        else return false;
+
+        if(p.getY()+1 < level.getBoardY() 
+        && !shipComponents[p.getY()+1][p.getX()].isScanned() 
+        && shipComponents[p.getY()+1][p.getX()].getComponent() != null 
+        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))){
+            r1 = findPathToCore(new Position(p.getX(), p.getY()+1)); 
+        }
+        
+        if(p.getY()-1 >= 0 
+        && !shipComponents[p.getY()-1][p.getX()].isScanned() 
+        && shipComponents[p.getY()-1][p.getX()].getComponent() != null 
+        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))){
+            r2 = findPathToCore(new Position(p.getX(), p.getY()-1));
+        }
+
+        if(p.getX()+1 < level.getBoardX() 
+        && !shipComponents[p.getY()][p.getX()+1].isScanned() 
+        && shipComponents[p.getY()][p.getX()+1].getComponent() != null 
+        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))){
+            r3 = findPathToCore(new Position(p.getX()+1, p.getY()));
+        }
+
+        if(p.getX()-1 > 0 && !shipComponents[p.getY()][p.getX()-1].isScanned() 
+        && shipComponents[p.getY()][p.getX()-1].getComponent() != null 
+        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))){
+            r4 = findPathToCore( new Position(p.getX()-1, p.getY()) );
+        }
+
+        return r1 || r2 || r3 || r4;
     }
 
     public float getFirePower() {
