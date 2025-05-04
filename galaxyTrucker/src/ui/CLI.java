@@ -56,7 +56,7 @@ public class CLI implements Graphic{
 	public void printShip(Ship s) {
 		this.printRow();
 		ShipTile[][] board = s.getShipComponets();
-		String out = "   ";
+		String out = s.toString() + "\n   ";
 
 		for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
 			out += " "+i+" ";

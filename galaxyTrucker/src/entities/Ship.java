@@ -55,7 +55,7 @@ public class Ship {
                 s[4][4] = new ShipTile();
                 s[4][5] = new ShipTile();
                 
-                s[2][3].setComponent(new HousingUnit(c, true));
+                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new HousingUnit(c, true));
             }
             case GameLevel.II -> {
                 s[0][2] = new ShipTile();
@@ -90,7 +90,7 @@ public class Ship {
                 s[4][5] = new ShipTile();
                 s[4][6] = new ShipTile();
                 
-                s[2][3].setComponent(new HousingUnit(c, true));
+                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new HousingUnit(c, true));
             }
             case GameLevel.III ->{
                 s[0][4] = new ShipTile();
@@ -135,7 +135,7 @@ public class Ship {
                 s[5][7] = new ShipTile();
                 s[5][8] = new ShipTile();
 
-                s[3][4].setComponent(new HousingUnit(c, true));
+                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new HousingUnit(c, true));
             }
         }
 
@@ -148,25 +148,25 @@ public class Ship {
         return s;
     }
 
-    private void checkComponent(int x, int y){
+    private void checkComponent(Position p){
 
-        if(!shipComponents[x][y].isIsSpace() && shipComponents[x][y].getComponent() != null){
-            shipComponents[x][y].setScanned(true);
+        if(!shipComponents[p.getY()][p.getX()].isIsSpace() && shipComponents[p.getY()][p.getX()].getComponent() != null){
+            shipComponents[p.getY()][p.getX()].setScanned(true);
 
-            if(x+1 <= level.getBoardX() && !shipComponents[x+1][y].isScanned()){
-                checkComponent(x+1, y);
+            if(p.getY()+1 <= level.getBoardY()&& !shipComponents[p.getY()+1][p.getX()].isScanned()){
+                checkComponent(new Position(p.getX(), p.getY()+1)); 
             }
             
-            if(x-1 >= 0 && !shipComponents[x-1][y].isScanned()){
-                checkComponent(x-1, y);
+            if(p.getY()-1 >= 0 && !shipComponents[p.getY()-1][p.getX()].isScanned()){
+                checkComponent(new Position(p.getX(), p.getY()-1));
             }
 
-            if(y+1 <= level.getBoardY() && !shipComponents[x][y+1].isScanned()){
-                checkComponent(x, y+1);
+            if(p.getX()+1 <= level.getBoardX() && !shipComponents[p.getY()][p.getX()+1].isScanned()){
+                checkComponent(new Position(p.getX()+1, p.getY()));
             }
 
-            if(y-1 >= 0 && !shipComponents[x][y-1].isScanned()){
-                checkComponent(x, y-1);
+            if(p.getX()-1 >= 0 && !shipComponents[p.getY()][p.getX()-1].isScanned()){
+                checkComponent( new Position(p.getX()-1, p.getY()) );
             }
         }
     }
@@ -183,14 +183,14 @@ public class Ship {
 
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
-                shipComponents[i][j].setScanned(false);
+                shipComponents[j][i].setScanned(false);
             }
         }
 
-        checkComponent((level.getBoardX()/2)+1, (level.getBoardY()/2)+1);
+        checkComponent(new Position( level.getBoardX()/2, level.getBoardY()/2 ));
 
-        for(int i = 0; i < level.getBoardX(); i++){
-            for(int j = 0; j < level.getBoardY(); j++){
+        for(int i = 0; i < level.getBoardY(); i++){
+            for(int j = 0; j < level.getBoardX(); j++){
                 if(!shipComponents[i][j].isScanned()){
                     shipComponents[i][j].setComponent(null);
                 }
@@ -243,53 +243,79 @@ public class Ship {
 		return (shipComponents[(level.getBoardX()/2)+1][(level.getBoardY()/2)+1].getComponent() != null);
 	}
 
-    public boolean  setComponet(Component c, int x, int y){
+    public boolean  setComponet(Component c, Position p){
 
-        if(shipComponents[y][x].isIsSpace() || shipComponents[y][x].getComponent() != null) return false;
+        if(shipComponents[p.getY()][p.getX()].isIsSpace() || shipComponents[p.getY()][p.getX()].getComponent() != null) return false;
+
+        if(shipComponents[p.getY()+1][p.getX()].getComponent() == null 
+        && shipComponents[p.getY()-1][p.getX()].getComponent() == null 
+        && shipComponents[p.getY()][p.getX()+1].getComponent() == null 
+        && shipComponents[p.getY()][p.getX()-1].getComponent() == null) return false;
 
         if(c instanceof Engine){
-           if(shipComponents[y+1][x].getComponent() != null) return false;
+           if(shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
         }
 
         if(c instanceof Cannon){
             switch (c.getOrientation()) {
                 case Side.UP -> {
-                    if(shipComponents[y-1][x].getComponent() != null) return false;
+                    if(shipComponents[p.getY()-1][p.getX()].getComponent() != null) return false;
                 }
                 case Side.DOWN ->{
-                    if(shipComponents[y+1][x].getComponent() != null) return false;
+                    if(shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
                 }
                 case Side.LEFT ->{
-                    if(shipComponents[y][x-1].getComponent() != null) return false;
+                    if(shipComponents[p.getY()][p.getX()-1].getComponent() != null) return false;
                 }
                 case Side.RIGHT ->{
-                    if(shipComponents[y][x+1].getComponent() != null) return false;
+                    if(shipComponents[p.getY()][p.getX()+1].getComponent() != null) return false;
                 }
             }
         }
 
-        //TODO fix this shit cause it's awful
-        if(y > 0) {
-            if(shipComponents[y-1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.UP), shipComponents[y-1][x].getComponent().getConnector(Side.DOWN))) return false;
+        if(p.getY() > 0) {
+            if(shipComponents[p.getY()-1][p.getX()].getComponent() != null && !checkConnectors(c.getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) return false;
         }
-        if(y < level.getBoardY()-1){
-            if(shipComponents[y+1][x].getComponent() != null && !checkConnectors(c.getConnector(Side.DOWN), shipComponents[y+1][x].getComponent().getConnector(Side.UP))) return false;
+        if(p.getY() < level.getBoardY()-1){
+            if(shipComponents[p.getY()+1][p.getX()].getComponent() != null && !checkConnectors(c.getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) return false;
         }
-        if(x < level.getBoardX()-1){
-            if(shipComponents[y][x+1].getComponent() != null && !checkConnectors(c.getConnector(Side.RIGHT), shipComponents[y][x+1].getComponent().getConnector(Side.LEFT))) return false;
+        if(p.getX() < level.getBoardX()-1){
+            if(shipComponents[p.getY()][p.getX()+1].getComponent() != null && !checkConnectors(c.getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) return false;
         }
-        if(x > 0) {
-            if(shipComponents[y][x-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[y][x-1].getComponent().getConnector(Side.RIGHT))) return false;   
+        if(p.getX() > 0) {
+            if(shipComponents[p.getY()][p.getX()-1].getComponent() != null && !checkConnectors(c.getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) return false;   
         }
         
-        shipComponents[y][x].setComponent(c);
-        //scanShip();
-        return true; 
+        if(shipComponents[p.getY()][p.getX()].setComponent(c)){
+            if(c instanceof Engine){
+                shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
+            }
+
+            if(c instanceof Cannon){
+                switch (c.getOrientation()) {
+                    case Side.UP -> {
+                        shipComponents[p.getY()-1][p.getX()].setIsSpace(true);
+                    }
+                    case Side.DOWN ->{
+                        shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
+                    }
+                    case Side.LEFT ->{
+                        shipComponents[p.getY()][p.getX()-1].setIsSpace(true);
+                    }
+                    case Side.RIGHT ->{
+                        shipComponents[p.getY()][p.getX()+1].setIsSpace(true);
+                    }
+                }
+            }
+
+            scanShip();
+            return true; 
+        }
+
+        return false;
     }
 
     private boolean checkConnectors(Connector c1, Connector c2){
-
-        if(c1 == null || c2 == null) return true;
 
         switch (c1) {
             case UNIVERSAL -> {
@@ -341,4 +367,10 @@ public class Ship {
         return level;
     }
 
+    @Override
+    public String toString(){
+        return """
+               SHIP INFOS:
+               Fire power: """ + this.firePower + "\n" + "Motor power: " + this.motorPower + "\n" + "wares value: " + this.waresValue + "\n" + "Humans: " + this.humansCounter + "\n" + "Batteries: " + this.cellsCounter + "\n";
+    }
 }
