@@ -4,6 +4,7 @@ import entities.ComponentPool;
 import entities.Player;
 import entities.Position;
 import logics.GameLogic;
+import ui.Graphic;
 
 public class BuildPhase extends  Phase{
 	
@@ -11,8 +12,8 @@ public class BuildPhase extends  Phase{
 	private Player players[];
 	private int position;
 
-    public BuildPhase(GameLogic game) {
-        super(game);
+    public BuildPhase(GameLogic game, Graphic graphic){
+        super(game, graphic);
         this.pool = new ComponentPool();
         this.position = 0;
     }
@@ -31,75 +32,66 @@ public class BuildPhase extends  Phase{
     	}
     	
     	for(Player player : players) {
-    		cli.printMessage("Giocatore \u001B[34m" + player.getPlayerName() + "\u001B[0m tocca a te! \n");
-    		
-    		boolean endTurn = false;
-    		int choice = cli.drawOrPeekComponent(pool.getDiscardedComponents().size());
+    		graphic.printMessage("Giocatore \u001B[34m" + player.getPlayerName() + "\u001B[0m tocca a te!");
+    		int choice = graphic.drawOrPeekComponent(pool.getDiscardedComponents().size());
     		
     		if(choice == 0) { //draw component
     			Component component = pool.draw();
-    			cli.printComponent(component);
+    			graphic.printComponent(component);
     			
-    			do {
-    				if(cli.acceptComponentDraw()) {
-    					endTurn = this.insertComponent(player, component);
-    					if(!endTurn) {
-    						cli.printAlert("Posizione non valida!");
-    					}
-    				}
-    				else {
-    	    			pool.discardDraw();
-    					endTurn = true;
-    				}
-    			} while(!endTurn);
-    			
-				
-				cli.printShip(player.getPlayerShip());
-    			cli.printMessage("\u001B[32mInserimento corretto\u001B[0m");
+
+    			while(!this.insertComponent(player,component));
     		}
     		else {
-    			/*
-    			//TODO: select component from pool
-    			System.out.println("Scegli uno dei componenti nella pila degli scarti:\n");
-    			System.out.println(pool.printDiscardedComponents());
+    			graphic.printDiscardedComponents(pool.getDiscardedComponents());
+    			int componentIndex = graphic.getDiscardComponentIndex(pool.getDiscardedComponents().size());
     			
-    			do {
-        			System.out.println("Inserisci id del componente per selezionarlo: ");
-        			choice = Integer.parseInt(sc.nextLine());
-        			
-        			if(choice < 0 || choice >= pool.printDiscardedComponents().length()) {
-        				System.out.println("\nId inserito non valido!\n");
-        			}
-    			}while(choice < 0 || choice >= pool.printDiscardedComponents().length());
-
-    			Component component = pool.getDiscard(choice);*/
+    			Component component = pool.getDiscard(componentIndex);
+    			graphic.printComponent(component);
     			
+    			while(!this.insertComponent(player,component));
+    		}
+    		
+    		//set endTurn
+    		graphic.printShip(player.getPlayerShip());
+    		if(graphic.isBuildFinish()) {
+    			position++;
+    			player.setPosition(position);
     		}
     	}
     }
 
     @Override
     public void end() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'end'");
+    	graphic.printMessage("Fine fase di costruzione della nave");
     }
     
     private boolean arePlayerFinish() {
-    	
-    	/*FIXME: pawn bug
     	for(Player player : players) {
-    		if(player.getPawn().getPosition() == 0) {
+    		if(player.getPosition() == 0) {
     			return false;
     		}
     	}
-    	*/
-    	return false;
+    	return true;
     }
     
     private boolean insertComponent(Player player, Component component) {
-		cli.printShip(player.getPlayerShip());
-		Position position = cli.setComponentPosition();
-		
-		return player.getPlayerShip().setComponet(component, position);
+		if(graphic.acceptComponentDraw()) {
+			graphic.printShip(player.getPlayerShip());
+			Position position = graphic.setComponentPosition();
+			
+			boolean isSet = player.getPlayerShip().setComponet(component, position);
+			if(isSet) {
+				graphic.printMessage("\u001B[32mInserimento corretto\u001B[0m");
+			}
+			else {
+				graphic.printAlert("Posizione non valida!");
+			}
+			return isSet;
+		}
+		else {
+			pool.discardDraw();
+			return true;
+		}
     }
 }

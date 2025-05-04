@@ -1,15 +1,15 @@
 package logics.phases;
 
 import logics.GameLogic;
-import ui.CLI;
+import ui.Graphic;
 
 public abstract class Phase {
     protected final GameLogic game;
-    protected final CLI cli;
+    protected final Graphic graphic;
     
-    public Phase(GameLogic game){
+    public Phase(GameLogic game, Graphic graphic){
         this.game = game;
-        cli = new CLI();
+        this.graphic = graphic;
     }
 
     //funzione richiamate nel loop di gioco ad ogni iterazione

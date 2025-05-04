@@ -219,10 +219,42 @@ public class CLI implements Graphic{
 		return choice.equals("1");
 	}
 
+
 	@Override
-	public Component selectItemFromDiscards(List<Component> discardedComponents) {
+	public void printDiscardedComponents(List<Component> discardedComponents) {
+		System.out.println("Lista dei componenti: ");
 		// TODO Auto-generated method stub
-		return null;
+		for(int i = 0; i < discardedComponents.size(); i++) {
+			System.out.println("Indice componente: " + i);
+			System.out.println(discardedComponents.get(i).toString());
+			this.printRow();
+		}
+	}
+	
+	@Override
+	public int getDiscardComponentIndex(int size) {
+		int choice;
+		do {
+			System.out.println("Inserisci indice del componente da scegliere (valori tra 0 - " + (size - 1) + "):");
+			choice = Integer.parseInt(sc.nextLine());
+			
+			if(choice < 0 || choice >= size) {
+				this.printAlert("Valore non valido!");
+			}
+		}while(choice < 0 || choice >= size);
 		
+		return choice;
+	}
+	
+	@Override
+	public boolean isBuildFinish() {
+		String choice;
+		do {
+			System.out.print("Hai finito si costruire la nave? (0 No, 1 Si): ");
+			choice = sc.nextLine();
+		}while(!choice.equals("0") && !choice.equals("1"));
+		
+		this.clear();
+		return choice.equals("1");
 	}
 }

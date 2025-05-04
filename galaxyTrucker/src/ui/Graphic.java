@@ -22,6 +22,7 @@ public interface Graphic {
 	public int drawOrPeekComponent(int poolSize);
 	public void printComponent(Component component);
 	public boolean acceptComponentDraw();
-	public Component selectItemFromDiscards(List<Component> discardedComponents);
-
+	public void printDiscardedComponents(List<Component> discardedComponents);
+	public int getDiscardComponentIndex(int size);
+	public boolean isBuildFinish();
 }

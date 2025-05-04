@@ -4,6 +4,7 @@ import entities.GameLevel;
 import entities.Player;
 import entities.Ship;
 import logics.GameLogic;
+import ui.Graphic;
 
 import java.util.Scanner;
 
@@ -11,8 +12,8 @@ public class InitPhase extends  Phase {
     private Player[] players;
 	private GameLevel level;
 
-    public InitPhase(GameLogic game){
-        super(game);
+    public InitPhase(GameLogic game, Graphic graphic){
+        super(game, graphic);
     }
 
 	@Override
@@ -22,11 +23,11 @@ public class InitPhase extends  Phase {
 
     @Override
     public void update(){
-    	level = cli.setGameLevel();
+    	level = graphic.setGameLevel();
     	
-    	int playerCount = cli.setPlayerCount();
+    	int playerCount = graphic.setPlayerCount();
     	
-		players = cli.setPlayers(playerCount, level);
+		players = graphic.setPlayers(playerCount, level);
 
 		game.switchPhase();
     }
@@ -36,7 +37,7 @@ public class InitPhase extends  Phase {
 		game.setPlayers(players);
 		game.setLevel(level);
 
-		cli.printMessage("Fine fase di inizializazione\n" + "Players:" + players.length + " " + "livello partita:" + level);
+		graphic.printMessage("Fine fase di inizializazione\n" + "Players:" + players.length + " " + "livello partita:" + level);
     }
 
 }

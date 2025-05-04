@@ -2,6 +2,7 @@ package logics;
 
 import entities.*;
 import logics.phases.*;
+import ui.Graphic;
 
 public class GameLogic {
 	private Player[] players;
@@ -10,11 +11,11 @@ public class GameLogic {
 	private int phaseIndex;
 	private boolean playing;
 
-	public GameLogic(){
-		phases[0] = new InitPhase(this);
-		phases[1] = new BuildPhase(this);
-		phases[2] = new FlyPhase(this);
-		phases[3] = new EndPhase(this);
+	public GameLogic(Graphic graphic){
+		phases[0] = new InitPhase(this, graphic);
+		phases[1] = new BuildPhase(this, graphic);
+		phases[2] = new FlyPhase(this, graphic);
+		phases[3] = new EndPhase(this, graphic);
 
 
 		phaseIndex = 0;
