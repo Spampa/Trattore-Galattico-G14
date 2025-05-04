@@ -1,5 +1,6 @@
 package logics.phases;
 import components.Component;
+import components.Rotatable;
 import entities.ComponentPool;
 import entities.Player;
 import entities.Position;
@@ -38,8 +39,8 @@ public class BuildPhase extends  Phase{
     		if(choice == 0) { //draw component
     			Component component = pool.draw();
     			graphic.printComponent(component);
-    			
 
+    			//insert loop
     			while(!this.insertComponent(player,component));
     		}
     		else {
@@ -49,6 +50,7 @@ public class BuildPhase extends  Phase{
     			Component component = pool.getDiscard(componentIndex);
     			graphic.printComponent(component);
     			
+    			//insert loop
     			while(!this.insertComponent(player,component));
     		}
     		
@@ -77,6 +79,8 @@ public class BuildPhase extends  Phase{
     
     private boolean insertComponent(Player player, Component component) {
 		if(graphic.acceptComponentDraw()) {
+			this.rotateComponent(component);
+			
 			graphic.printShip(player.getPlayerShip());
 			Position position = graphic.setComponentPosition();
 			
@@ -92,6 +96,16 @@ public class BuildPhase extends  Phase{
 		else {
 			pool.discardDraw();
 			return true;
+		}
+    }
+    
+    private void rotateComponent(Component component) {
+    	if(!(component instanceof Rotatable)) return;
+    	
+		//rotate loop
+		while(graphic.getRotate()) {
+			((Rotatable) component).rotate();
+			graphic.printComponent(component);
 		}
     }
 }

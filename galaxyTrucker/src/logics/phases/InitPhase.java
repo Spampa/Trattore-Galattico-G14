@@ -2,11 +2,8 @@ package logics.phases;
 
 import entities.GameLevel;
 import entities.Player;
-import entities.Ship;
 import logics.GameLogic;
 import ui.Graphic;
-
-import java.util.Scanner;
 
 public class InitPhase extends  Phase {
     private Player[] players;

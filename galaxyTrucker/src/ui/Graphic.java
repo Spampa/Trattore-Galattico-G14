@@ -25,4 +25,6 @@ public interface Graphic {
 	public void printDiscardedComponents(List<Component> discardedComponents);
 	public int getDiscardComponentIndex(int size);
 	public boolean isBuildFinish();
+	public boolean getRotate();
+	
 }

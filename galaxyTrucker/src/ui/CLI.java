@@ -193,7 +193,7 @@ public class CLI implements Graphic{
     		choice = Integer.parseInt(sc.nextLine());
     		
     		if(choice == 1 && poolSize == 0) {
-    			this.printAlert("La pila degli scarti è vuota!\n");
+    			this.printAlert("La pila degli scarti è vuota!");
     		}
 		}while((choice != 0 && choice != 1) || (choice == 1 && poolSize == 0));
 		this.clear();
@@ -251,6 +251,18 @@ public class CLI implements Graphic{
 		String choice;
 		do {
 			System.out.print("Hai finito si costruire la nave? (0 No, 1 Si): ");
+			choice = sc.nextLine();
+		}while(!choice.equals("0") && !choice.equals("1"));
+		
+		this.clear();
+		return choice.equals("1");
+	}
+	
+	@Override
+	public boolean getRotate() {
+		String choice;
+		do {
+			System.out.print("Vuoi ruotare il componente? (0 No, 1 Si): ");
 			choice = sc.nextLine();
 		}while(!choice.equals("0") && !choice.equals("1"));
 		
