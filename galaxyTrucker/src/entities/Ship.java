@@ -221,7 +221,7 @@ public class Ship {
     }
 
     public ShipTile[][] getShipComponets(){
-        return shipComponents;
+        return shipComponents.clone();
     }
 
 	public boolean isPlayable(){
@@ -234,22 +234,22 @@ public class Ship {
 
 
         if(c instanceof Engine){
-           if(shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
+           if(p.getY()+1 < level.getBoardY() && shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
         }
 
         if(c instanceof Cannon){
             switch (c.getOrientation()) {
                 case Side.UP -> {
-                    if(shipComponents[p.getY()-1][p.getX()].getComponent() != null) return false;
+                    if(p.getY()-1 >= 0 && shipComponents[p.getY()-1][p.getX()].getComponent() != null) return false;
                 }
                 case Side.DOWN ->{
-                    if(shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
+                    if(p.getY()+1 < level.getBoardY() && shipComponents[p.getY()+1][p.getX()].getComponent() != null) return false;
                 }
                 case Side.LEFT ->{
-                    if(shipComponents[p.getY()][p.getX()-1].getComponent() != null) return false;
+                    if(p.getX()-1 >= 0 && shipComponents[p.getY()][p.getX()-1].getComponent() != null) return false;
                 }
                 case Side.RIGHT ->{
-                    if(shipComponents[p.getY()][p.getX()+1].getComponent() != null) return false;
+                    if(p.getX()+1 < level.getBoardX() && shipComponents[p.getY()][p.getX()+1].getComponent() != null) return false;
                 }
             }
         }
