@@ -56,17 +56,24 @@ public class Player implements Comparable<Player> {
 		this.generalPosition--;						//used in board when moving backwards
 	}
 	
-	public int getGeneralPosition() {
+	public int getPosition() {
 		return this.generalPosition;
 	}
+	
+	public void setPosition(int numberOfArrival) {
+		if(numberOfArrival==1) {
+			generalPosition=4;
+		}
+		else
+		generalPosition=4-numberOfArrival;
+	}
 
-	public void setStartingPosition(int numberOfArrival, Board board) {	//invoked only after ship-building-phase
-		generalPosition=4-numberOfArrival;								//sets the position on the starting 
+	public void setStartingPositionOnBoard(Board board) {						//invoked only after ship-building-phase
 		board.getSpace(generalPosition-1).putPlayer(this);				//fills out the space with corresponding player
 	}
 
     public boolean isLappedBy(Player other) {
-        return other.getGeneralPosition() - this.getGeneralPosition() >= Board.NUM_OF_SPACES;
+        return other.getPosition() - this.getPosition() >= Board.NUM_OF_SPACES;
     }
 
     public String getPlayerName() {

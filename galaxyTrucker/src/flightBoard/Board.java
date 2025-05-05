@@ -15,7 +15,7 @@ public class Board {
 	public void printBoard() {
 		for(int i=0;i<18;i++) {
 			if(this.spaces[i].getPlayer()!=null)
-				System.out.println("Spazio "+this.spaces[i].getSpace()+" :"+this.spaces[i].getPlayer()+" Pos: "+this.spaces[i].getPlayer().getGeneralPosition());
+				System.out.println("Spazio "+this.spaces[i].getSpace()+" :"+this.spaces[i].getPlayer()+" Pos: "+this.spaces[i].getPlayer().getPosition());
 			else
 				System.out.println("Spazio "+this.spaces[i].getSpace()+" :"+this.spaces[i].getPlayer());
 		}
