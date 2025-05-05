@@ -1,21 +1,23 @@
 package gameEvents.Actions;
 
+import components.enums.Side;
+import entities.Position;
 import entities.Ship;
 
 public class Shoot extends Action {
 
-    private final ProjectileDirection direction;
+    private final Side direction;
     private final ProjectileType type;
     private final int comingTile;
 
-    public Shoot(ProjectileDirection direction, ProjectileType type, int comingTile){
+    public Shoot(Side direction, ProjectileType type, int comingTile){
         super("Shoot");
         this.direction = direction;
         this.type = type;
         this.comingTile = comingTile;
     }
 
-    public ProjectileDirection getDirection() {
+    public Side getDirection() {
         return direction;
     }
 
@@ -29,85 +31,71 @@ public class Shoot extends Action {
 
     public boolean getHit(Ship s){
         switch (direction) {
-            
-            case ProjectileDirection.FRONT -> {
+            case Side.UP -> {
                 for(int i = 0; i < s.getGameLevel().getBoardY(); i++){
                     
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){
                         
                         if(!s.getShipComponets()[i][comingTile].isProtectedTile()){
-                            s.scanShip();
-                            return s.getShipComponets()[i][comingTile].getComponent().tryBreak(type); //TODO cambia in controllo dei connettori esposti
+                            return s.breakComponent(new Position(comingTile, i), type, direction);
                         }
                         else{
-                            s.scanShip();
                             return false;
                         }
                     }
                 }
-                s.scanShip();
                 return false;
             }
 
-            case ProjectileDirection.BACK -> {
+            case Side.DOWN -> {
                 for(int i = (s.getGameLevel().getBoardY()-1); i >= 0; i--){
                     
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){
                         
                         if(!s.getShipComponets()[i][comingTile].isProtectedTile()){
-                            s.scanShip();
-                            return s.getShipComponets()[i][comingTile].getComponent().tryBreak(type);
+                            return s.breakComponent(new Position(comingTile, i), type, direction);
                         }
                         else{
-                            s.scanShip();
                             return false;
                         }
                     }
                 }
-                s.scanShip();
                 return false;
             }
 
-            case ProjectileDirection.LEFT -> {
+            case Side.LEFT -> {
                 for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
                     
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
                         
                         if(!s.getShipComponets()[comingTile][i].isProtectedTile()){
-                            s.scanShip();
-                            return s.getShipComponets()[comingTile][i].getComponent().tryBreak(type);
+                            return s.breakComponent(new Position(i , comingTile), type, direction);
                         }
                         else{
-                            s.scanShip();
                             return false;
                         }
                     }
                 }
-                s.scanShip();
                 return false; 
             }
 
-            case ProjectileDirection.RIGHT -> {
+            case Side.RIGHT -> {
                 for(int i = (s.getGameLevel().getBoardX()-1); i >= 0 ; i--){
                     
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
                         
                         if(!s.getShipComponets()[comingTile][i].isProtectedTile()){
-                            s.scanShip();
-                            return s.getShipComponets()[comingTile][i].getComponent().tryBreak(type);
+                            return s.breakComponent(new Position(i, comingTile), type, direction);
                         }
                         else{
-                            s.scanShip();
                             return false;
                         }
                     }
                 }
-                s.scanShip();
                 return false; 
             }
 
             default -> {
-                s.scanShip();
                 return false;
             }
 

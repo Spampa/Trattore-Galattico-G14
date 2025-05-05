@@ -8,8 +8,8 @@ public class Player {
     private final int playerID;
     private final Ship playerShip;
     private final String playerName;
-    private int position;							//indicates the position (1st, 2nd, 3rd, 4th)
-	private int generalPosition;
+    private int position;							//TODO remove position
+	private int generalPosition;                    //TODO aggiungere interfaccia comparable su player gestita tramite generalPosition
 
     public Player(String playerName, Ship playerShip) {
         if (playerCount >= 4) {

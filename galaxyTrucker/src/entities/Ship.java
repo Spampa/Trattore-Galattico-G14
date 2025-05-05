@@ -4,6 +4,7 @@ import components.*;
 import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
+import gameEvents.Actions.ProjectileType;
 import items.*;
 
 public class Ship {
@@ -274,16 +275,16 @@ public class Ship {
             if(c instanceof Cannon){
                 switch (c.getOrientation()) {
                     case Side.UP -> {
-                        shipComponents[p.getY()-1][p.getX()].setIsSpace(true);
+                        if(p.getY()-1 >= 0) shipComponents[p.getY()-1][p.getX()].setIsSpace(true);
                     }
                     case Side.DOWN ->{
-                        shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
+                        if(p.getY()+1 < level.getBoardY()) shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
                     }
                     case Side.LEFT ->{
-                        shipComponents[p.getY()][p.getX()-1].setIsSpace(true);
+                        if(p.getX()-1 >= 0) shipComponents[p.getY()][p.getX()-1].setIsSpace(true);
                     }
                     case Side.RIGHT ->{
-                        shipComponents[p.getY()][p.getX()+1].setIsSpace(true);
+                        if(p.getX()+1 < level.getBoardX()) shipComponents[p.getY()][p.getX()+1].setIsSpace(true);
                     }
                 }
             }
@@ -291,6 +292,14 @@ public class Ship {
             scanShip();
             return true; 
         }
+    }
+
+    public boolean breakComponent(Position p, ProjectileType pType, Side s){
+        if(pType == ProjectileType.SMALL_ASTEROID && shipComponents[p.getY()][p.getX()].getComponent().getConnector(s) == Connector.EMPTY){
+            return false;
+        }
+        shipComponents[p.getY()][p.getX()].setComponent(null);
+        return true;
     }
 
     private boolean checkConnectors(Connector c1, Connector c2){
