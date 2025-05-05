@@ -64,16 +64,8 @@ public class Board {
 		}
 		spaces[currentSpace].putPlayer(player);				
 	}
-	
-	public Player getPlayerFromPosition(int pos, Player[] players) {
-		for(int i=0; i<players.length; i++) {
-			if(players[i].getPosition()==pos)
-				return players[i];
-		}
-		return null;
-	}
-	
-	public void updatePosition(Player[] players) {
+		
+	/*public void updatePosition(Player[] players) {
 		int[] temp=new int[players.length];					//method which updates the position attribute of each player
 		for(int i=0;i<players.length-1;i++) {
 			for(int j=i+1;j<players.length;j++) {
@@ -87,5 +79,5 @@ public class Board {
 		for(int t=0;t<players.length;t++) {
 			players[t].setPosition(temp[t]+1);
 		}			
-	}
+	}*/
 }
