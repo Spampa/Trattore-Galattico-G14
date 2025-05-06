@@ -34,9 +34,10 @@ public class FlyPhase extends Phase{
         while(currentCard != null){
             graphic.printCard(currentCard);
             //currentCard.executeEvent(players); 
+            currentCard = this.cardsDeck.drawCard();
         }
 
-        game.switchPhase();
+        //game.switchPhase();
     }
 
     @Override
