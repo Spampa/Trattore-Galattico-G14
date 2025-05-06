@@ -1,21 +1,20 @@
 package eventCards;
 
+import components.enums.Side;
 import entities.Ship;
-import gameEvents.Actions.ProjectileDirection;
 import gameEvents.Actions.ProjectileType;
-import gameEvents.Actions.Shoot;
 import gameEvents.EventType;
 
 public class PirateAttackCard extends EventCard {
     private final int projectileCount;
-    private final ProjectileDirection direction;
+    private final Side direction;
 
     public PirateAttackCard() {
         super("Incursione Pirata", 
               "Attacco con proiettili da destra", 
               EventType.PIRATE_RAID);
         this.projectileCount = 3;
-        this.direction = ProjectileDirection.RIGHT;
+        this.direction = Side.RIGHT;
     }
 
     @Override

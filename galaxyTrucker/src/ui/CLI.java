@@ -10,6 +10,7 @@ import entities.Player;
 import entities.Position;
 import entities.Ship;
 import entities.ShipTile;
+import eventCards.EventCard;
 import java.util.List;
 import java.util.Scanner;
 
@@ -269,4 +270,13 @@ public class CLI implements Graphic{
 		this.clear();
 		return choice.equals("1");
 	}
+
+    @Override
+    public void printCard(EventCard c) {
+        this.printRow();
+		System.out.println("CARTA EVENTO PESCATA: \n");
+		System.out.println("Nome: \u001B[33m"+ c.getName() + "\u001B[0m \n");
+		System.out.println("Descrizione: " + c.getDescription()+ "\n");
+		this.printRow();
+    }
 }
