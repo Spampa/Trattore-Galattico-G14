@@ -13,12 +13,12 @@ public class FlyPhase extends Phase{
 
     public FlyPhase(GameLogic game, Graphic graphic){
         super(game, graphic);
-        players = game.getPlayers();
         cardsDeck = new Deck();
     }
     
     @Override
     public void start() {
+        players = game.getPlayers();
     	graphic.printAlert("Inizio fase di volo!");
         graphic.printMessage("Recap delle navi in volo...");
         for(Player p : players){
