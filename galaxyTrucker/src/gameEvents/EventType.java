@@ -1,6 +1,11 @@
 package gameEvents;
 
+import java.util.Random;
+
+import components.enums.Side;
 import entities.Ship;
+import gameEvents.Actions.ProjectileType;
+import gameEvents.Actions.Shoot;
 
 public enum EventType {
     ASTEROID_FIELD {
@@ -33,10 +38,17 @@ public enum EventType {
     },
     COMET_STRIKE {
         @Override
-        public void execute(Ship ship) {
-            System.out.println("Cometa: distrutta una colonna!");
-            
+    public void execute(Ship ship) {
+        System.out.println("Sciame di comete! 3 colpi casuali!");
+        for (int i = 0; i < 3; i++) {
+            Side randomSide = Side.values()[new Random().nextInt(Side.values().length)];
+            int randomTile = new Random().nextInt(
+                (randomSide == Side.UP || randomSide == Side.DOWN) ? 
+                ship.getGameLevel().getBoardX() : ship.getGameLevel().getBoardY()
+            );
+            new Shoot(randomSide, ProjectileType.BIG_ASTEROID, randomTile).getHit(ship); 
         }
+    }
     },
     MERCHANT_OUTPOST {
         @Override
@@ -54,11 +66,19 @@ public enum EventType {
         }
     },
     COSMIC_STORM {
-        @Override
-        public void execute(Ship ship) {
-            System.out.println("Tempesta cosmica: danno a tutti i sistemi!");
-
+      @Override
+    public void execute(Ship ship) {
+        int exposedConnectors = ship.getVoidConnectors();
+        if (exposedConnectors > 0) {
+            int componentsToLose = exposedConnectors; 
+            System.out.println("Tempesta cosmica. Perse " + componentsToLose + " componenti.");
+            for (int i = 0; i < componentsToLose; i++) {
+                //servirebbe un metodo in ship in teoria che spacca un componente randomico non protetto
+            }
+        } else {
+            System.out.println("Scudo attivo: nessun danno!");
         }
+    }
     };
 
     public abstract void execute(Ship ship);

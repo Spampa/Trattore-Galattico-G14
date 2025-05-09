@@ -21,7 +21,7 @@ public class PirateAttackCard extends EventCard {
     public void executeEvent(Ship ship) {
         System.out.println("PIRATI ATTACCANO CON " + projectileCount + " PROIETTILI!");
         
-        // Esegui gli shoot (adattare alla tua implementazione reale)
+        
         for(int i=0; i<projectileCount; i++) {
             ProjectileType type = (i % 2 == 0) ? ProjectileType.BIG_CANNON : ProjectileType.SMALL_CANNON;
             //new Shoot
