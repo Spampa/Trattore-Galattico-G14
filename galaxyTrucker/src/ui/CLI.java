@@ -277,6 +277,36 @@ public class CLI implements Graphic{
 		System.out.println("CARTA EVENTO PESCATA: \n");
 		System.out.println("Nome: \u001B[33m"+ c.getName() + "\u001B[0m \n");
 		System.out.println("Descrizione: " + c.getDescription()+ "\n");
-		this.printRow();
+		this.waitForUser("premere un tasto per iniziare l'evento...");
     }
+
+	@Override
+	public void waitForUser(String message) {
+		this.printRow();
+		System.out.println(message);
+		sc.nextLine();
+	}
+
+	@Override
+	public void printShipsRecap(Player[] players) {
+        System.out.println("Recap delle navi in volo...");
+		this.printRow();
+        for(Player p : players){
+            System.out.println(p.getPlayerName() + " la tua nave è:");
+            this.printShip(p.getPlayerShip());
+        }
+        this.waitForUser("premere un tasto per continuare...");
+	}
+
+	@Override
+	public boolean askUser(String message) {
+		int answer;
+		this.printRow();
+		do { 
+			System.out.println(message + "(NO: 0, SI: 1)\n");
+			answer = Integer.parseInt(sc.nextLine());
+		} while (answer < 0 && answer > 1);
+
+		return answer == 1;
+	}
 }

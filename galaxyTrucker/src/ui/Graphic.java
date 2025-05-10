@@ -13,6 +13,8 @@ public interface Graphic {
 	public void printShip(Ship s);
 	public String getComponentIcon(Component c);
 	public Position setComponentPosition();
+	public void waitForUser(String message);
+	public boolean askUser(String message);
 	
 	//initialize phase functions
 	public GameLevel setGameLevel();
@@ -31,4 +33,5 @@ public interface Graphic {
 
 	//fly phase functions
 	public void printCard(EventCard c);
+	public void printShipsRecap(Player[] players);
 }

@@ -1,7 +1,7 @@
 package eventCards;
 
 import components.enums.Side;
-import entities.Ship;
+import entities.Player;
 import gameEvents.Actions.ProjectileType;
 import gameEvents.EventType;
 
@@ -18,7 +18,7 @@ public class PirateAttackCard extends EventCard {
     }
 
     @Override
-    public void executeEvent(Ship ship) {
+    public void executeEvent(Player[] players) {
         System.out.println("PIRATI ATTACCANO CON " + projectileCount + " PROIETTILI!");
         
         
@@ -27,10 +27,12 @@ public class PirateAttackCard extends EventCard {
             //new Shoot
         }
         
-    
-        if(ship.getMotorPower() < 2) {
+        for(Player p: players){
+            if(p.getPlayerShip().getMotorPower() < 2) {
             System.out.println("Nave troppo lenta! Danno extra");
             //ship.getHit();
+            }
         }
+
     }
 }

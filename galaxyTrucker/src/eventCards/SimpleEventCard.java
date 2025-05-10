@@ -1,6 +1,6 @@
 package eventCards;
 
-import entities.Ship;
+import entities.Player;
 import gameEvents.EventType;
 
 public class SimpleEventCard extends EventCard {
@@ -9,7 +9,7 @@ public class SimpleEventCard extends EventCard {
     }
 
     @Override
-    public void executeEvent(Ship ship) {
-        getType().execute(ship);
+    public void executeEvent(Player[] players) {
+        getType().execute(players);
     }
 }

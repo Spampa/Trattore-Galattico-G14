@@ -32,16 +32,9 @@ public class Shoot extends Action {
     public boolean getHit(Ship s){
         switch (direction) {
             case Side.UP -> {
-                for(int i = 0; i < s.getGameLevel().getBoardY(); i++){
-                    
+                for(int i = 0; i < s.getGameLevel().getBoardY(); i++){     
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){
-                        
-                        if(!s.getShipComponets()[i][comingTile].isProtectedTile()){
-                            return s.breakComponent(new Position(comingTile, i), type, direction);
-                        }
-                        else{
-                            return false;
-                        }
+                        return s.breakComponent(new Position(comingTile, i), type, direction);
                     }
                 }
                 return false;
@@ -49,47 +42,26 @@ public class Shoot extends Action {
 
             case Side.DOWN -> {
                 for(int i = (s.getGameLevel().getBoardY()-1); i >= 0; i--){
-                    
-                    if(s.getShipComponets()[i][comingTile].getComponent() != null){
-                        
-                        if(!s.getShipComponets()[i][comingTile].isProtectedTile()){
-                            return s.breakComponent(new Position(comingTile, i), type, direction);
-                        }
-                        else{
-                            return false;
-                        }
+                    if(s.getShipComponets()[i][comingTile].getComponent() != null){   
+                        return s.breakComponent(new Position(comingTile, i), type, direction);
                     }
                 }
                 return false;
             }
 
             case Side.LEFT -> {
-                for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
-                    
+                for(int i = 0; i < s.getGameLevel().getBoardX(); i++){  
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
-                        
-                        if(!s.getShipComponets()[comingTile][i].isProtectedTile()){
-                            return s.breakComponent(new Position(i , comingTile), type, direction);
-                        }
-                        else{
-                            return false;
-                        }
+                        return s.breakComponent(new Position(i , comingTile), type, direction);
                     }
                 }
                 return false; 
             }
 
             case Side.RIGHT -> {
-                for(int i = (s.getGameLevel().getBoardX()-1); i >= 0 ; i--){
-                    
+                for(int i = (s.getGameLevel().getBoardX()-1); i >= 0 ; i--){  
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
-                        
-                        if(!s.getShipComponets()[comingTile][i].isProtectedTile()){
-                            return s.breakComponent(new Position(i, comingTile), type, direction);
-                        }
-                        else{
-                            return false;
-                        }
+                        return s.breakComponent(new Position(i, comingTile), type, direction);
                     }
                 }
                 return false; 

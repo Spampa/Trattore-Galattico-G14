@@ -1,6 +1,6 @@
 package eventCards;
 
-import entities.Ship;
+import entities.Player;
 import gameEvents.EventType;
 
 public abstract class EventCard {
@@ -18,5 +18,5 @@ public abstract class EventCard {
     public String getDescription() { return description; }
     public EventType getType() { return type; }
 
-    public abstract void executeEvent(Ship ship);
+    public abstract void executeEvent(Player[] players);
 }

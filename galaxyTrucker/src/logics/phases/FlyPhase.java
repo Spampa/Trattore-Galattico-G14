@@ -19,12 +19,8 @@ public class FlyPhase extends Phase{
     @Override
     public void start() {
         players = game.getPlayers();
-    	graphic.printAlert("Inizio fase di volo!");
-        graphic.printMessage("Recap delle navi in volo...");
-        for(Player p : players){
-            graphic.printMessage(p.getPlayerName() + "la tua nave è:");
-            graphic.printShip(p.getPlayerShip());
-        }
+        graphic.printAlert("Inizio fase di volo!");
+        graphic.printShipsRecap(players);
     }
 
     @Override
@@ -37,17 +33,13 @@ public class FlyPhase extends Phase{
             currentCard = this.cardsDeck.drawCard();
         }
 
-        //game.switchPhase();
+        game.switchPhase();
     }
 
     @Override
     public void end() {
         graphic.printAlert("Fine fase di volo!");
-        graphic.printMessage("Recap delle navi in volo...");
-        for(Player p : players){
-            graphic.printMessage(p.getPlayerName() + "la tua nave è:");
-            graphic.printShip(p.getPlayerShip());
-        }
+        graphic.printShipsRecap(players);
     }
     
 }

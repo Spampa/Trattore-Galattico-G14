@@ -6,6 +6,7 @@ import components.models.*;
 import components.models.containers.*;
 import gameEvents.Actions.ProjectileType;
 import items.*;
+import ui.Graphic;
 
 public class Ship {
 
@@ -13,10 +14,9 @@ public class Ship {
 
 	private final ShipTile[][] shipComponents;
 
-	private float firePower;
-	private int motorPower;
+	private float maxFirePower;
+	private int maxMotorPower;
 	private int waresValue;
-	private int voidConnectors;
 	private int humansCounter;
 	private int cellsCounter;
 	private int aliensCounter;
@@ -157,17 +157,16 @@ public class Ship {
             }
         }
 
-        if(!shipComponents[p.getY()][p.getX()].isIsSpace() && !findPathToCore(p)){
+        if(shipComponents[p.getY()][p.getX()].getComponent() != null && !findPathToCore(p)){
             shipComponents[p.getY()][p.getX()].setComponent(null);
         }
     }
 
 	public  void scanShip(){
 
-        this.firePower = 0;
-        this.motorPower = 0;
+        this.maxFirePower = 0;
+        this.maxMotorPower = 0;
         this.waresValue = 0;
-        this.voidConnectors = 0;
         this.humansCounter = 0;
         this.cellsCounter = 0;
         this.aliensCounter = 0;
@@ -186,11 +185,11 @@ public class Ship {
                     switch (shipComponents[i][j].getComponent()) {
                         
                         case Cannon c-> {
-                            firePower += c.getFirePower();
+                            maxFirePower += c.getFirePower();
                         }
     
                         case Engine e ->{
-                            e.getEnginePower();
+                            maxMotorPower += e.getEnginePower();
                         }
     
                         case HousingUnit h ->{
@@ -201,6 +200,10 @@ public class Ship {
                             for (Ware ct : ns.getContent()) {
                                 waresValue += ct.getValue();
                             }
+                        }
+
+                        case BatteryStorage bt ->{
+                            this.cellsCounter += bt.getCurrentCapacity();
                         }
     
                         default ->{
@@ -295,9 +298,28 @@ public class Ship {
     }
 
     public boolean breakComponent(Position p, ProjectileType pType, Side s){
-        if(pType == ProjectileType.SMALL_ASTEROID && shipComponents[p.getY()][p.getX()].getComponent().getConnector(s) == Connector.EMPTY){
-            return false;
+
+        switch (pType) {
+            case ProjectileType.SMALL_ASTEROID -> {
+                if(shipComponents[p.getY()][p.getX()].getComponent().getConnector(s) == Connector.EMPTY || shipComponents[p.getY()][p.getX()].isShieldProtected()){
+                    return false;
+                }
+            }
+            case ProjectileType.BIG_ASTEROID -> {
+                if(shipComponents[p.getY()][p.getX()].isCannonProtected()){
+                    return false;
+                }
+            }
+            case ProjectileType.SMALL_CANNON -> {
+                if(shipComponents[p.getY()][p.getX()].isShieldProtected()){
+                    return false;
+                }
+            }
+            case ProjectileType.BIG_CANNON ->{
+                break;
+            }
         }
+        
         shipComponents[p.getY()][p.getX()].setComponent(null);
         return true;
     }
@@ -315,7 +337,7 @@ public class Ship {
                 if(c2 == Connector.SINGLE || c2 == Connector.UNIVERSAL) return true;
             }
             case EMPTY ->{
-                if(c2 == Connector.EMPTY) return true;
+                if(c2 == Connector.EMPTY) return true;  //rischio falso positivo
             }
         }
 
@@ -332,7 +354,6 @@ public class Ship {
             }
             else shipComponents[p.getY()][p.getX()].setScanned(true);
         }
-        else return false;
 
         if(p.getY()+1 < level.getBoardY() 
         && !shipComponents[p.getY()+1][p.getX()].isScanned() 
@@ -364,12 +385,36 @@ public class Ship {
         return r1 || r2 || r3 || r4;
     }
 
-    public float getFirePower() {
-        return firePower;
+    public float getFirePower(Graphic g) {
+        float power = 0;
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                if(shipComponents[j][i].getComponent() != null && shipComponents[j][i].getComponent() instanceof Cannon c){
+
+                    if(c.getBatteryRequired() > 0){
+                        if(g.askUser("vuoi utilizzare una batteria per attivare il cannone in posizione: x = " + i + ", y = " + j)) power += c.getFirePower();
+                    }
+                    else power += c.getFirePower();
+                }
+            }
+        }
+        return power;
     }
 
-    public int getMotorPower() {
-        return motorPower;
+    public int getMotorPower(Graphic g) {
+        int power = 0;
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                if(shipComponents[j][i].getComponent() != null && shipComponents[j][i].getComponent() instanceof Engine e){
+
+                    if(e.getBatteryRequired() > 0){
+                        if(g.askUser("vuoi utilizzare una batteria per attivare il cannone in posizione: x = " + i + ", y = " + j)) power += e.getEnginePower();
+                    }
+                    else power += e.getEnginePower();
+                }
+            }
+        }
+        return power;
     }
 
     public int getWaresValue() {
@@ -377,7 +422,32 @@ public class Ship {
     }
 
     public int getVoidConnectors() {
-        return voidConnectors;
+        int connectors = 0;
+        for(int i = 0; i < level.getBoardX(); i++){
+            for(int j = 0; j < level.getBoardY(); j++){
+                if(shipComponents[j][i].getComponent() != null){
+                    connectors += numberOfVoidConnectors(i, j);
+                }
+            }
+        }
+        return  connectors;
+    }
+
+    private int numberOfVoidConnectors(int x, int y){
+        int connectors = 0;
+        if(shipComponents[y][x].getComponent().getConnector(Side.UP) != Connector.EMPTY  && shipComponents[y-1][x].getComponent() == null){
+            connectors++;
+        }
+        if(shipComponents[y][x].getComponent().getConnector(Side.DOWN) != Connector.EMPTY  && shipComponents[y+1][x].getComponent() == null){
+            connectors++;
+        }
+        if(shipComponents[y][x].getComponent().getConnector(Side.LEFT) != Connector.EMPTY  && shipComponents[y][x-1].getComponent() == null){
+            connectors++;
+        }
+        if(shipComponents[y][x].getComponent().getConnector(Side.RIGHT) != Connector.EMPTY  && shipComponents[y][x+1].getComponent() == null){
+            connectors++;
+        }
+        return connectors;
     }
 
     public int getHumansCounter() {
@@ -400,6 +470,6 @@ public class Ship {
     public String toString(){
         return """
                SHIP INFOS:
-               Fire power: """ + this.firePower + "\n" + "Motor power: " + this.motorPower + "\n" + "wares value: " + this.waresValue + "\n" + "Humans: " + this.humansCounter + "\n" + "Batteries: " + this.cellsCounter + "\n";
+               Fire power: """ + this.maxFirePower + "\n" + "Motor power: " + this.maxMotorPower + "\n" + "wares value: " + this.waresValue + "\n" + "Humans: " + this.humansCounter + "\n" + "Batteries: " + this.cellsCounter + "\n";
     }
 }
