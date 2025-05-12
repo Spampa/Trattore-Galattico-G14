@@ -38,6 +38,8 @@ public class ComponentRandomizer {
 		
 		componentSet.addAll(this.generateHousingUnit(17));
 		
+		componentSet.addAll(this.generateShields(8));
+		
 		return componentSet;
 	}
 	
@@ -93,6 +95,14 @@ public class ComponentRandomizer {
 		List<Component> s = new ArrayList<Component>();
 		for(int i = 0; i < max; i++) {
 			s.add(new HousingUnit(connectorsRandomizer.getRandomConnectors()));
+		}
+		return s;
+	}
+	
+	private List<Component> generateShields(int max) {
+		List<Component> s = new ArrayList<Component>();
+		for(int i = 0; i < max; i++) {
+			s.add(new Shield(connectorsRandomizer.getRandomConnectors()));
 		}
 		return s;
 	}

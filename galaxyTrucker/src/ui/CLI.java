@@ -1,6 +1,7 @@
 package ui;
 
 import components.Component;
+import components.enums.Side;
 import components.models.*;
 import components.models.containers.BatteryStorage;
 import components.models.containers.HousingUnit;
@@ -57,55 +58,104 @@ public class CLI implements Graphic{
 	public void printShip(Ship s) {
 		this.printRow();
 		ShipTile[][] board = s.getShipComponets();
-		String out = s.toString() + "\n   ";
+		String out = s.toString() + "\n     ";
 
 		for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
-			out += " "+i+" ";
+			out += "  "+i+"  ";
 		}
 		out += "\n";
 
-		for(int j = 0; j < s.getGameLevel().getBoardY(); j++){
-			for(int i = 0; i < s.getGameLevel().getBoardX(); i++){
-				if(i == 0){
-					out+="\n "+j+" ";
+		for(int y = 0; y < s.getGameLevel().getBoardY(); y++){
+			for(int sideIndex = 0; sideIndex < 3; sideIndex++) {
+				
+				if(sideIndex == 1) {
+					out+="\n  "+y+"  ";
 				}
-				if(!board[j][i].isIsSpace()) out+=getComponentIcon(board[j][i].getComponent());
-				else out+="   ";
+				else {
+					out+="\n     ";
+				}
+				
+				for(int x = 0; x < s.getGameLevel().getBoardX(); x++){
+					if(board[y][x].isIsSpace()){
+						out += "     ";
+					}
+					else if(board[y][x].getComponent() == null) {
+						if(sideIndex == 0) {
+							out += this.printSingleSymbol("+");
+						}
+						else if(sideIndex == 1) {
+							out += printTripleLayer("+", "X", "+");
+						}
+						else {
+							out += this.printSingleSymbol("+");
+						}
+					}
+					else {
+						Component component = board[y][x].getComponent();
+						if(sideIndex == 0) {
+							out += this.printSingleSymbol(Integer.toString(component.getConnector(Side.UP).getNumber()));
+						}
+						else if(sideIndex == 1) {
+							out += printTripleLayer(
+									Integer.toString(component.getConnector(Side.LEFT).getNumber()),
+									this.getComponentIcon(component),
+									Integer.toString( component.getConnector(Side.RIGHT).getNumber())
+								);
+						}
+						else {
+							out += this.printSingleSymbol(Integer.toString(component.getConnector(Side.DOWN).getNumber()));
+						}
+					}
+					
+				}
 			}
 		}
 		
 		System.out.println(out);
 		this.printRow();
 	}
+	
+	//print ship private function
+	private String printSingleSymbol(String symbol) {
+		return "+ " + symbol + " +";
+	}
+	
+	private String printTripleLayer(String leftSymbol, String centerSymbol, String rightSymbol) {
+		return leftSymbol + " " + centerSymbol + " " + rightSymbol;
+	}
 
 	@Override
 	public String getComponentIcon(Component c) {
-		char icon;
+		String icon;
 
 		switch (c) {
 			case Cannon can -> {
-				icon = 'C';
+				icon = "C";
             }
 			case Engine en ->{
-				icon = 'E';
+				icon = "E";
 			}
 			case WareStorage con ->{
-				icon = 'S';
+				icon = "S";
 			}
 			case HousingUnit house ->{
-				if(house.isCore()) icon = 'N';
-				else icon = 'H';
+				if(house.isCore()) icon = "N";
+				else icon = "H";
 			}
 			case BatteryStorage bat ->{
-				icon = 'B';
+				icon = "B";
+			}
+			
+			case Shield shield -> {
+				icon = "O";
 			}
 			case null ->{
-				icon = 'X';
+				icon = "X";
 			}
-			default -> icon = '?';
+			default -> icon = "?";
 		}
 
-		return (" "+icon+" ");
+		return icon;
 	}
 	
 	@Override
