@@ -1,22 +1,24 @@
 package eventCards;
 
-import entities.Player;
-import gameEvents.EventType;
+import entities.*;
+import ui.Graphic;
+import flightBoard.Board;
 
 public abstract class EventCard {
-    private final String name;
-    private final String description;
-    private final EventType type;
+    protected final Board board;
+    protected final Graphic graphic;
+    protected final String name;
+    protected final String description;
 
-    protected EventCard(String name, String description, EventType type) {
+    public EventCard(String name, String description, Board board, Graphic graphic) {
         this.name = name;
         this.description = description;
-        this.type = type;
+        this.board = board;
+        this.graphic = graphic;
     }
 
     public String getName() { return name; }
     public String getDescription() { return description; }
-    public EventType getType() { return type; }
 
-    public abstract void executeEvent(Player[] players);
+    public abstract void executeEvent(Ship ship, Player player);
 }
