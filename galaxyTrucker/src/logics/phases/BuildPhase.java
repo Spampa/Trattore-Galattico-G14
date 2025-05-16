@@ -1,4 +1,6 @@
 package logics.phases;
+import java.util.ArrayList;
+
 import components.Component;
 import components.Rotatable;
 import entities.ComponentPool;
@@ -10,13 +12,13 @@ import ui.Graphic;
 public class BuildPhase extends  Phase{
 	
 	private final ComponentPool pool;
-	private Player players[];
-	private int position;
+	private ArrayList<Player> players;
+	private ArrayList<Player> finishedPlayers;
 
     public BuildPhase(GameLogic game, Graphic graphic){
         super(game, graphic);
         this.pool = new ComponentPool();
-        this.position = 0;
+        finishedPlayers = new ArrayList<Player>();
     }
     
     @Override
@@ -56,29 +58,24 @@ public class BuildPhase extends  Phase{
     		
     		//set endTurn
     		graphic.printShip(player.getPlayerShip());
-    		if(graphic.isBuildFinish()) {
-    			position++;
-    			player.setPosition(position);
+    		if(graphic.askUser("Hai finito di costruire la nave?")) {
+    			finishedPlayers.add(player);
     		}
     	}
     }
 
     @Override
     public void end() {
+    	game.setPlayers(finishedPlayers);
     	graphic.printMessage("Fine fase di costruzione della nave");
     }
     
     private boolean arePlayerFinish() {
-    	for(Player player : players) {
-    		if(player.getPosition() == 0) {
-    			return false;
-    		}
-    	}
-    	return true;
+    	return finishedPlayers.size() == players.size();
     }
     
     private boolean insertComponent(Player player, Component component) {
-		if(graphic.acceptComponentDraw()) {
+		if(graphic.askUser("Vuoi mantenere il componente?")) {
 			this.rotateComponent(component);
 			
 			graphic.printShip(player.getPlayerShip());
@@ -103,7 +100,7 @@ public class BuildPhase extends  Phase{
     	if(!(component instanceof Rotatable)) return;
     	
 		//rotate loop
-		while(graphic.getRotate()) {
+		while(graphic.askUser("Vuoi ruotare il componente?")) {
 			((Rotatable) component).rotate();
 			graphic.printComponent(component);
 		}

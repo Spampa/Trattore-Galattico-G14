@@ -3,6 +3,9 @@ package ui;
 import components.Component;
 import entities.*;
 import eventCards.EventCard;
+import flightBoard.Board;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Graphic {
@@ -19,19 +22,17 @@ public interface Graphic {
 	//initialize phase functions
 	public GameLevel setGameLevel();
 	public int setPlayerCount();
-	public Player[] setPlayers(int playerNumber, GameLevel level);
+	public ArrayList<Player> setPlayers(int playerNumber, GameLevel level);
 	
 	//build phase functions
 	public int drawOrPeekComponent(int poolSize);
 	public void printComponent(Component component);
-	public boolean acceptComponentDraw();
 	public void printDiscardedComponents(List<Component> discardedComponents);
 	public int getDiscardComponentIndex(int size);
-	public boolean isBuildFinish();
-	public boolean getRotate();
 	
 
 	//fly phase functions
 	public void printCard(EventCard c);
-	public void printShipsRecap(Player[] players);
+	public void printShipsRecap(ArrayList<Player> players);
+	public void printBoard(Board board);
 }

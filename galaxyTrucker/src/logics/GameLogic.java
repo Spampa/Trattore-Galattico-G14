@@ -1,12 +1,18 @@
 package logics;
 
+import java.util.ArrayList;
+
 import entities.*;
+import flightBoard.Board;
 import logics.phases.*;
 import ui.Graphic;
 
 public class GameLogic {
-	private Player[] players;
+	//game entitites
+	private ArrayList<Player> players;
 	private GameLevel level;
+	private Board board;
+	
 	private final Phase[] phases = new Phase[4];
 	private int phaseIndex;
 	private boolean playing;
@@ -16,7 +22,6 @@ public class GameLogic {
 		phases[1] = new BuildPhase(this, graphic);
 		phases[2] = new FlyPhase(this, graphic);
 		phases[3] = new EndPhase(this, graphic);
-
 
 		phaseIndex = 0;
 		playing = true;
@@ -39,7 +44,7 @@ public class GameLogic {
 		phases[phaseIndex].start();
 	}
 
-    public void setPlayers(Player[] players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -55,12 +60,20 @@ public class GameLogic {
         this.playing = playing;
     }
 
-    public Player[] getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
     public GameLevel getLevel() {
         return level;
     }
+
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
 
 }

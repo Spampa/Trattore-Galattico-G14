@@ -1,12 +1,14 @@
 package logics.phases;
 
+import java.util.ArrayList;
+
 import entities.GameLevel;
 import entities.Player;
 import logics.GameLogic;
 import ui.Graphic;
 
 public class InitPhase extends  Phase {
-    private Player[] players;
+    private ArrayList<Player> players;
 	private GameLevel level;
 
     public InitPhase(GameLogic game, Graphic graphic){
@@ -34,7 +36,7 @@ public class InitPhase extends  Phase {
 		game.setPlayers(players);
 		game.setLevel(level);
 
-		graphic.printMessage("Fine fase di inizializazione\n" + "Players:" + players.length + " " + "livello partita:" + level);
+		graphic.printMessage("Fine fase di inizializazione\n" + "Players:" + players.size() + " " + "livello partita:" + level);
     }
 
 }

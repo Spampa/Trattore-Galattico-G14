@@ -12,6 +12,10 @@ import entities.Position;
 import entities.Ship;
 import entities.ShipTile;
 import eventCards.EventCard;
+import flightBoard.Board;
+import flightBoard.Space;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -219,13 +223,13 @@ public class CLI implements Graphic{
 	}
 
 	@Override
-	public Player[] setPlayers(int playerCount, GameLevel level) {
-		Player[] players = new Player[playerCount];
+	public ArrayList<Player> setPlayers(int playerCount, GameLevel level) {
+		ArrayList<Player> players = new ArrayList<Player>();
 		for(int i = 0; i < playerCount; i++) {
 			String name;
 			System.out.print("Inserisci il nome del giocatore " + (i+1) + ": ");
 			name = sc.nextLine();
-			players[i] = new Player(name, new Ship(level));
+			players.add(new Player(name, new Ship(level)));
 		}
 		this.clear();
 		return players;
@@ -258,18 +262,6 @@ public class CLI implements Graphic{
 		System.out.println(component);
 		this.printRow();
 	}
-	
-	@Override
-	public boolean acceptComponentDraw() {
-		String choice;
-		do {
-			System.out.print("Vuoi mantenere il componente? (0 No, 1 Si): ");
-			choice = sc.nextLine();
-		}while(!choice.equals("0") && !choice.equals("1"));
-		
-		return choice.equals("1");
-	}
-
 
 	@Override
 	public void printDiscardedComponents(List<Component> discardedComponents) {
@@ -296,30 +288,6 @@ public class CLI implements Graphic{
 		
 		return choice;
 	}
-	
-	@Override
-	public boolean isBuildFinish() {
-		String choice;
-		do {
-			System.out.print("Hai finito si costruire la nave? (0 No, 1 Si): ");
-			choice = sc.nextLine();
-		}while(!choice.equals("0") && !choice.equals("1"));
-		
-		this.clear();
-		return choice.equals("1");
-	}
-	
-	@Override
-	public boolean getRotate() {
-		String choice;
-		do {
-			System.out.print("Vuoi ruotare il componente? (0 No, 1 Si): ");
-			choice = sc.nextLine();
-		}while(!choice.equals("0") && !choice.equals("1"));
-		
-		this.clear();
-		return choice.equals("1");
-	}
 
     @Override
     public void printCard(EventCard c) {
@@ -338,7 +306,7 @@ public class CLI implements Graphic{
 	}
 
 	@Override
-	public void printShipsRecap(Player[] players) {
+	public void printShipsRecap(ArrayList<Player> players) {
         System.out.println("Recap delle navi in volo...");
 		this.printRow();
         for(Player p : players){
@@ -353,10 +321,67 @@ public class CLI implements Graphic{
 		int answer;
 		this.printRow();
 		do { 
-			System.out.println(message + "(NO: 0, SI: 1)\n");
+			System.out.print(message + "(NO: 0, SI: 1): ");
 			answer = Integer.parseInt(sc.nextLine());
 		} while (answer < 0 && answer > 1);
 
 		return answer == 1;
+	}
+	
+	//TODO: optimize
+	public void printBoard(Board board) {
+		int rowSize = board.getNumberOfSpaces() / 2 - 2;
+		
+		
+		for(int i = board.getNumberOfSpaces() - rowSize / 2; i <= board.getNumberOfSpaces() + rowSize / 2; i++) {
+			Space space = board.getSpace(i % board.getNumberOfSpaces());
+			if(space.getPlayer() == null) {
+				System.out.print(" _ ");
+			}
+			else {
+				System.out.print(" ♟️ ");
+				//System.out.print(" ♟️ " + space.getPlayer().getPlayerName() + " ");
+			}
+		}
+		
+		for(int j = 1; j <= 2; j++) {
+			System.out.println();
+			Space space = board.getSpace(board.getNumberOfSpaces() - rowSize / 2 - j);
+			if(space.getPlayer() == null) {
+				System.out.print(" _ ");
+			}
+			else {
+				System.out.print(" ♟️ ");
+				//System.out.print(" ♟️ " + space.getPlayer().getPlayerName() + " ");
+			}
+			
+			for(int i = 0; i < rowSize - 2; i++) {
+				System.out.print("   ");
+			}
+			
+			space = board.getSpace(rowSize / 2 + j);
+			if(space.getPlayer() == null) {
+				System.out.print(" _ ");
+			}
+			else {
+				System.out.print(" ♟️ ");
+				//System.out.print(" ♟️ " + space.getPlayer().getPlayerName() + " ");
+			}
+			System.out.println();
+		}
+		
+		
+		for(int i = board.getNumberOfSpaces() - rowSize / 2 - 3; i >= rowSize / 2  + 3; i--) {
+			Space space = board.getSpace(i % board.getNumberOfSpaces());
+			if(space.getPlayer() == null) {
+				System.out.print(" _ ");
+			}
+			else {
+				System.out.print(" ♟️ ");
+				//System.out.print(" ♟️ " + space.getPlayer().getPlayerName() + " ");
+			}
+		}
+
+		this.printRow();
 	}
 }
