@@ -4,7 +4,7 @@ import components.*;
 import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
-import gameEvents.Actions.ProjectileType;
+import gameEvents.enums.ProjectileType;
 import items.*;
 import ui.Graphic;
 
@@ -464,6 +464,10 @@ public class Ship {
 
     public GameLevel getGameLevel(){
         return level;
+    }
+    
+    public Component getComponent(Position position) {
+    	return shipComponents[position.getY()][position.getX()].getComponent();
     }
 
     @Override

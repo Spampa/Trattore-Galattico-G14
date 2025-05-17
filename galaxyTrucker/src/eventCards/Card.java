@@ -4,13 +4,13 @@ import entities.*;
 import ui.Graphic;
 import flightBoard.Board;
 
-public abstract class EventCard {
+public abstract class Card {
     protected final Board board;
     protected final Graphic graphic;
     protected final String name;
     protected final String description;
 
-    public EventCard(String name, String description, Board board, Graphic graphic) {
+    public Card(String name, String description, Board board, Graphic graphic) {
         this.name = name;
         this.description = description;
         this.board = board;

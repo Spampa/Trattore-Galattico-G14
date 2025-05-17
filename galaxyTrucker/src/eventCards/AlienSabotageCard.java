@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 import flightBoard.Board;
 
-public class AlienSabotageCard extends EventCard {
+public class AlienSabotageCard extends Card {
     public AlienSabotageCard(Board board, Graphic graphic) {
         super("Sabotaggio Alieno", 
               "Gli alieni a bordo sabotano un componente casuale!", 

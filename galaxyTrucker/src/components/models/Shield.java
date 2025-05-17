@@ -1,11 +1,12 @@
 package components.models;
 
+import components.BatteryComponent;
 import components.Component;
 import components.Connector;
 import components.Rotatable;
 import components.enums.Side;
 
-public class Shield extends Component implements Rotatable {
+public class Shield extends Component implements Rotatable, BatteryComponent {
 	
 	private final int batteryRequired;
 	

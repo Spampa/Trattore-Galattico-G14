@@ -1,39 +1,35 @@
 package logics.phases;
 
-import java.util.ArrayList;
-
-import entities.*;
 import eventCards.Deck;
-import eventCards.EventCard;
+import eventCards.Card;
 import flightBoard.Board;
 import logics.GameLogic;
 import ui.Graphic;
 
 public class FlyPhase extends Phase{
 
-    private ArrayList<Player> players;
     private Deck cardsDeck;
     private Board board;
 
     public FlyPhase(GameLogic game, Graphic graphic){
         super(game, graphic);
-        cardsDeck = new Deck();
     }
     
     @Override
     public void start() {
-        players = game.getPlayers();
         game.setBoard(board);
         board = new Board(game.getPlayers(), game.getLevel());
         
+        cardsDeck = new Deck(board, graphic);
+        
         graphic.printAlert("Inizio fase di volo!");
-        graphic.printShipsRecap(players);
+        graphic.printShipsRecap(board.getPlayers());
     }
 
     @Override
     public void update() {
     	graphic.printBoard(board);
-        EventCard currentCard = this.cardsDeck.drawCard();
+        Card currentCard = this.cardsDeck.drawCard();
         //if(currentCard != null) game.switchPhase();
         
         graphic.printCard(currentCard);
@@ -44,7 +40,6 @@ public class FlyPhase extends Phase{
     @Override
     public void end() {
         graphic.printAlert("Fine fase di volo!");
-        graphic.printShipsRecap(players);
     }
     
 }

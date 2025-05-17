@@ -2,13 +2,14 @@ package eventCards;
 
 import ui.Graphic;
 import entities.*;
+import events.Shoot;
 import components.enums.Side;
-import gameEvents.Actions.ProjectileType;
-import gameEvents.Actions.Shoot;
+import gameEvents.enums.ProjectileType;
+
 import java.util.Random;
 import flightBoard.Board;
 
-public class SlaverShipCard extends EventCard {
+public class SlaverShipCard extends Card {
     public SlaverShipCard(Board board, Graphic graphic) {
         super(
             "Nave Schiavista", 

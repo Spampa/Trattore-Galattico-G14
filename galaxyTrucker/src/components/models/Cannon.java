@@ -1,12 +1,13 @@
 package components.models;
 
+import components.BatteryComponent;
 import components.Component;
 import components.Connector;
 import components.Rotatable;
 import components.enums.MountType;
 import components.enums.Side;
 
-public class Cannon extends Component implements Rotatable {
+public class Cannon extends Component implements Rotatable, BatteryComponent {
 	private final MountType type;
 	private double firePower;
 	private final int batteryRequired;

@@ -37,6 +37,10 @@ public abstract class Container<T extends Item> extends Component implements Rot
 	public List<T> getContent() {
 		return content;
 	}
+	
+	public int getMaxCapacity() {
+		return maxCapacity;
+	}
 
 	@Override
 	public void rotate() {

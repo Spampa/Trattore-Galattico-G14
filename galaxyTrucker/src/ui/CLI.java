@@ -11,7 +11,7 @@ import entities.Player;
 import entities.Position;
 import entities.Ship;
 import entities.ShipTile;
-import eventCards.EventCard;
+import eventCards.Card;
 import flightBoard.Board;
 import flightBoard.Space;
 
@@ -163,7 +163,7 @@ public class CLI implements Graphic{
 	}
 	
 	@Override
-	public Position setComponentPosition() {
+	public Position askComponentPosition() {
 		Position position = new Position();
 		
 		System.out.print("Inserire posizione x del componente sulla nave: ");
@@ -290,7 +290,7 @@ public class CLI implements Graphic{
 	}
 
     @Override
-    public void printCard(EventCard c) {
+    public void printCard(Card c) {
         this.printRow();
 		System.out.println("CARTA EVENTO PESCATA: \n");
 		System.out.println("Nome: \u001B[33m"+ c.getName() + "\u001B[0m \n");

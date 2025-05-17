@@ -9,7 +9,7 @@ import entities.Player;
 public class Board {
 	public final int numberOfSpaces;  					//flight board has 18 spaces
 	private Space[] spaces;
-	private ArrayList<Player> players;
+	private final ArrayList<Player> players;
 	
 	public Board(ArrayList<Player> players, GameLevel level) {
 		this.numberOfSpaces = level.getBoardSpaces();
@@ -92,6 +92,10 @@ public class Board {
 	public Player getPlayerByRank(int rank) {
 		if(rank < 0 || rank >= players.size()) return null; //throw error
 		return players.get(rank);
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return this.players;
 	}
 	
 	public int getNumberOfSpaces() {

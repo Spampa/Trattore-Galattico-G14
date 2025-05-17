@@ -1,14 +1,14 @@
 package eventCards;
 
 import entities.*;
+import events.Shoot;
 import components.enums.Side;
-import gameEvents.Actions.ProjectileType;
-import gameEvents.Actions.Shoot;
+import gameEvents.enums.ProjectileType;
 import ui.Graphic;
 import java.util.Random;
 import flightBoard.Board;
 
-public class AsteroidFieldCard extends EventCard {
+public class AsteroidFieldCard extends Card {
     private static final int BASE_DAMAGE = 2;
     private static final int ENGINE_SAFE_THRESHOLD = 3;
     

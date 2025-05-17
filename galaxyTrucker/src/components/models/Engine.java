@@ -1,11 +1,12 @@
 package components.models;
 
+import components.BatteryComponent;
 import components.Component;
 import components.Connector;
 import components.enums.MountType;
 import components.enums.Side;
 
-public class Engine extends Component {
+public class Engine extends Component implements BatteryComponent {
 	private final MountType type;
 	private final int batteryRequired;
 	

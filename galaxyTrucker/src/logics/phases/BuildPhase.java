@@ -79,7 +79,7 @@ public class BuildPhase extends  Phase{
 			this.rotateComponent(component);
 			
 			graphic.printShip(player.getPlayerShip());
-			Position position = graphic.setComponentPosition();
+			Position position = graphic.askComponentPosition();
 			
 			boolean isSet = player.getPlayerShip().setComponet(component, position);
 			if(isSet) {

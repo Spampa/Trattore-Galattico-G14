@@ -10,6 +10,7 @@ public class HousingUnit extends Container<Spaceman> {
 	public HousingUnit(Connector[] connectors) {
 		super(SIZE, connectors);
 		this.core = false;
+		this.fill();
 	}
 
 	public HousingUnit(Connector[] connectors, boolean core) {
@@ -19,6 +20,12 @@ public class HousingUnit extends Container<Spaceman> {
 	
 	public boolean isCore() {
 		return core;
+	}
+	
+	private void fill() {
+		for(int i = 0; i < super.getMaxCapacity(); i++) {
+			super.add(new Spaceman());
+		}
 	}
 	
 	@Override

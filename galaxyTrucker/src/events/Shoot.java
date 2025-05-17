@@ -1,20 +1,29 @@
-package gameEvents.Actions;
+package events;
 
 import components.enums.Side;
+import entities.Dices;
+import entities.Player;
 import entities.Position;
 import entities.Ship;
+import gameEvents.enums.ProjectileType;
+import ui.Graphic;
 
-public class Shoot extends Action {
+public class Shoot extends Event {
 
     private final Side direction;
     private final ProjectileType type;
-    private final int comingTile;
+    private final Player player;
+    
+    private final Dices dices;
 
-    public Shoot(Side direction, ProjectileType type, int comingTile){
-        super("Shoot");
+    public Shoot(Graphic graphic, Player player, Side direction, ProjectileType type ){
+    	super(graphic);
+    	dices = new Dices();
+    	
+    	this.player = player;
         this.direction = direction;
         this.type = type;
-        this.comingTile = comingTile;
+        
     }
 
     public Side getDirection() {
@@ -24,51 +33,47 @@ public class Shoot extends Action {
     public ProjectileType getType() {
         return type;
     }
-
-    public int getComingTile() {
-        return comingTile;
-    }
-
-    public boolean getHit(Ship s){
+    
+    @Override
+    public void start(){
+    	Ship s = player.getPlayerShip();
+    	int comingTile = dices.roll();
         switch (direction) {
             case Side.UP -> {
                 for(int i = 0; i < s.getGameLevel().getBoardY(); i++){     
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){
-                        return s.breakComponent(new Position(comingTile, i), type, direction);
+                        s.breakComponent(new Position(comingTile, i), type, direction);
+                        break;
                     }
                 }
-                return false;
+                
             }
 
             case Side.DOWN -> {
                 for(int i = (s.getGameLevel().getBoardY()-1); i >= 0; i--){
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){   
-                        return s.breakComponent(new Position(comingTile, i), type, direction);
+                        s.breakComponent(new Position(comingTile, i), type, direction);
+                        break;
                     }
                 }
-                return false;
             }
 
             case Side.LEFT -> {
                 for(int i = 0; i < s.getGameLevel().getBoardX(); i++){  
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
-                        return s.breakComponent(new Position(i , comingTile), type, direction);
+                        s.breakComponent(new Position(i , comingTile), type, direction);
+                        break;
                     }
                 }
-                return false; 
             }
 
             case Side.RIGHT -> {
                 for(int i = (s.getGameLevel().getBoardX()-1); i >= 0 ; i--){  
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
-                        return s.breakComponent(new Position(i, comingTile), type, direction);
+                        s.breakComponent(new Position(i, comingTile), type, direction);
+                        break;
                     }
                 }
-                return false; 
-            }
-
-            default -> {
-                return false;
             }
 
         }

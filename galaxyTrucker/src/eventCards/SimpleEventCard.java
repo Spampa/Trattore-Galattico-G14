@@ -1,9 +1,9 @@
 package eventCards;
 
 import entities.Player;
-import gameEvents.EventType;
+import events.EventType;
 
-public class SimpleEventCard extends EventCard {
+public class SimpleEventCard extends Card {
     public SimpleEventCard(String name, String description, EventType type) {
         super(name, description, type);
     }

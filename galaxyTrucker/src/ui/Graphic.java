@@ -2,7 +2,7 @@ package ui;
 
 import components.Component;
 import entities.*;
-import eventCards.EventCard;
+import eventCards.Card;
 import flightBoard.Board;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public interface Graphic {
 	public void printMessage(String message);
 	public void printShip(Ship s);
 	public String getComponentIcon(Component c);
-	public Position setComponentPosition();
+	public Position askComponentPosition();
 	public void waitForUser(String message);
 	public boolean askUser(String message);
 	
@@ -32,7 +32,7 @@ public interface Graphic {
 	
 
 	//fly phase functions
-	public void printCard(EventCard c);
+	public void printCard(Card c);
 	public void printShipsRecap(ArrayList<Player> players);
 	public void printBoard(Board board);
 }

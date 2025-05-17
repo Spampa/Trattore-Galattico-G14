@@ -2,10 +2,10 @@ package eventCards;
 
 import components.enums.Side;
 import entities.Player;
-import gameEvents.Actions.ProjectileType;
-import gameEvents.EventType;
+import events.EventType;
+import gameEvents.enums.ProjectileType;
 
-public class PirateAttackCard extends EventCard {
+public class PirateAttackCard extends Card {
     private final int projectileCount;
     private final Side direction;
 
