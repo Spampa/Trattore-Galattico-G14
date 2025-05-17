@@ -77,11 +77,15 @@ public abstract class Title {
 		return this.player;
 	}
 	
+	public void setTitleHolder(Player player) {
+		this.player=player;
+	}
+	
 	public static int findMax(int counters[], Player[] players) {
 		int max_i=-1;
 		int max=0;
 		for(int i=0; i<counters.length; i++) {
-			if(counters[i]>max||(counters[i]==max && (players[i].getPosition()>players[max_i].getPosition()))) {
+			if(counters[i]>max||(counters[i]==max &&  (players[i].compareTo(players[max_i])>0)/*(players[i].getPosition()>players[max_i].getPosition())*/)) {
 				max=counters[i];
 				max_i=i;				
 			}
@@ -116,4 +120,5 @@ public abstract class Title {
 
         return false;
     }
+
 }

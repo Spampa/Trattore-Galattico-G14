@@ -27,8 +27,8 @@ public class TitleCorridorist extends Title {
 			int count=0;
 			ArrayList<ShipTile> wantedTiles=new ArrayList<ShipTile>();
 			//
-			if(players[i].isInGame(players)) {			//TODO da rivedere in Player
-				Ship s=players[i].getPlayerShip();
+			if(players[i].checkPlayer()/*isInGame(players)*/) {			//TODO da rivedere in Player
+				Ship s=players[i].getShip();
 				ShipTile[][] sts=s.getShipComponets();
 				for(int j = 0; j < s.getGameLevel().getBoardY(); j++) {
 					for(int k = 0; k < s.getGameLevel().getBoardX(); k++) {
