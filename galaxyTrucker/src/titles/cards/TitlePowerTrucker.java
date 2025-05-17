@@ -3,7 +3,7 @@ package titles.cards;
 import components.Component;
 import components.models.*;
 import entities.Player;
-import entities.Ship;
+import entities.ship.Ship;
 import titles.Title;
 import titles.TitleTypes;
 

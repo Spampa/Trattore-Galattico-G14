@@ -2,12 +2,13 @@ package eventCards;
 
 import ui.Graphic;
 import entities.*;
+import entities.board.Board;
+import entities.ship.Ship;
 import events.Shoot;
 import components.enums.Side;
 import gameEvents.enums.ProjectileType;
 
 import java.util.Random;
-import flightBoard.Board;
 
 public class SlaverShipCard extends Card {
     public SlaverShipCard(Board board, Graphic graphic) {

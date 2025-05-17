@@ -1,4 +1,4 @@
-package flightBoard;
+package entities.board;
 
 import entities.Player;
 

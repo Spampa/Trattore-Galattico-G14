@@ -1,12 +1,13 @@
 package eventCards;
 
 import entities.*;
+import entities.board.Board;
+import entities.ship.Ship;
 import components.Component;
 import ui.Graphic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import flightBoard.Board;
 
 public class AlienSabotageCard extends Card {
     public AlienSabotageCard(Board board, Graphic graphic) {

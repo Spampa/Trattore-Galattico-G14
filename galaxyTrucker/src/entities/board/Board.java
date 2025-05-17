@@ -1,4 +1,4 @@
-package flightBoard;
+package entities.board;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -3,7 +3,7 @@ package logics;
 import java.util.ArrayList;
 
 import entities.*;
-import flightBoard.Board;
+import entities.board.Board;
 import logics.phases.*;
 import ui.Graphic;
 

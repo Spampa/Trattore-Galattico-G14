@@ -1,8 +1,8 @@
 package logics.phases;
 
 import eventCards.Deck;
+import entities.board.Board;
 import eventCards.Card;
-import flightBoard.Board;
 import logics.GameLogic;
 import ui.Graphic;
 

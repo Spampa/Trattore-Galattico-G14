@@ -1,7 +1,7 @@
 package titles.cards;
 
 import entities.Player;
-import entities.Ship;
+import entities.ship.Ship;
 import titles.Title;
 import titles.TitleTypes;
 

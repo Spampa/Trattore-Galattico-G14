@@ -1,7 +1,8 @@
 package eventCards;
 
 import entities.*;
-import flightBoard.Board;
+import entities.board.Board;
+import entities.ship.Ship;
 import ui.Graphic;
 import java.util.List;
 

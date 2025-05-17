@@ -1,11 +1,14 @@
-package entities;
+package entities.ship;
 
 import components.*;
 import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
+import entities.GameLevel;
+import entities.Position;
 import gameEvents.enums.ProjectileType;
 import items.*;
+import items.Ware;
 import ui.Graphic;
 
 public class Ship {

@@ -1,23 +1,25 @@
 package entities;
 
+import entities.ship.Ship;
+
 public class Player implements Comparable<Player> {
 
-    private final Ship playerShip;
-    private final String playerName;
+    private final Ship ship;
+    private final String name;
 	private int moves;
 
-    public Player(String playerName, Ship playerShip) {
-        this.playerShip = playerShip;
-        this.playerName = playerName;
+    public Player(String name, Ship ship) {
+        this.ship = ship;
+        this.name = name;
         this.moves = 0;
     }
 
-    public Ship getPlayerShip() {
-        return playerShip;
+    public Ship getShip() {
+        return ship;
     }
 
     public boolean checkPlayer() {
-        return playerShip.isPlayable();
+        return ship.isPlayable();
     }
     
     public void setMoves(int moves) {
@@ -32,8 +34,8 @@ public class Player implements Comparable<Player> {
 		return this.moves;
 	}
 
-    public String getPlayerName() {
-        return playerName;
+    public String getName() {
+        return name;
     }
 
 	@Override
@@ -45,7 +47,7 @@ public class Player implements Comparable<Player> {
 	
 	@Override
 	public String toString() {
-		return playerName + ", moves: " + moves;
+		return name + ", moves: " + moves;
 	}
 }
 

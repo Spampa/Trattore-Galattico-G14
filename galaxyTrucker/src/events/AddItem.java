@@ -4,7 +4,7 @@ import components.Component;
 import components.models.containers.*;
 import entities.Player;
 import entities.Position;
-import entities.Ship;
+import entities.ship.Ship;
 import items.Battery;
 import items.*;
 import ui.Graphic;
@@ -28,7 +28,7 @@ public class AddItem extends Event {
 				do {
 					graphic.printMessage("Inserisci posizione del contenitore di " + item.getName());
 					position = graphic.askComponentPosition();
-				}while(!isItemAdded(item, position, player.getPlayerShip()));
+				}while(!this.isItemAdded(item, position, player.getShip()));
 
 			}
 		}

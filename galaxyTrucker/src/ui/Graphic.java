@@ -2,8 +2,9 @@ package ui;
 
 import components.Component;
 import entities.*;
+import entities.board.Board;
+import entities.ship.Ship;
 import eventCards.Card;
-import flightBoard.Board;
 
 import java.util.ArrayList;
 import java.util.List;

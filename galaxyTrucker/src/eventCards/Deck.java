@@ -3,7 +3,8 @@ package eventCards;
 import ui.Graphic;
 import java.util.Collections;
 import java.util.Stack;
-import flightBoard.Board;
+
+import entities.board.Board;
 
 public class Deck {
     private final Stack<Card> cards;

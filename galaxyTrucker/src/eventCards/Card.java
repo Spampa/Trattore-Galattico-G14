@@ -1,8 +1,9 @@
 package eventCards;
 
 import entities.*;
+import entities.board.Board;
+import entities.ship.Ship;
 import ui.Graphic;
-import flightBoard.Board;
 
 public abstract class Card {
     protected final Board board;

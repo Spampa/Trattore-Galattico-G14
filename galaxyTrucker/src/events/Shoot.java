@@ -4,7 +4,7 @@ import components.enums.Side;
 import entities.Dices;
 import entities.Player;
 import entities.Position;
-import entities.Ship;
+import entities.ship.Ship;
 import gameEvents.enums.ProjectileType;
 import ui.Graphic;
 
@@ -36,7 +36,7 @@ public class Shoot extends Event {
     
     @Override
     public void start(){
-    	Ship s = player.getPlayerShip();
+    	Ship s = player.getShip();
     	int comingTile = dices.roll();
         switch (direction) {
             case Side.UP -> {

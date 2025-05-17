@@ -6,7 +6,7 @@ import components.models.containers.HousingUnit;
 import components.models.containers.WareStorage;
 import entities.Player;
 import entities.Position;
-import entities.Ship;
+import entities.ship.Ship;
 import items.Battery;
 import items.Item;
 import items.Spaceman;
@@ -31,7 +31,7 @@ public class RemoveItem extends Event {
 			do {
 				graphic.printMessage("Inserisci posizione del contenitore da cui rimuovere: " + item.getName());
 				position = graphic.askComponentPosition();
-			}while(!isItemRemoved(item, position, player.getPlayerShip()));
+			}while(!this.isItemRemoved(item, position, player.getShip()));
 		}
 	}
 	

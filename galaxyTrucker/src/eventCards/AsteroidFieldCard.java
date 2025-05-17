@@ -1,12 +1,13 @@
 package eventCards;
 
 import entities.*;
+import entities.board.Board;
+import entities.ship.Ship;
 import events.Shoot;
 import components.enums.Side;
 import gameEvents.enums.ProjectileType;
 import ui.Graphic;
 import java.util.Random;
-import flightBoard.Board;
 
 public class AsteroidFieldCard extends Card {
     private static final int BASE_DAMAGE = 2;

@@ -9,11 +9,11 @@ import components.models.containers.WareStorage;
 import entities.GameLevel;
 import entities.Player;
 import entities.Position;
-import entities.Ship;
-import entities.ShipTile;
+import entities.board.Board;
+import entities.board.Space;
+import entities.ship.Ship;
+import entities.ship.ShipTile;
 import eventCards.Card;
-import flightBoard.Board;
-import flightBoard.Space;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -310,8 +310,8 @@ public class CLI implements Graphic{
         System.out.println("Recap delle navi in volo...");
 		this.printRow();
         for(Player p : players){
-            System.out.println(p.getPlayerName() + " la tua nave è:");
-            this.printShip(p.getPlayerShip());
+            System.out.println(p.getName() + " la tua nave è:");
+            this.printShip(p.getShip());
         }
         this.waitForUser("premere un tasto per continuare...");
 	}

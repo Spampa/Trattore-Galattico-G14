@@ -8,8 +8,8 @@ import components.enums.Side;
 import entities.GameLevel;
 import entities.Player;
 import entities.Position;
-import entities.Ship;
-import entities.ShipTile;
+import entities.ship.Ship;
+import entities.ship.ShipTile;
 import titles.Title;
 import titles.TitleTypes;
 

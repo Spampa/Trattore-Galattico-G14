@@ -4,7 +4,7 @@ import components.Component;
 import components.enums.Side;
 import components.models.containers.HousingUnit;
 import entities.Player;
-import entities.Ship;
+import entities.ship.Ship;
 import titles.Title;
 import titles.TitleTypes;
 
