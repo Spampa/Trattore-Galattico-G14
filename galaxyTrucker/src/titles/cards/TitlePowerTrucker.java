@@ -20,12 +20,12 @@ public class TitlePowerTrucker extends Title {
 		for(int i=0; i<players.length; i++) {
 			int count=0;
 			//
-			if(players[i].isInGame(players)) {			//TODO da rivedere in Player
-				Ship s=players[i].getPlayerShip();
+			if(players[i].checkPlayer()) {			//TODO da rivedere in Player
+				Ship s=players[i].getShip();
 				for(int j = 0; j < s.getGameLevel().getBoardY(); j++) {
 					for(int k = 0; k < s.getGameLevel().getBoardX(); k++) {
 						Component c=s.getShipComponets()[j][k].getComponent();
-						if(c instanceof Engine || c instanceof Cannon /*|| c instanceof Shield*/) {	
+						if(c instanceof Engine || c instanceof Cannon || c instanceof Shield) {	
 							count++;
 						}	
 					}
