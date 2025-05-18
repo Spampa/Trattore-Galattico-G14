@@ -19,6 +19,7 @@ public interface Graphic {
 	public Position askComponentPosition();
 	public void waitForUser(String message);
 	public boolean askUser(String message);
+	public int askIntUser(String message, int minValue, int maxValue);
 	
 	//initialize phase functions
 	public GameLevel setGameLevel();

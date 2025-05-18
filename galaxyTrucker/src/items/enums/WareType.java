@@ -24,4 +24,5 @@ public enum WareType {
 	public boolean isCommon() {
 		return common;
 	}
+	
 }

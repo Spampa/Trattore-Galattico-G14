@@ -6,7 +6,7 @@ import entities.ship.Ship;
 import ui.Graphic;
 import java.util.List;
 
-public class AbandonedStationCard extends EventCard {
+public class AbandonedStationCard extends Card {
     private static final int REQUIRED_HUMANS = 5;
     private static final int REQUIRED_ALIENS = 5;
     private static final int DAYS_LOST = 3;

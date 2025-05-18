@@ -35,7 +35,7 @@ public class BuildPhase extends  Phase{
     	}
     	
     	for(Player player : players) {
-    		graphic.printMessage("Giocatore \u001B[34m" + player.getPlayerName() + "\u001B[0m tocca a te!");
+    		graphic.printMessage("Giocatore \u001B[34m" + player.getName() + "\u001B[0m tocca a te!");
     		int choice = graphic.drawOrPeekComponent(pool.getDiscardedComponents().size());
     		
     		if(choice == 0) { //draw component
@@ -57,7 +57,7 @@ public class BuildPhase extends  Phase{
     		}
     		
     		//set endTurn
-    		graphic.printShip(player.getPlayerShip());
+    		graphic.printShip(player.getShip());
     		if(graphic.askUser("Hai finito di costruire la nave?")) {
     			finishedPlayers.add(player);
     		}
@@ -78,10 +78,10 @@ public class BuildPhase extends  Phase{
 		if(graphic.askUser("Vuoi mantenere il componente?")) {
 			this.rotateComponent(component);
 			
-			graphic.printShip(player.getPlayerShip());
+			graphic.printShip(player.getShip());
 			Position position = graphic.askComponentPosition();
 			
-			boolean isSet = player.getPlayerShip().setComponet(component, position);
+			boolean isSet = player.getShip().setComponet(component, position);
 			if(isSet) {
 				graphic.printMessage("\u001B[32mInserimento corretto\u001B[0m");
 			}

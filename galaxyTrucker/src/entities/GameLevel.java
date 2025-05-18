@@ -30,4 +30,26 @@ public enum GameLevel {
 	public int getBoardSpaces() {
 		return boardSpaces;
 	}
+	
+	public static GameLevel intToLevel(int value) {
+		switch(value) {
+			case 1: return I;
+			case 2: return II;
+			case 3: return III;
+			default: return null;
+		}
+	}
+	
+	public static GameLevel stringToLevel(String value) {
+		if(value.equals("I")) {
+			return I;
+		}
+		else if(value.equals("IÍ")) {
+			return II;
+		}
+		else if(value.equals("III")) {
+			return III;
+		}
+		return null;
+	}
 }

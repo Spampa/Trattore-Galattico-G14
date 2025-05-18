@@ -28,10 +28,16 @@ public class RemoveItem extends Event {
 	public void start() {
 		for(Item item: items) {
 			Position position;
+			boolean loop = true;
 			do {
 				graphic.printMessage("Inserisci posizione del contenitore da cui rimuovere: " + item.getName());
 				position = graphic.askComponentPosition();
-			}while(!this.isItemRemoved(item, position, player.getShip()));
+				
+				loop = !this.isItemRemoved(item, position, player.getShip());
+				if(loop) {
+					graphic.printAlert("Il componente non possiede " + item.getName() + " da essere rimossi!");
+				}
+			}while(loop);
 		}
 	}
 	

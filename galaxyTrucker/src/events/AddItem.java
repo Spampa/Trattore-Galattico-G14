@@ -25,10 +25,16 @@ public class AddItem extends Event {
 		for(Item item: items) {
 			if(graphic.askUser("Vuoi aggiungere la merce " + item.getName() + " alla tua nave?")) {
 				Position position;
+				boolean loop = true;
 				do {
 					graphic.printMessage("Inserisci posizione del contenitore di " + item.getName());
 					position = graphic.askComponentPosition();
-				}while(!this.isItemAdded(item, position, player.getShip()));
+					
+					loop = !this.isItemAdded(item, position, player.getShip());
+					if(loop) {
+						graphic.printAlert("Il componente non puo' contenere " + item.getName());
+					}
+				}while(loop);
 
 			}
 		}

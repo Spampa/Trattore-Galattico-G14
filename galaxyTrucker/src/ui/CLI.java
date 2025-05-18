@@ -175,6 +175,22 @@ public class CLI implements Graphic{
 		return position;
 	}
 	
+	@Override
+	public int askIntUser(String message, int minValue, int maxValue) {
+		int answer;
+		
+		do {
+			System.out.print(message + "(" + minValue + "-" + maxValue + "):");
+			
+			answer = Integer.parseInt(sc.nextLine());
+			
+			if(minValue < 1 || maxValue > 3) this.printAlert("Sono accetati solo valori compresi tra " + minValue + " e " + maxValue + "!");
+			
+		}while(answer < minValue || answer > maxValue);
+		
+		return answer;
+	}
+	
 	//initialize game functions
 	@Override
 	public GameLevel setGameLevel() {
@@ -295,6 +311,8 @@ public class CLI implements Graphic{
 		System.out.println("CARTA EVENTO PESCATA: \n");
 		System.out.println("Nome: \u001B[33m"+ c.getName() + "\u001B[0m \n");
 		System.out.println("Descrizione: " + c.getDescription()+ "\n");
+		System.out.println("Livello: " + c.getLevel());
+		System.out.println("Giorni di Volo: " + c.getFlyDays());
 		this.waitForUser("premere un tasto per iniziare l'evento...");
     }
 

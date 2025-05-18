@@ -1,10 +1,12 @@
 package logics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import entities.*;
 import entities.board.Board;
 import logics.phases.*;
+import saveload.SaveLoadManager;
 import ui.Graphic;
 
 public class GameLogic {
@@ -16,8 +18,13 @@ public class GameLogic {
 	private final Phase[] phases = new Phase[4];
 	private int phaseIndex;
 	private boolean playing;
+	
+	private SaveLoadManager slm;
+	
+	private final Graphic graphic;
 
 	public GameLogic(Graphic graphic){
+		this.graphic = graphic;
 		phases[0] = new InitPhase(this, graphic);
 		phases[1] = new BuildPhase(this, graphic);
 		phases[2] = new FlyPhase(this, graphic);
@@ -25,15 +32,32 @@ public class GameLogic {
 
 		phaseIndex = 0;
 		playing = true;
+		
+		try {
+			slm = new SaveLoadManager(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void  play() {
-		//TODO inizializzazione partita, montaggio nave, svolgimento partita, calcolo punteggi
+	public void play() {
+		if(!slm.isVoid()) {
+			if(graphic.askUser("Caricare partita precedente?")) {
+				slm.loadGame();
+			}
+		}
 		
 		phases[phaseIndex].start();
 
 		while(playing) {
 			phases[phaseIndex].update();
+			try {
+				slm.saveGame();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -51,6 +75,14 @@ public class GameLogic {
     public void setLevel(GameLevel level) {
         this.level = level;
     }
+    
+    public void setPhaseIndex(int phaseIndex) {
+    	this.phaseIndex = phaseIndex;
+    }
+    
+	public int getPhaseIndex() {
+		return phaseIndex;
+	}
 
     public boolean isPlaying() {
         return playing;
