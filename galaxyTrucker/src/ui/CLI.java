@@ -245,7 +245,7 @@ public class CLI implements Graphic{
 			String name;
 			System.out.print("Inserisci il nome del giocatore " + (i+1) + ": ");
 			name = sc.nextLine();
-			players.add(new Player(name, new Ship(level)));
+			players.add(new Player(name, new Ship(level, this)));
 		}
 		this.clear();
 		return players;

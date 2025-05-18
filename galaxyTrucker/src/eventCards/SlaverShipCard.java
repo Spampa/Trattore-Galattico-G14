@@ -1,40 +1,33 @@
 package eventCards;
 
-import ui.Graphic;
 import entities.*;
 import entities.board.Board;
-import entities.ship.Ship;
-import events.Shoot;
-import components.enums.Side;
-import gameEvents.enums.ProjectileType;
-
-import java.util.Random;
+import ui.Graphic;
 
 public class SlaverShipCard extends Card {
-    public SlaverShipCard(Board board, Graphic graphic) {
-        super(
+    public SlaverShipCard(GameLevel level, Graphic graphic) {
+        super(graphic,
             "Nave Schiavista", 
             "Perdi 1 equipaggio, puoi contrattattaccare.", 
-            board, graphic
-        );
+            level);
     }
 
      @Override
-     public void executeEvent(Ship ship, Player player) {
+     public void execute(Board b) {
          graphic.printAlert("Nave attacca! perso 1 equipaggio!");
          //setter ship(ship.getHumansCounter() - 1);
 
-         if (ship.getFirePower() > 0 /*&& graphic.askUser("Vuoi sparare?") non ho idea del perchè mi dia errore */) {
-             boolean success = new Random().nextBoolean();
-             if (success) {
-                 new Shoot(Side.RIGHT, ProjectileType.BIG_CANNON, 
-                          new Random().nextInt(ship.getGameLevel().getBoardY()))
-                     .getHit(ship);
-                 graphic.printAlert("Colpito! La nave fugge.");
-             } else {
-                //  setter ship(ship.getHumansCounter() - 1);
-                //  metodo per far tornare indietro il player(player, 1);
-             }
-         }
+        //  if (ship.getFirePower() > 0 /*&& graphic.askUser("Vuoi sparare?") non ho idea del perchè mi dia errore */) {
+        //      boolean success = new Random().nextBoolean();
+        //      if (success) {
+        //          new Shoot(Side.RIGHT, ProjectileType.BIG_CANNON, 
+        //                   new Random().nextInt(ship.getGameLevel().getBoardY()))
+        //              .getHit(ship);
+        //          graphic.printAlert("Colpito! La nave fugge.");
+        //      } else {
+        //         //  setter ship(ship.getHumansCounter() - 1);
+        //         //  metodo per far tornare indietro il player(player, 1);
+        //      }
+        //  }
      }
 }

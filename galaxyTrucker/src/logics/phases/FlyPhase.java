@@ -1,8 +1,8 @@
 package logics.phases;
 
-import eventCards.Deck;
 import entities.board.Board;
 import eventCards.Card;
+import eventCards.Deck;
 import logics.GameLogic;
 import ui.Graphic;
 
@@ -20,7 +20,7 @@ public class FlyPhase extends Phase{
         game.setBoard(board);
         board = new Board(game.getPlayers(), game.getLevel());
         
-        cardsDeck = new Deck(board, graphic);
+        cardsDeck = new Deck(game.getLevel(), graphic);
         
         graphic.printAlert("Inizio fase di volo!");
         graphic.printShipsRecap(board.getPlayers());
@@ -30,11 +30,11 @@ public class FlyPhase extends Phase{
     public void update() {
     	graphic.printBoard(board);
         Card currentCard = this.cardsDeck.drawCard();
-        //if(currentCard != null) game.switchPhase();
-        
+
+        if(currentCard == null) game.switchPhase();
+
         graphic.printCard(currentCard);
-        //currentCard.executeEvent(players); 
-        currentCard = this.cardsDeck.drawCard();
+        //currentCard.executeEvent(players, graphic, board); 
     }
 
     @Override

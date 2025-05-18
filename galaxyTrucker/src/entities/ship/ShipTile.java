@@ -41,7 +41,7 @@ public class ShipTile {
         return shieldProtected;
     }
 
-    public void setProtectedTile(boolean protectedTile) {
+    public void setShieldProtected(boolean protectedTile) {
         this.shieldProtected = protectedTile;
     }
 

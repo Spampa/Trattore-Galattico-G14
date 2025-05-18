@@ -2,25 +2,21 @@ package eventCards;
 
 import entities.*;
 import entities.board.Board;
-import entities.ship.Ship;
-import components.Component;
 import ui.Graphic;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class AlienSabotageCard extends Card {
-    public AlienSabotageCard(Board board, Graphic graphic) {
-        super("Sabotaggio Alieno", 
+    public AlienSabotageCard(GameLevel level, Graphic graphic) {
+        super(graphic, "Sabotaggio Alieno", 
               "Gli alieni a bordo sabotano un componente casuale!", 
-              board, graphic);
+              level);
     }
 
     @Override
-    public void executeEvent(Ship ship, Player player) {
+    public void execute(Board b) {
 
-        if (ship.getAliensCounter() > 0) {
-            graphic.printAlert("Gli alieni stanno sabotando la nave!");}
+        // if (ship.getAliensCounter() > 0) {
+        //     graphic.printAlert("Gli alieni stanno sabotando la nave!");
+        // }
             
         /* è un tentativo, non penso funzioni quindi è da ignorare per ora
             boolean bribeAttempt = graphic.askUser("Vuoi corrompere gli alieni con 2 crediti stra mafiosi?");

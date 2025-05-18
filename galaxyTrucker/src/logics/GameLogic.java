@@ -1,10 +1,9 @@
 package logics;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import entities.*;
 import entities.board.Board;
+import java.io.IOException;
+import java.util.ArrayList;
 import logics.phases.*;
 import saveload.SaveLoadManager;
 import ui.Graphic;
@@ -107,5 +106,9 @@ public class GameLogic {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
+
+    public Graphic getGraphic() {
+        return graphic;
+    }
 
 }

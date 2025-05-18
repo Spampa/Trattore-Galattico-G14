@@ -1,23 +1,22 @@
 package eventCards;
 
-import ui.Graphic;
+import entities.GameLevel;
 import java.util.Collections;
 import java.util.Stack;
-
-import entities.board.Board;
+import ui.Graphic;
 
 public class Deck {
     private final Stack<Card> cards;
 
-    public Deck(Board board, Graphic graphic) {
+    public Deck(GameLevel level, Graphic graphic) {
         this.cards = new Stack<>();
-        initializeDeck(board, graphic);
+        initializeDeck(level, graphic);
     }
 
-    private void initializeDeck(Board board, Graphic graphic) {
-        cards.add(new SlaverShipCard(board, graphic));
-        cards.add(new AlienSabotageCard(board, graphic));
-        cards.add(new AsteroidFieldCard(board, graphic));
+    private void initializeDeck(GameLevel level, Graphic graphic) {
+        cards.add(new SlaverShipCard(level, graphic));
+        cards.add(new AlienSabotageCard(level, graphic));
+        cards.add(new AsteroidFieldCard(level, graphic));
         
         Collections.shuffle(cards);
     }

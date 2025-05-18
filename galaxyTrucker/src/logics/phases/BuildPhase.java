@@ -81,7 +81,7 @@ public class BuildPhase extends  Phase{
 			graphic.printShip(player.getShip());
 			Position position = graphic.askComponentPosition();
 			
-			boolean isSet = player.getShip().setComponet(component, position);
+			boolean isSet = player.getShip().setComponent(component, position);
 			if(isSet) {
 				graphic.printMessage("\u001B[32mInserimento corretto\u001B[0m");
 			}

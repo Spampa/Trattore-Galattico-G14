@@ -1,16 +1,14 @@
 package saveload;
 
-import logics.GameLogic;
-
+import entities.GameLevel;
+import entities.Player;
+import entities.ship.Ship;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import entities.GameLevel;
-import entities.Player;
-import entities.ship.Ship;
+import logics.GameLogic;
 
 public class SaveLoadManager {
 
@@ -45,7 +43,7 @@ public class SaveLoadManager {
 	            		}
 	            		case 2: {
 	            			String[] fields = row.split(";");
-	            			players.add(new Player(fields[0], new Ship(game.getLevel())));
+	            			players.add(new Player(fields[0], new Ship(game.getLevel(), game.getGraphic())));
 	            			break;
 	            		}
 	            		default: break;

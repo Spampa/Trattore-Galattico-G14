@@ -4,16 +4,17 @@ import components.*;
 import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
+import components.types.containers.BatteryContainer;
 import entities.GameLevel;
 import entities.Position;
-import gameEvents.enums.ProjectileType;
-import items.*;
+import gameEvents.enums.*;
 import items.Ware;
 import ui.Graphic;
 
 public class Ship {
 
     private final GameLevel level;
+    private final Graphic g;
 
 	private final ShipTile[][] shipComponents;
 
@@ -24,8 +25,9 @@ public class Ship {
 	private int cellsCounter;
 	private int aliensCounter;
 
-    public Ship(GameLevel level){
+    public Ship(GameLevel level, Graphic g){
         this.level = level;
+        this.g = g;
         shipComponents = getShipBoard();
     }
 
@@ -189,6 +191,11 @@ public class Ship {
                         
                         case Cannon c-> {
                             maxFirePower += c.getFirePower();
+                            setProtectedTile(j, i, c);
+                        }
+
+                        case Shield s ->{
+                            setProtectedTile(j, i, s);
                         }
     
                         case Engine e ->{
@@ -219,6 +226,67 @@ public class Ship {
         }
 	}
 
+    private void setProtectedTile(int x, int y, Cannon c){
+        switch (c.getOrientation()) {
+            case Side.UP ->{
+                shipComponents[0][x].setCannonProtected(true);
+            }
+            case Side.DOWN ->{
+                shipComponents[level.getBoardY()-1][x].setCannonProtected(true);
+            }
+            case Side.RIGHT ->{
+                shipComponents[y][level.getBoardX()-1].setCannonProtected(true);
+            }
+            case Side.LEFT ->{
+                shipComponents[y][0].setCannonProtected(true);
+            }
+        }
+    }
+
+    private void setProtectedTile(int x, int y, Shield s){
+        if(s.isSideProtected(Side.UP)){
+            for(int i = 0; i < level.getBoardX(); i++) {
+                shipComponents[0][i].setShieldProtected(true);
+            }
+        }
+        if(s.isSideProtected(Side.DOWN)){
+            for(int i = 0; i < level.getBoardX(); i++) {
+                shipComponents[level.getBoardY()-1][i].setShieldProtected(true);
+            }
+        }
+        if(s.isSideProtected(Side.LEFT)){
+            for(int i = 0; i < level.getBoardY(); i++) {
+                shipComponents[i][0].setShieldProtected(true);
+            }
+        }
+
+        if(s.isSideProtected(Side.LEFT)){
+            for(int i = 0; i < level.getBoardY(); i++) {
+                shipComponents[i][level.getBoardX()-1].setShieldProtected(true);
+            }
+        }
+    }
+
+    public boolean  removeHumans(int n){
+        if(n < this.humansCounter){
+            for(int i = 0; i < level.getBoardX(); i++) {
+                for(int j = 0; j < level.getBoardY(); j++){
+                    if(shipComponents[j][i].getComponent() instanceof HousingUnit house){
+                        while(house.getCurrentCapacity() > 0 && n > 0){
+                            house.remove();
+                            n--;
+                        }
+                        if(n == 0){
+                            scanShip();
+                            return true;
+                        } 
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean storeWares(Ware w, Position p){
         
         if(shipComponents[p.getY()][p.getX()].getComponent() instanceof WareStorage container){
@@ -235,7 +303,7 @@ public class Ship {
 		return (shipComponents[(level.getBoardY()/2)][(level.getBoardX()/2)].getComponent() != null);
 	}
 
-    public boolean  setComponet(Component c, Position p){
+    public boolean  setComponent(Component c, Position p){  //TODO implement cannon and shield protection
 
         if(shipComponents[p.getY()][p.getX()].isIsSpace() || shipComponents[p.getY()][p.getX()].getComponent() != null) return false;
 
@@ -324,6 +392,7 @@ public class Ship {
         }
         
         shipComponents[p.getY()][p.getX()].setComponent(null);
+        scanShip();
         return true;
     }
 
@@ -388,14 +457,38 @@ public class Ship {
         return r1 || r2 || r3 || r4;
     }
 
-    public float getFirePower(Graphic g) {
+    private boolean  useBattery(int n){
+        if(n < this.cellsCounter){
+            for(int i = 0; i < level.getBoardX(); i++) {
+                for(int j = 0; j < level.getBoardY(); j++){
+                    if(shipComponents[j][i].getComponent() instanceof BatteryContainer Bat){
+                        while(Bat.getCurrentCapacity() > 0 && n > 0){
+                            Bat.remove();
+                            n--;
+                        }
+                        if(n == 0){
+                            scanShip();
+                            return true;
+                        } 
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public float getFirePower() { 
         float power = 0;
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
                 if(shipComponents[j][i].getComponent() != null && shipComponents[j][i].getComponent() instanceof Cannon c){
 
                     if(c.getBatteryRequired() > 0){
-                        if(g.askUser("vuoi utilizzare una batteria per attivare il cannone in posizione: x = " + i + ", y = " + j)) power += c.getFirePower();
+
+                        if(g.askUser("vuoi utilizzare una batteria per attivare il cannone in posizione: x = " + i + ", y = " + j) 
+                        && useBattery(c.getBatteryRequired())) 
+                        power += c.getFirePower();
+
                     }
                     else power += c.getFirePower();
                 }
@@ -404,7 +497,7 @@ public class Ship {
         return power;
     }
 
-    public int getMotorPower(Graphic g) {
+    public int getMotorPower() { 
         int power = 0;
         for(int i = 0; i < level.getBoardX(); i++){
             for(int j = 0; j < level.getBoardY(); j++){
