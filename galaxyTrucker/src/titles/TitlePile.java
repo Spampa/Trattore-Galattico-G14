@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import entities.Player;
 import titles.cards.*;
+import ui.Graphic;
 
 public class TitlePile {
 	private ArrayList<Title> titles;
-	public TitlePile() {
+	private final Graphic graphic;
+	public TitlePile(Graphic graphic) {
 		this.titles=new ArrayList<Title>();
 		this.titles.add(new TitleFreightHauler());
 		this.titles.add(new TitlePowerTrucker());
@@ -15,14 +17,17 @@ public class TitlePile {
 		this.titles.add(new TitleCruiseCaptain());
 		this.titles.add(new TitleXenoquartermaster());
 		this.titles.add(new TitleCorridorist());
+		this.graphic=graphic;
 	}
 	
-	public TitlePile(ArrayList<Title> definitivetitles) {
+	public TitlePile(ArrayList<Title> definitivetitles, Graphic graphic) {
+		this.graphic=graphic;
 		this.titles=new ArrayList<Title>();
 		for(Title t:definitivetitles) {
 			this.titles.add(t);
 		}
 	}
+	
 	
 
 	public void assignAllTitles(Player[] players) {
@@ -31,7 +36,8 @@ public class TitlePile {
 			try {
 				t.assignToPlayer(players, max_i);
 			} catch (SpecialAssignmentException e) {
-				System.out.println("Titolo "+t.getType().name()+" assegnato in base alla posizione!" );
+				//System.out.println("Titolo "+t.getType().name()+" assegnato in base alla posizione!" );
+				graphic.printMessage("Titolo "+t.getType().name()+" assegnato in base alla posizione!");
 			}
 		}
 	}
@@ -47,17 +53,17 @@ public class TitlePile {
 			}
 			
 			if(titlesofplayer.size()>1) {	//se giocatore ha più di un titolo, ne può tenere soltanto uno (decidere quale)
-				definitivetitles.add(p.chooseYourTitle(titlesofplayer, players, this.titles));
+				definitivetitles.add(p.chooseYourTitle(titlesofplayer, players, this.titles, this.graphic));
 			}
 			
 			titlesofplayer.clear();   		//svuota la lista 
 		}
-		return definitivetitles;			
+		return definitivetitles;			//arraylist con i titoli di ciascun giocatore (ciascuno ne ha uno ed uno solo)
 		
 	}
-	/*in end_phase1: 	TitlePile tp=new TitlePile();
+	/*in end_phase1: 	TitlePile tp=new TitlePile(graphic);
 	 * 					tp.assignAllTitles(players);
-	 * 					TitlePile tpdefinitive=TitlePile(tp.getDefinitiveTitles);    //questo set di titoli si userà nelle end-phase2 e 3
+	 * 					TitlePile tpdefinitive=TitlePile(tp.getDefinitiveTitles(players), graphic);    //questo set di titoli si userà nelle end-phase2 e 3
 	*/		
 }
 
