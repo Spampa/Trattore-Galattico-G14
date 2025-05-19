@@ -6,6 +6,7 @@ import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
 import items.Battery;
+import randomizer.ItemsRandomizer;
 import items.*;
 import ui.Graphic;
 
@@ -20,13 +21,23 @@ public class AddItem extends Event {
 		this.player = player;
 	}
 	
+	public AddItem(Graphic graphic, Player player) {
+		super(graphic);
+		
+		ItemsRandomizer ir = new ItemsRandomizer();
+		this.items = ir.getRandomWares(1, 3);
+		this.player = player;
+	}
+	
+	
+	
 	@Override
 	public void start() {
 		for(Item item: items) {
-			if(graphic.askUser("Vuoi aggiungere la merce " + item.getName() + " alla tua nave?")) {
-				Position position;
-				boolean loop = true;
-				do {
+			boolean loop = false;
+			do {
+				if(graphic.askUser("Vuoi aggiungere la merce " + item.getName() + " alla tua nave?")) {
+					Position position;
 					graphic.printMessage("Inserisci posizione del contenitore di " + item.getName());
 					position = graphic.askComponentPosition();
 					
@@ -34,12 +45,12 @@ public class AddItem extends Event {
 					if(loop) {
 						graphic.printAlert("Il componente non puo' contenere " + item.getName());
 					}
-				}while(loop);
-
-			}
+				}
+			}while(loop);
 		}
+		graphic.printMessage("ottimo!" + player.getName() + "abbiamo finito di caricare gli oggetti");
 	}
-	
+
 	private boolean isItemAdded(Item item, Position position, Ship ship) {
 		Component component = ship.getComponent(position);
 	    if (item instanceof Battery battery && component instanceof BatteryStorage storage) {

@@ -3,74 +3,46 @@ package eventCards;
 import entities.*;
 import entities.board.Board;
 import entities.ship.Ship;
+import events.AddItem;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import ui.Graphic;
 
 public class AbandonedStationCard extends Card {
-    private static final int REQUIRED_HUMANS = 5;
-    private static final int REQUIRED_ALIENS = 5;
-    private static final int DAYS_LOST = 3;
-    private static final int MAX_LOOT = 10; 
+	
+	private final int spacemanCost;
 
+    public AbandonedStationCard(GameLevel level, Graphic graphic, int spacemanCost) {
+        super(graphic, "Stazione Abbandonata", "",  level, 1);
+        this.spacemanCost = spacemanCost;
+    }
+    
     public AbandonedStationCard(GameLevel level, Graphic graphic) {
-        super(graphic, "Stazione Abbandonata", 
-              ("Bottino disponibile! Richiesti: " + REQUIRED_HUMANS + " umani e " + REQUIRED_ALIENS + " alieni\n" +
-              "Merci ottenibili: fino a " + MAX_LOOT + "\n" +
-              "Penalità: " + DAYS_LOST + " giorni di volo"),  level);
+        super(graphic, "Stazione Abbandonata", "",  level, 1);
+        Random r = new Random();
+        this.spacemanCost = r.nextInt(4)+2;
     }
 
-    //TODO Fixare con il metodo start()
+
     @Override
     public void execute(Board b) {
-        List<Player> playersInOrder = b.getPlayers();
-        
-        //  Trova il primo giocatore idoneo/che acetti di usare la carta 
-        Player looter = findLooter(playersInOrder);
-        
-        if (looter == null) {
-            graphic.printAlert("Nessun equipaggio qualificato ha voluto saccheggiare!");
-            return;
-        }
-
-        //  saccheggio
-        lootStation(looter, looter.getShip());
+    	ArrayList<Player> players = b.getPlayers();
+    	
+    	for(Player p: players) {
+    		if(p.getShip().getHumansCounter() < this.spacemanCost) {
+    			graphic.printAlert(p.getName() + " OOOPS! non hai abbastanza equipaggio per approfittare del evento!");
+    			break;
+    		}
+    		if(graphic.askUser(p.getName()+  " vuoi atterrare sulla stazione abbandonata?")) {
+    			AddItem a = new AddItem(graphic, p);
+    			a.start();
+    			super.lostFlyDays(b, p);
+    			return;
+    		}
+    	}
     }
 
-    private Player findLooter(List<Player> players) {
-        for (Player player : players) {
-            Ship ship = player.getShip();
-            
-            if (canLoot(ship)) {
-                boolean wantsToLoot = graphic.askUser(player.getName() + 
-                    " vuole saccheggiare? (Umani: " + ship.getHumansCounter() + 
-                    "/" + REQUIRED_HUMANS + " Alieni: " + ship.getAliensCounter() + 
-                    "/" + REQUIRED_ALIENS + ")");
-                
-                if (wantsToLoot) return player;
-            }
-        }
-        return null;
-    }
-
-    private boolean canLoot(Ship ship) {
-        return ship.getHumansCounter() >= REQUIRED_HUMANS && 
-               ship.getAliensCounter() >= REQUIRED_ALIENS;
-    }
-
-    private void lootStation(Player player, Ship ship) {
-        // Calcola quante merci può trasportare 
-        int lootAmount = MAX_LOOT; 
-        
-      
-        // TODO rifare seguendo le logiche della ship
-        // ship.setWaresValue(ship.getWaresValue() + lootAmount);
-        
-        
-        // graphic.printAlert(player.getPlayerName() + " ha raccolto " + lootAmount + " merci!");
-        // graphic.printAlert("Nuovo valore merci: " + ship.getWaresValue());
-        
-     
-        // board.moveBack(DAYS_LOST, player);
-        // graphic.printAlert("Penalità: -" + DAYS_LOST + " giorni di volo");
-    }
 }

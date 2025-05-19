@@ -12,32 +12,30 @@ public class Shoot extends Event {
 
     private final Side direction;
     private final ProjectileType type;
-    private final Player player;
+    private Player player;
     
     private final Dices dices;
 
-    public Shoot(Graphic graphic, Player player, Side direction, ProjectileType type ){
+    public Shoot(Graphic graphic, Side direction, ProjectileType type ){
     	super(graphic);
     	dices = new Dices();
-    	
-    	this.player = player;
+    
         this.direction = direction;
         this.type = type;
         
     }
+    
 
-    public Side getDirection() {
-        return direction;
-    }
-
-    public ProjectileType getType() {
-        return type;
+    public void setPlayer(Player p) {
+    	this.player = p;
     }
     
     @Override
     public void start(){
-    	Ship s = player.getShip();
     	int comingTile = dices.roll();
+        
+        graphic.printMessage("risultato dei dadi: " + comingTile);
+    	Ship s = player.getShip();
         switch (direction) {
             case Side.UP -> {
                 for(int i = 0; i < s.getGameLevel().getBoardY(); i++){     

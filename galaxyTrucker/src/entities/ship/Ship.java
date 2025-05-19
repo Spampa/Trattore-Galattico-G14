@@ -4,11 +4,10 @@ import components.*;
 import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
-import components.types.containers.BatteryContainer;
 import entities.GameLevel;
 import entities.Position;
 import gameEvents.enums.*;
-import items.Ware;
+import items.*;
 import ui.Graphic;
 
 public class Ship {
@@ -18,7 +17,7 @@ public class Ship {
 
 	private final ShipTile[][] shipComponents;
 
-	private float maxFirePower;
+	private float maxFirePower;  //TODO implement array
 	private int maxMotorPower;
 	private int waresValue;
 	private int humansCounter;
@@ -286,13 +285,66 @@ public class Ship {
         }
         return false;
     }
+    
+    public boolean addItem(Position p, Battery b) {
+    	BatteryStorage bc = (BatteryStorage) this.getComponent(p);
+    	
+    	if( bc.add(b)) {
+    		scanShip();
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean addItem(Position p, Spaceman sp) {
+    	HousingUnit hu = (HousingUnit) this.getComponent(p);
+    	
+    	if( hu.add(sp)) {
+    		scanShip();
+    		return true;
+    	}
+    	return false;
+    }
 
-    public boolean storeWares(Ware w, Position p){
-        
-        if(shipComponents[p.getY()][p.getX()].getComponent() instanceof WareStorage container){
-            return container.add(w);
-        }
-        return false;
+    public boolean addItem(Position p, Ware w) {
+    	WareStorage wc = (WareStorage) this.getComponent(p);
+    	
+    	if( wc.add(w)) {
+    		scanShip();
+    		return true;
+    	}
+    	return false;
+    }
+    
+
+    public boolean removeItem(Position p, Battery b) {
+    	BatteryStorage bc = (BatteryStorage) this.getComponent(p);
+    	
+    	if( bc.remove() != null) {
+    		scanShip();
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean removeItem(Position p, Spaceman sp) {
+    	HousingUnit hu = (HousingUnit) this.getComponent(p);
+    	
+    	if( hu.remove() != null) {
+    		scanShip();
+    		return true;
+    	}
+    	return false;
+    }
+
+    public boolean removeItem(Position p, Ware w) {
+    	WareStorage wc = (WareStorage) this.getComponent(p);
+    	
+    	if( wc.remove() != null) {
+    		scanShip();
+    		return true;
+    	}
+    	return false;
     }
 
     public ShipTile[][] getShipComponets(){
@@ -303,7 +355,7 @@ public class Ship {
 		return (shipComponents[(level.getBoardY()/2)][(level.getBoardX()/2)].getComponent() != null);
 	}
 
-    public boolean  setComponent(Component c, Position p){  //TODO implement cannon and shield protection
+    public boolean  setComponent(Component c, Position p){
 
         if(shipComponents[p.getY()][p.getX()].isIsSpace() || shipComponents[p.getY()][p.getX()].getComponent() != null) return false;
 
@@ -461,7 +513,7 @@ public class Ship {
         if(n < this.cellsCounter){
             for(int i = 0; i < level.getBoardX(); i++) {
                 for(int j = 0; j < level.getBoardY(); j++){
-                    if(shipComponents[j][i].getComponent() instanceof BatteryContainer Bat){
+                    if(shipComponents[j][i].getComponent() instanceof BatteryStorage Bat){
                         while(Bat.getCurrentCapacity() > 0 && n > 0){
                             Bat.remove();
                             n--;
