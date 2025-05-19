@@ -195,7 +195,7 @@ public class Ship {
                         }
 
                         case Shield s ->{
-                            setProtectedTile(j, i, s);
+                            setProtectedTile(s);
                         }
     
                         case Engine e ->{
@@ -243,7 +243,7 @@ public class Ship {
         }
     }
 
-    private void setProtectedTile(int x, int y, Shield s){
+    private void setProtectedTile(Shield s){
         if(s.isSideProtected(Side.UP)){
             for(int i = 0; i < level.getBoardX(); i++) {
                 shipComponents[0][i].setShieldProtected(true);
