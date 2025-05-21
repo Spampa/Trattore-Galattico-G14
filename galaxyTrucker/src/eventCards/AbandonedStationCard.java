@@ -2,13 +2,9 @@ package eventCards;
 
 import entities.*;
 import entities.board.Board;
-import entities.ship.Ship;
 import events.AddItem;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
 import ui.Graphic;
 
 public class AbandonedStationCard extends Card {
@@ -32,7 +28,7 @@ public class AbandonedStationCard extends Card {
     	ArrayList<Player> players = b.getPlayers();
     	
     	for(Player p: players) {
-    		if(p.getShip().getHumansCounter() < this.spacemanCost) {
+    		if(p.getShip().getSpacemans() < this.spacemanCost) {
     			graphic.printAlert(p.getName() + " OOOPS! non hai abbastanza equipaggio per approfittare del evento!");
     			break;
     		}
