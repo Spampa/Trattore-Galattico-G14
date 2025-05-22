@@ -1,53 +1,80 @@
 package eventCards;
 
-import entities.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import entities.Player;
+import entities.ship.Ship;
+import entities.ship.ShipTile;
 import entities.board.Board;
 import ui.Graphic;
+import components.Component;
+import entities.Position;
 
 public class AlienSabotageCard extends Card {
-    public AlienSabotageCard(GameLevel level, Graphic graphic) {
+    private static final int MIN_ALIENS_TO_TRIGGER = 1;
+    
+    public AlienSabotageCard(Graphic graphic) {
         super(graphic, "Sabotaggio Alieno", 
-              "Gli alieni a bordo sabotano un componente casuale!", 
-              level);
+             "Gli alieni sabotano componenti casuali", 
+             null,  
+             2);    
     }
 
     @Override
-    public void execute(Board b) {
-
-        // if (ship.getAliensCounter() > 0) {
-        //     graphic.printAlert("Gli alieni stanno sabotando la nave!");
-        // }
+    public void execute(Board board) {
+        for (Player player : board.getPlayers()) {
+            Ship ship = player.getShip();
             
-        /* è un tentativo, non penso funzioni quindi è da ignorare per ora
-            boolean bribeAttempt = graphic.askUser("Vuoi corrompere gli alieni con 2 crediti stra mafiosi?");
-            
-            if (bribeAttempt && player.getCredits() >= 2) {
-                player.addCredits(-2);
-                graphic.printAlert("Gli alieni se ne vanno");
-                return;
+            if (ship.getAliensCounter() >= MIN_ALIENS_TO_TRIGGER) {
+                handleSabotage(ship, player);
+            } else {
+                graphic.printMessage(player.getName() + ": Nessun alieno a bordo");
             }
-            
-            ci sarebbero un paio di robe in player da aggiungere relative ai crediti, ma le lascio in stand by per ora.
-           
-            List<Position> sabotageTargets = new ArrayList<>();
-            for (int y = 0; y < ship.getGameLevel().getBoardY(); y++) {
-                for (int x = 0; x < ship.getGameLevel().getBoardX(); x++) {
-                    if (!ship.getShipComponents()[y][x].isProtectedTile() 
-                        && ship.getShipComponents()[y][x].getComponent() != null) {
-                        sabotageTargets.add(new Position(x, y));
-                    }
+        }
+    }
+
+    private void handleSabotage(Ship ship, Player player) {
+        graphic.printAlert("Alieno" + player.getName() + " sta sabotando!");
+        
+        List<Position> validTargets = findSabotageTargets(ship);
+        if (!validTargets.isEmpty()) {
+            Position target = selectRandomTarget(validTargets);
+            executeSabotage(ship, target, player);
+        } else {
+            graphic.printMessage("Nessun componente vulnerabile trovato");
+        }
+    }
+
+    private List<Position> findSabotageTargets(Ship ship) {
+        List<Position> targets = new ArrayList<>();
+        ShipTile[][] grid = ship.getShipComponets(); 
+        
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                if (isValidTarget(grid[y][x])) {
+                    targets.add(new Position(x, y));
                 }
             }
-            
-            if (!sabotageTargets.isEmpty()) {
-                Position target = sabotageTargets.get(new Random().nextInt(sabotageTargets.size()));
-                ship.getShipComponents()[target.getY()][target.getX()].setComponent(null);
-                graphic.printAlert("Componente sabotato alla posizione (" + target.getX() + "," + target.getY() + ")!");
-            } else {
-                graphic.printAlert("Nessun componente vulnerabile trovato!");
-            }
-        } else {
-            graphic.printAlert("Nessun alieno a bordo - la nave è al sicuro!");
-        }*/
+        }
+        return targets;
+    }
+
+    private boolean isValidTarget(ShipTile tile) {
+        return tile.getComponent() != null && 
+               !tile.isShieldProtected();
+    }
+
+    private Position selectRandomTarget(List<Position> targets) {
+        return targets.get(new Random().nextInt(targets.size()));
+    }
+
+    private void executeSabotage(Ship ship, Position target, Player player) {
+        Component sabotaged = ship.getShipComponets()[target.getY()][target.getX()].getComponent();
+        ship.getShipComponets()[target.getY()][target.getX()].setComponent(null);
+        
+        graphic.printAlert("‼ " + sabotaged.getClass().getSimpleName() + 
+                         " sabotato a (" + target.getX() + "," + target.getY() + ")");
     }
 }

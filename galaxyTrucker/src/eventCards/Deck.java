@@ -15,7 +15,7 @@ public class Deck {
 
     private void initializeDeck(GameLevel level, Graphic graphic) {
         cards.add(new SlaverShipCard(level, graphic));
-        cards.add(new AlienSabotageCard(level, graphic));
+        cards.add(new AlienSabotageCard(graphic));
         cards.add(new AsteroidSwarm(level, graphic));
         
         Collections.shuffle(cards);
