@@ -1,16 +1,9 @@
 package events;
 
-import components.Component;
-import components.models.containers.BatteryStorage;
-import components.models.containers.HousingUnit;
-import components.models.containers.WareStorage;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
-import items.Battery;
 import items.Item;
-import items.Spaceman;
-import items.Ware;
 import ui.Graphic;
 
 public class RemoveItem extends Event {

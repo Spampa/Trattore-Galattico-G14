@@ -6,9 +6,11 @@ import items.Battery;
 
 public class BatteryStorage extends Container<Battery> {
 	private final static int MIN_SIZE = 2;
+	private final ContainerSize size;
 	
 	public BatteryStorage(ContainerSize size, Connector[] connectors) {
 		super(size.toInteger() + MIN_SIZE, connectors);
+		this.size = size;
 		this.fill();
 	}
 	
@@ -21,5 +23,9 @@ public class BatteryStorage extends Container<Battery> {
 		for(int i = 0; i < super.getMaxCapacity(); i++) {
 			super.add(new Battery());
 		}
+	}
+	
+	public ContainerSize getContainerSize() {
+		return size;
 	}
 }

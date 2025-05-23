@@ -14,7 +14,11 @@ import java.util.List;
 
 import components.Component;
 import components.Connector;
+import components.enums.ContainerSize;
+import components.enums.MountType;
 import components.enums.Side;
+import components.models.*;
+import components.models.containers.*;
 import logics.GameLogic;
 
 public class SaveLoadManager {
@@ -26,7 +30,6 @@ public class SaveLoadManager {
 	private final static String PLAYERS_TAG = "PLAYERS";
 	private final static String PLAYER_TAG = "PLAYER";
 	private final static String SHIP_TAG = "SHIP";
-	private final static String ITEM_TAG = "ITEM";
 	
 	public SaveLoadManager(GameLogic game) throws IOException {
 		this.game = game;
@@ -49,6 +52,10 @@ public class SaveLoadManager {
 	            			game.setPlayers(players);
 	            			continue;
 	            		}
+	            		case SHIP_TAG: {
+	            			//TODO: set ship
+	            			break;
+	            		}
 	            		default: continue;
             		}
             	}
@@ -66,6 +73,13 @@ public class SaveLoadManager {
             			GameLevel level = GameLevel.stringToLevel(row);
             			game.setLevel(level);
             			shipTile = new ShipTile[level.getBoardY()][level.getBoardX()];
+            			
+            			for(int y = 0; y < level.getBoardY(); y++) {
+                			for(int x = 0; x < level.getBoardX(); x++) {
+                				shipTile[y][x] = new ShipTile();
+                			}
+            			}
+
             			break;
             		}
             		case PLAYER_TAG: {
@@ -112,12 +126,7 @@ public class SaveLoadManager {
 		    			Component c = ship[y][x].getComponent();
 		    			if(c != null) {
 			    			writer.write(
-				    			c.getClass().getSimpleName() + ";" +
-				    			x + ";" + y + ";" +
-			    				c.getConnector(Side.UP) + ";" +
-			    				c.getConnector(Side.RIGHT) + ";" +
-			    				c.getConnector(Side.DOWN) + ";" +
-			    				c.getConnector(Side.LEFT) + "\n" 
+			    				this.stringComponent(c, x, y)
 				    		);
 		    			}
 		    		}
@@ -129,11 +138,101 @@ public class SaveLoadManager {
 		}
 	}
 	
+	private String stringComponent(Component component, int x, int y) {
+		String s = (component.getClass().getSimpleName() + ";" +
+    			x + ";" + y + ";" +
+    			component.getConnector(Side.UP) + ";" +
+    			component.getConnector(Side.RIGHT) + ";" +
+    			component.getConnector(Side.DOWN) + ";" +
+    			component.getConnector(Side.LEFT) + ";" + 
+    			component.getOrientation() + ";");
+		
+		if(component instanceof Cannon) {
+			s += ((Cannon) component).getType();
+		}
+		else if(component instanceof Engine) {
+			s += ((Engine) component).getType();
+		}
+		else if(component instanceof Container) {
+			switch(component) {
+				case BatteryStorage container -> {
+					s += container.getContainerSize() + ";";
+					break;
+				}
+				case NormalWareStorage container -> {
+					s += container.getContainerSize() + ";";
+					break;
+				}
+				case SpecialWareStorage container -> {
+					s += container.getContainerSize() + ";";
+					break;
+				}
+				default -> {
+					break;
+				}
+			}
+			s += ((Container) component).getCurrentCapacity();
+		}
+		
+		s += "\n";
+		return s;
+	}
+	
 	private Component getComponent(String s) {
 		String[] fields = s.split(";");
-		Connector[] c = new Connector[4];
+		Connector[] connectors = new Connector[4];
 		
-		return null;
+		connectors[0] = Connector.valueOf(fields[3]);
+		connectors[1] = Connector.valueOf(fields[4]);
+		connectors[2] = Connector.valueOf(fields[5]);
+		connectors[3] = Connector.valueOf(fields[6]);
+		
+		
+		Side orientation = Side.valueOf(fields[7]);
+		
+		String componentName = fields[0];
+		
+		Component component;
+		switch(componentName) {
+			case "Pipe": {
+				component = new Pipe(connectors);
+				break;
+			}
+			case "Shield": {
+				component = new Shield(connectors);
+				break;
+			}
+			case "Cannon": {
+				component = new Cannon(MountType.valueOf(fields[8]),connectors);
+				break;
+			}
+			case "Engine": {
+				component = new Engine(MountType.valueOf(fields[8]),connectors);
+				break;
+			}
+			case "BatteryStorage": {
+				component = new BatteryStorage(ContainerSize.valueOf(fields[8]), connectors);
+				break;
+			}
+			case "NormalWareStorage": {
+				component = new NormalWareStorage(ContainerSize.valueOf(fields[8]), connectors);
+				break;
+			}
+			case "SpecialWareStorage": {
+				component = new SpecialWareStorage(ContainerSize.valueOf(fields[8]), connectors);
+				break;
+			}
+			case "HousingUnit": {
+				component = new HousingUnit(connectors, true);
+				break;
+			}
+			default: {
+				component = null;
+				break;
+			}
+		}
+		
+		return component;
 	}
 	
 	public boolean isVoid() {

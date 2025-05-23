@@ -1,11 +1,8 @@
 package events;
 
-import components.Component;
-import components.models.containers.*;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
-import items.Battery;
 import randomizer.ItemsRandomizer;
 import items.*;
 import ui.Graphic;
