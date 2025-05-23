@@ -42,17 +42,12 @@ public class RemoveItem extends Event {
 	}
 	
 	private boolean isItemRemoved(Item item, Position position, Ship ship) {
-		Component component = ship.getComponent(position);
-	    if (item instanceof Battery && component instanceof BatteryStorage storage) {
-	    	return storage.remove() != null;
-	    }
-	    else if(item instanceof Ware && component instanceof WareStorage storage) {
-	    	return storage.remove() != null;
-	    }
-	    else if(item instanceof Spaceman && component instanceof HousingUnit storage) {
-	    	return storage.remove() != null;
-	    }
-		return false;
+		try {
+			return ship.removeItem(position, item);
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 
 }
