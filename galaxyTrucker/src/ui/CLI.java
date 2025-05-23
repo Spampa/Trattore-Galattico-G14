@@ -180,7 +180,7 @@ public class CLI implements Graphic{
 		int answer;
 		
 		do {
-			System.out.print(message + "(" + minValue + "-" + maxValue + "):");
+			System.out.print(message + "(" + minValue + "-" + maxValue + "): ");
 			
 			answer = Integer.parseInt(sc.nextLine());
 			
@@ -332,6 +332,7 @@ public class CLI implements Graphic{
             this.printShip(p.getShip());
         }
         this.waitForUser("premere un tasto per continuare...");
+        this.clear();
 	}
 
 	@Override
@@ -399,7 +400,9 @@ public class CLI implements Graphic{
 				//System.out.print(" ♟️ " + space.getPlayer().getPlayerName() + " ");
 			}
 		}
-
+		
 		this.printRow();
+		this.waitForUser("premere un tasto per pescare una carta...");
+		this.clear();
 	}
 }

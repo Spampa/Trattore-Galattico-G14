@@ -29,7 +29,7 @@ public class Ship {
     public Ship(GameLevel level, Graphic g){
         this.level = level;
         this.g = g;
-        shipComponents = getShipBoard();
+        shipComponents = Ship.getShipLevelBoard(level);
     }
     
     public Ship(GameLevel level, Graphic g, ShipTile[][] shipComponents) {
@@ -38,6 +38,7 @@ public class Ship {
         
         //TODO: check if table is correct for the level
         this.shipComponents = shipComponents;
+        this.scanShip();
     }
 
     public boolean isPlayable(){
@@ -178,37 +179,42 @@ public class Ship {
         for(int i = 0; i < level.getBoardY(); i++){
             for(int j = 0; j < level.getBoardX(); j++){
                 if(shipComponents[i][j].getComponent() != null){
-
                     switch (shipComponents[i][j].getComponent()) {
                         
                         case Cannon c-> {
                             cannons.add(c);
                             setProtectedTile(j, i, c);
+                            break;
                         }
 
                         case Shield s ->{
                             shields.add(s);
                             setProtectedTile(s);
+                            break;
                         }
     
                         case Engine e ->{
                            engines.add(e);
+                           break;
                         }
     
                         case HousingUnit h ->{
                             housingUnits.add(h);
+                            break;
                         }
                         
                         case WareStorage ws->{
                             wareStorages.add(ws);
+                            break;
                         }
 
                         case BatteryStorage bt ->{
                             batteryStorages.add(bt);
+                            break;
                         }
     
                         default ->{
-                            return;
+                            break;
                         }
     
                     }              
@@ -403,7 +409,7 @@ public class Ship {
         return false;
     }
 
-    private ShipTile[][] getShipBoard(){
+    public static ShipTile[][] getShipLevelBoard(GameLevel level){
 
         ShipTile[][] s = new ShipTile[level.getBoardY()][level.getBoardX()];
         Connector[] c = {Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL};

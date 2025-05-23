@@ -40,7 +40,7 @@ public class Planets extends Card {
 		this.initPlanets();
 		
 		for(Planet planet : planets) {
-			graphic.printMessage(planet.getName() + " contiene: " + planet.getItems());
+			graphic.printMessage(planet.getName() + " contiene: " + planet.toStringItems());
 		}
 		
 		for(Player player : players) {
@@ -49,12 +49,13 @@ public class Planets extends Card {
 			int planetIndex;
 			boolean isPlanetSet = true;
 			do {
-				if(graphic.askUser("Vuoi atterrare?")) {
-					planetIndex = graphic.askIntUser("Seleziona il pianeta su cui atterrare", MIN_PLANETS, MAX_PLANETS);
+				if(graphic.askUser(player.getName() + " vuoi atterrare?")) {
+					planetIndex = graphic.askIntUser( player.getName() + " seleziona il pianeta su cui atterrare ", 1, planets.length) - 1;
 					isPlanetSet = planets[planetIndex].getPlayer() != null;
+					
 					if(!isPlanetSet) {
 						graphic.printMessage(player.getName() + " atterrato su " + planets[planetIndex].getName());
-						super.lostFlyDays(board, player);
+						planets[planetIndex].setPlayer(player);
 					}
 					else {
 						graphic.printAlert("Pianeta gia' occupato da " + planets[planetIndex].getPlayer().getName() + "!");
@@ -64,6 +65,12 @@ public class Planets extends Card {
 					isPlanetSet = false;
 				}
 			}while(isPlanetSet);
+		}
+		
+		for(Planet planet : planets) {
+			graphic.printMessage(planet.getPlayer().getName() + " inizia lo sbarco: ");
+			planet.start();
+			super.lostFlyDays(board, planet.getPlayer());
 		}
 	}
 	

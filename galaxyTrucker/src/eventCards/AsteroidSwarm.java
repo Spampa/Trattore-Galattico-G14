@@ -10,7 +10,6 @@ import gameEvents.enums.ProjectileType;
 import ui.Graphic;
 
 public class AsteroidSwarm extends Card {
-	private final Dices dices = new Dices();
 	private final Shoot[] shoots;
     
     public AsteroidSwarm(GameLevel level, Graphic graphic) {

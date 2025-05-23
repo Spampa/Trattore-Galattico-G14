@@ -3,6 +3,7 @@ package saveload;
 import entities.GameLevel;
 import entities.Player;
 import entities.Position;
+import entities.board.Board;
 import entities.ship.Ship;
 import entities.ship.ShipTile;
 
@@ -41,7 +42,13 @@ public class SaveLoadManager {
 	public void loadGame() {
 		ArrayList<Player> players = new ArrayList<Player>();
 		String lastTag = "";
+		
+		String playerName = "";
+		int playerMoves = 0;
+		
 		ShipTile[][] shipTile = null;
+		Board board = null;
+		
         try {
             List<String> rows = Files.readAllLines(path);
             
@@ -50,11 +57,15 @@ public class SaveLoadManager {
             		switch(TextFormatter.getTag(row)) {
 	            		case PLAYERS_TAG: {
 	            			game.setPlayers(players);
+	            			board = new Board(players, game.getLevel());
+	            			game.setBoard(board);
 	            			continue;
 	            		}
-	            		case SHIP_TAG: {
-	            			//TODO: set ship
-	            			break;
+	            		case PLAYER_TAG: {
+	            			Player player = new Player(playerName, new Ship(game.getLevel(), game.getGraphic(), shipTile));
+	            			player.setMoves(playerMoves);
+	            			players.add(player);
+	            			continue;
 	            		}
 	            		default: continue;
             		}
@@ -72,19 +83,14 @@ public class SaveLoadManager {
             		case GAME_LEVEL_TAG: {
             			GameLevel level = GameLevel.stringToLevel(row);
             			game.setLevel(level);
-            			shipTile = new ShipTile[level.getBoardY()][level.getBoardX()];
-            			
-            			for(int y = 0; y < level.getBoardY(); y++) {
-                			for(int x = 0; x < level.getBoardX(); x++) {
-                				shipTile[y][x] = new ShipTile();
-                			}
-            			}
+            			shipTile = Ship.getShipLevelBoard(level);
 
             			break;
             		}
             		case PLAYER_TAG: {
             			String[] fields = row.split(";");
-            			players.add(new Player(fields[0], new Ship(game.getLevel(), game.getGraphic())));
+            			playerName = fields[0];
+            			playerMoves = Integer.parseInt(fields[1]);
             			break;
             		}
             		case SHIP_TAG: {
@@ -168,6 +174,7 @@ public class SaveLoadManager {
 					break;
 				}
 				default -> {
+					s += ";";
 					break;
 				}
 			}
@@ -211,7 +218,11 @@ public class SaveLoadManager {
 				break;
 			}
 			case "BatteryStorage": {
-				component = new BatteryStorage(ContainerSize.valueOf(fields[8]), connectors);
+				component = new BatteryStorage(ContainerSize.valueOf(fields[8]), connectors, Integer.parseInt(fields[9]));
+				break;
+			}
+			case "HousingUnit": {
+				component = new HousingUnit(connectors, true, Integer.parseInt(fields[9]));
 				break;
 			}
 			case "NormalWareStorage": {
@@ -220,10 +231,6 @@ public class SaveLoadManager {
 			}
 			case "SpecialWareStorage": {
 				component = new SpecialWareStorage(ContainerSize.valueOf(fields[8]), connectors);
-				break;
-			}
-			case "HousingUnit": {
-				component = new HousingUnit(connectors, true);
 				break;
 			}
 			default: {

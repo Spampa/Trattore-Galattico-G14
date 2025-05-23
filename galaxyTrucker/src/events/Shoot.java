@@ -2,6 +2,7 @@ package events;
 
 import components.enums.Side;
 import entities.Dices;
+import entities.GameLevel;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
@@ -36,8 +37,15 @@ public class Shoot extends Event {
         
         graphic.printMessage("risultato dei dadi: " + comingTile);
     	Ship s = player.getShip();
+    	GameLevel level = s.getGameLevel();
+    	
         switch (direction) {
             case Side.UP -> {
+            	if(comingTile >= level.getBoardX()) {
+            		graphic.printAlert(player.getName() +  " l' asteroide non ha colpito nulla");
+            		break;
+            	}
+            	
                 for(int i = 0; i < s.getGameLevel().getBoardY(); i++){     
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){
                         s.breakComponent(new Position(comingTile, i), type, direction);
@@ -48,6 +56,11 @@ public class Shoot extends Event {
             }
 
             case Side.DOWN -> {
+            	if(comingTile >= level.getBoardX()){
+            		graphic.printAlert(player.getName() +  " l' asteroide non ha colpito nulla");
+            		break;
+            	}
+            	
                 for(int i = (s.getGameLevel().getBoardY()-1); i >= 0; i--){
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){   
                         s.breakComponent(new Position(comingTile, i), type, direction);
@@ -57,6 +70,11 @@ public class Shoot extends Event {
             }
 
             case Side.LEFT -> {
+            	if(comingTile >= level.getBoardY()){
+            		graphic.printAlert(player.getName() +  " l' asteroide non ha colpito nulla");
+            		break;
+            	}
+            	
                 for(int i = 0; i < s.getGameLevel().getBoardX(); i++){  
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
                         s.breakComponent(new Position(i , comingTile), type, direction);
@@ -66,6 +84,11 @@ public class Shoot extends Event {
             }
 
             case Side.RIGHT -> {
+            	if(comingTile >= level.getBoardY()){
+            		graphic.printAlert(player.getName() +  " l' asteroide non ha colpito nulla");
+            		break;
+            	}
+            	
                 for(int i = (s.getGameLevel().getBoardX()-1); i >= 0 ; i--){  
                     if(s.getShipComponets()[comingTile][i].getComponent() != null){
                         s.breakComponent(new Position(i, comingTile), type, direction);

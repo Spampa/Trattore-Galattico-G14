@@ -23,6 +23,14 @@ public class Planet extends Event {
 	public Item[] getItems() {
 		return this.items;
 	}
+	
+	public String toStringItems() {
+		String s = "";
+		for(Item i : items) {
+			s += i.getName() + " ";
+		}
+		return s;
+	}
 
 	public Player getPlayer() {
 		return player;

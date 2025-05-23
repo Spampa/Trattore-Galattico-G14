@@ -35,6 +35,7 @@ public class FlyPhase extends Phase{
 
         graphic.printCard(currentCard);
         currentCard.execute(board);
+        graphic.printShipsRecap(board.getPlayers());
     }
 
     @Override

@@ -44,8 +44,8 @@ public class Player implements Comparable<Player> {
 
 	@Override
 	public int compareTo(Player p) {
-		if(this.moves > p.moves) return 1;
-		if(this.moves < p.moves) return -1;
+		if(this.moves > p.moves) return -1;
+		if(this.moves < p.moves) return 1;
 		return 0;
 	}
 	

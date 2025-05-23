@@ -18,15 +18,6 @@ public class AddItem extends Event {
 		this.player = player;
 	}
 	
-	public AddItem(Graphic graphic, Player player) {
-		super(graphic);
-		
-		ItemsRandomizer ir = new ItemsRandomizer();
-		this.items = ir.getRandomWares(1, 3);
-		this.player = player;
-	}
-	
-	
 	
 	@Override
 	public void start() {
@@ -43,9 +34,12 @@ public class AddItem extends Event {
 						graphic.printAlert("Il componente non puo' contenere " + item.getName());
 					}
 				}
+				else {
+					loop = false;
+				}
 			}while(loop);
 		}
-		graphic.printMessage("ottimo!" + player.getName() + "abbiamo finito di caricare gli oggetti");
+		graphic.printMessage("ottimo! " + player.getName() + " abbiamo finito di caricare gli oggetti");
 	}
 
 	private boolean isItemAdded(Item item, Position position, Ship ship) {
@@ -53,6 +47,7 @@ public class AddItem extends Event {
 			return ship.addItem(position, item);
 		}
 		catch(Exception e) {
+			System.out.println(e);
 			return false;
 		}
 	}

@@ -6,21 +6,40 @@ import java.util.Collections;
 import entities.GameLevel;
 import entities.Player;
 
-public class Board {
-	public final int numberOfSpaces;  					//flight board has 18 spaces
+public class Board {			//flight board has 18 spaces
 	private Space[] spaces;
 	private final ArrayList<Player> players;
+	private final GameLevel level;
 	
 	public Board(ArrayList<Player> players, GameLevel level) {
-		this.numberOfSpaces = level.getBoardSpaces();
 		this.players = players;
+		this.level = level;
 		
-		spaces = new Space[numberOfSpaces];
+		spaces = new Space[level.getBoardSpaces()];
 		
-		for(int i=0; i<numberOfSpaces; i++) {
-			this.spaces[i] = new Space(i);   					//creates a board with 18 spaces
+		for(int i=0; i < level.getBoardSpaces(); i++) {
+			this.spaces[i] = new Space(i);
 		}
 		
+		if(arePlayerPositionsAlreadySet()) {
+			for(Player p : players) {
+				this.setPlayerTile(p.getMoves(), p);
+			}
+		}
+		else {
+			setStartPosition();
+		}
+		Collections.sort(players);
+	}
+	
+	private boolean arePlayerPositionsAlreadySet() {
+		for(Player p : players) {
+			if(p.getMoves() != 0) return true;
+		}
+		return false;
+	}
+	
+	private void setStartPosition() {
 		switch(level) { //TODO: other position for other levels
 			case GameLevel.I -> {
 				this.movePlayer(0, players.get(0));
@@ -52,21 +71,23 @@ public class Board {
 		if(!players.contains(player)) return; //thorw error
 		spaces[this.calculateIndex(player)].removePlayer();
 		this.movePlayer(moves, player);
-		Collections.sort(players);
 	}
 	
 	public void moveBack(int moves, Player player) {
 		if(!players.contains(player)) return; //thorw error
 		spaces[this.calculateIndex(player)].removePlayer();
 		this.movePlayer(- moves, player);
-		Collections.sort(players);
 	}
 	
 	private void movePlayer(int moves, Player player) {
 		player.incrementMoves(moves);
-		
+		this.setPlayerTile(moves, player);
+		Collections.sort(players);
+	}
+	
+	private void setPlayerTile(int moves, Player player) {
 		while(spaces[this.calculateIndex(player)].getPlayer() != null) {
-			if(moves >= 0) player.incrementMoves(1);
+			if(moves > 0) player.incrementMoves(1);
 			else player.incrementMoves(-1);
 		}
 		
@@ -74,9 +95,9 @@ public class Board {
 	}
 	
 	private int calculateIndex(Player player) {
-		int index = player.getMoves() % numberOfSpaces;
+		int index = player.getMoves() % level.getBoardSpaces();
 		if(index < 0 ) {
-			index = numberOfSpaces + index;
+			index = level.getBoardSpaces() + index;
 		}
 		return index;
 	}
@@ -99,6 +120,6 @@ public class Board {
 	}
 	
 	public int getNumberOfSpaces() {
-		return numberOfSpaces;
+		return level.getBoardSpaces();
 	}
 }
