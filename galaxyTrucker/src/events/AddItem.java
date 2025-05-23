@@ -1,11 +1,8 @@
 package events;
 
-import components.Component;
-import components.models.containers.*;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
-import items.Battery;
 import randomizer.ItemsRandomizer;
 import items.*;
 import ui.Graphic;
@@ -52,16 +49,11 @@ public class AddItem extends Event {
 	}
 
 	private boolean isItemAdded(Item item, Position position, Ship ship) {
-		Component component = ship.getComponent(position);
-	    if (item instanceof Battery battery && component instanceof BatteryStorage storage) {
-	    	return storage.add(battery);
-	    }
-	    else if(item instanceof Ware ware && component instanceof WareStorage storage) {
-	    	return storage.add(ware);
-	    }
-	    else if(item instanceof Spaceman spaceman && component instanceof HousingUnit storage) {
-	    	return storage.add(spaceman);
-	    }
-		return false;
+		try {
+			return ship.addItem(position, item);
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 }

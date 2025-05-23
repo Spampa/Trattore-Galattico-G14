@@ -18,18 +18,26 @@ public class Ship {
 
 	private final ShipTile[][] shipComponents;
 
-	private ArrayList<Cannon> cannons;  
-	private ArrayList<Engine> engines; 
-    private ArrayList<Shield> shields; 
-	private ArrayList<WareStorage> wareStorages; 
-	private ArrayList<HousingUnit> housingUnits; 
-	private ArrayList<BatteryStorage> batteryStorages;
+	private ArrayList<Cannon> cannons = new ArrayList<Cannon>();  
+	private ArrayList<Engine> engines = new ArrayList<Engine>(); 
+    private ArrayList<Shield> shields = new ArrayList<Shield>(); 
+	private ArrayList<WareStorage> wareStorages = new ArrayList<WareStorage>(); 
+	private ArrayList<HousingUnit> housingUnits = new ArrayList<HousingUnit>(); 
+	private ArrayList<BatteryStorage> batteryStorages = new ArrayList<BatteryStorage>();
 	// private ArrayList<AlienHousingUnit> AlieUnits;
 
     public Ship(GameLevel level, Graphic g){
         this.level = level;
         this.g = g;
         shipComponents = getShipBoard();
+    }
+    
+    public Ship(GameLevel level, Graphic g, ShipTile[][] shipComponents) {
+        this.level = level;
+        this.g = g;
+        
+        //TODO: check if table is correct for the level
+        this.shipComponents = shipComponents;
     }
 
     public boolean isPlayable(){
@@ -303,13 +311,17 @@ public class Ship {
     }
 
     public boolean addItem(Position p, Item i) {
+    	Component c = this.getComponent(p);
     	
     	switch (i){
             case Battery b ->{
-                for(BatteryStorage bs : batteryStorages){
-                    if(bs.add(b)) return true;
-                }
-                return false;
+            	if(c instanceof BatteryStorage storage) {
+            		return storage.add(b);
+            	}
+            	else {
+            		//TODO: thorw erro
+            		return false;
+            	}
             }
 
             case Ware w ->{
@@ -535,7 +547,7 @@ public class Ship {
         return value;
     }
 
-    public float getFirePower() { 
+    public float getFirePower() {
         float power = 0;
         for(Cannon c : cannons){
             if(c.getBatteryRequired() > 0){
@@ -548,7 +560,7 @@ public class Ship {
         return power;
     }
 
-    public int getMotorPower() { 
+    public int getMotorPower() {
         int power = 0;
         for(Engine e : engines){
             if(e.getBatteryRequired() > 0){

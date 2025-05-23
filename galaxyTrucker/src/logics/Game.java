@@ -15,5 +15,4 @@ public class Game {
 		game.play();
 		sc.close();
 	}
-
 }
