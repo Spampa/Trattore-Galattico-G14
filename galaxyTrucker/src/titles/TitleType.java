@@ -1,6 +1,6 @@
 package titles;
 
-public enum TitleTypes {
+public enum TitleType {
 	FREIGHT_HAULER{
 		
 		@Override

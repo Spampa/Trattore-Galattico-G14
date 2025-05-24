@@ -6,12 +6,12 @@ import components.models.containers.HousingUnit;
 import entities.Player;
 import entities.ship.Ship;
 import titles.Title;
-import titles.TitleTypes;
+import titles.TitleType;
 
 public class TitleCruiseCaptain extends Title {
 
 	public TitleCruiseCaptain() {
-		super(TitleTypes.CRUISE_CAPTAIN.getDescription(), TitleTypes.CRUISE_CAPTAIN);
+		super(TitleType.CRUISE_CAPTAIN);
 	}
 
 	@Override
@@ -32,27 +32,55 @@ public class TitleCruiseCaptain extends Title {
 									if(c.getConnectors()[q].getNumber()==0) {
 										Side sd=Side.values()[q];
 										switch(sd) {
-										case UP:if(s.getShipComponets()[j+1][k].getComponent()==null||
+										case UP:{
+											if((j+1)<s.getGameLevel().getBoardY()) {
+												if(s.getShipComponets()[j+1][k].getComponent()==null||
 												s.getShipComponets()[j+1][k].isIsSpace()) {
+													count++;
+												}
+											}
+											else {
 											count++;
+											}
 											break;
 										}
 											
-										case RIGHT:if(s.getShipComponets()[j][k+1].getComponent()==null||
+										case RIGHT:{
+											if((k+1)<s.getGameLevel().getBoardX()) {
+												if(s.getShipComponets()[j][k+1].getComponent()==null||
 												s.getShipComponets()[j][k+1].isIsSpace()) {
+													count++;
+												}
+											}
+											else {
 											count++;
+											}
 											break;
 										}
 											
-										case DOWN:if(s.getShipComponets()[j-1][k].getComponent()==null||
+										case DOWN:{
+											if((j-1)>0) {
+												if(s.getShipComponets()[j-1][k].getComponent()==null||
 												s.getShipComponets()[j-1][k].isIsSpace()) {
+													count++;
+												}
+											}
+											else {
 											count++;
+											}
 											break;
 										}
 											
-										default:if(s.getShipComponets()[j][k-1].getComponent()==null||
+										default:{
+											if((k-1)>0) {
+												if(s.getShipComponets()[j][k-1].getComponent()==null||
 												s.getShipComponets()[j][k-1].isIsSpace()) {
+													count++;
+												}
+											}
+											else {
 											count++;
+											}
 											break;
 										}	
 											

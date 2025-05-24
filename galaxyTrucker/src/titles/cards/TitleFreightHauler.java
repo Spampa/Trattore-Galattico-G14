@@ -4,12 +4,12 @@ import components.models.containers.WareStorage;
 import entities.Player;
 import entities.ship.Ship;
 import titles.Title;
-import titles.TitleTypes;
+import titles.TitleType;
 
 public class TitleFreightHauler extends Title{
 
 	public TitleFreightHauler() {
-		super(TitleTypes.FREIGHT_HAULER.getDescription(), TitleTypes.FREIGHT_HAULER);
+		super(TitleType.FREIGHT_HAULER);
 	}
 
 	@Override

@@ -5,12 +5,12 @@ import components.models.*;
 import entities.Player;
 import entities.ship.Ship;
 import titles.Title;
-import titles.TitleTypes;
+import titles.TitleType;
 
 public class TitlePowerTrucker extends Title {
 
 	public TitlePowerTrucker() {
-		super(TitleTypes.POWER_TRUCKER.getDescription(), TitleTypes.POWER_TRUCKER);
+		super(TitleType.POWER_TRUCKER);
 	}
 
 	@Override

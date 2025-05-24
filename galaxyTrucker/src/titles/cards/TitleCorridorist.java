@@ -11,12 +11,12 @@ import entities.Position;
 import entities.ship.Ship;
 import entities.ship.ShipTile;
 import titles.Title;
-import titles.TitleTypes;
+import titles.TitleType;
 
 public class TitleCorridorist extends Title {
 
 	public TitleCorridorist() {
-		super(TitleTypes.CORRIDORIST.getDescription(), TitleTypes.CORRIDORIST);
+		super(TitleType.CORRIDORIST);
 	}
 
 	@Override

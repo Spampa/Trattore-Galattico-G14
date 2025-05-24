@@ -3,12 +3,12 @@ package titles.cards;
 import entities.Player;
 import entities.ship.Ship;
 import titles.Title;
-import titles.TitleTypes;
+import titles.TitleType;
 
 public class TitleMasterEngineer extends Title {
 
 	public TitleMasterEngineer() {
-		super(TitleTypes.MASTER_ENGINEER.getDescription(), TitleTypes.MASTER_ENGINEER);
+		super(TitleType.MASTER_ENGINEER);
 	}
 
 	@Override

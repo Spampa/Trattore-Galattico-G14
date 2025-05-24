@@ -1,7 +1,6 @@
 package titles;
 
 import java.util.Random;
-import java.util.random.*;
 
 import components.Connector;
 import entities.GameLevel;
@@ -9,24 +8,26 @@ import entities.Player;
 
 public abstract class Title {
 	
-	private boolean taken;
+
 	private boolean goldTier;
-	private final String description;
-	private final TitleTypes type;
+	private final TitleType type;
 	private Player player;
 	
 	public String getDescription() {
-		return description;
+		return type.getDescription();
 	}
 
-	public TitleTypes getType() {
+	public TitleType getType() {
 		return type;
 	}
 
-	public Title(String description, TitleTypes type) {
-		this.taken=false;
+	@Override
+	public String toString() {
+		return "Title [goldTier=" + goldTier + ", type=" + type + ", player=" + player + "]\n"+"Description: "+this.getDescription();
+	}
+
+	public Title(TitleType type) {
 		this.goldTier=false;
-		this.description=description;
 		this.type=type;
 		this.player=null;
 	}
@@ -58,17 +59,17 @@ public abstract class Title {
 	}
 	
 	public void assignToPlayer(Player[] players, int max_i) throws SpecialAssignmentException {
-		if(max_i>=0) {
-			this.taken=true;
+		if(max_i>=0) {							//caso classico: titolo assegnato al giocatore con counter maggiore (per quella categoria)
+			//this.taken=true;
 			this.player=players[max_i];
 			//TODO this.player.incrementCosmicCredits(2);
 		}
-		else 
+		else 										//casi particolari:
 		{
-			if(max_i==-100) {
+			if(max_i==-100) {						//caso particolare 1: tutti i giocatori sono non-playable-->assegnazione random
 				this.assignToRandomPlayer(players);
 			}
-			else
+			else									//caso particolare 2: tutti i giocatori avevano rispettivi counter a 0--> eccezione
 				throw new SpecialAssignmentException(this, players);
 		}
 	}
@@ -97,7 +98,7 @@ public abstract class Title {
 		int num_players=players.length;
 		int rand_index=new Random().nextInt()%num_players;
 		this.player=players[rand_index];
-		this.taken=true;
+		//this.taken=true;
 	}
 	
     public static boolean checkConnectors(Connector c1, Connector c2){     

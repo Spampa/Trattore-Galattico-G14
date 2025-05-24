@@ -11,13 +11,13 @@ import entities.Position;
 import entities.ship.Ship;
 import entities.ship.ShipTile;
 import titles.Title;
-import titles.TitleTypes;
+import titles.TitleType;
 import entities.GameLevel;
 
 public class TitleXenoquartermaster extends Title{
 
 	public TitleXenoquartermaster() {
-		super(TitleTypes.XENOQUARTERMASTER.getDescription(), TitleTypes.XENOQUARTERMASTER);
+		super(TitleType.XENOQUARTERMASTER);
 	}
 
 	public int findElibiglePlayer(Player[] players) {
