@@ -15,7 +15,7 @@ public class Deck {
 
     private void initializeDeck(GameLevel level, Graphic graphic) {
         cards.add(new Planets(graphic));
-        cards.add(new AbandonedStationCard(level, graphic));
+        cards.add(new StarDustCard(level, graphic));
         cards.add(new AsteroidSwarm(level, graphic));
         
         Collections.shuffle(cards);
