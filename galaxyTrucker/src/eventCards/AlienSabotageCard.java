@@ -1,16 +1,15 @@
 package eventCards;
 
+import components.Component;
+import entities.Player;
+import entities.Position;
+import entities.board.Board;
+import entities.ship.Ship;
+import entities.ship.ShipTile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import entities.Player;
-import entities.ship.Ship;
-import entities.ship.ShipTile;
-import entities.board.Board;
 import ui.Graphic;
-import components.Component;
-import entities.Position;
 
 public class AlienSabotageCard extends Card {
     private static final int MIN_ALIENS_TO_TRIGGER = 1;
@@ -62,8 +61,7 @@ public class AlienSabotageCard extends Card {
     }
 
     private boolean isValidTarget(ShipTile tile) {
-        return tile.getComponent() != null && 
-               !tile.isShieldProtected();
+        return tile.getComponent() != null;
     }
 
     private Position selectRandomTarget(List<Position> targets) {

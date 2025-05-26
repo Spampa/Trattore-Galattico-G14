@@ -2,10 +2,9 @@ package eventCards;
 
 import entities.*;
 import entities.board.Board;
-import ui.Graphic;
-
 import java.util.ArrayList;
 import java.util.Collections;
+import ui.Graphic;
 
 public class StarDustCard extends Card {
 
@@ -13,23 +12,21 @@ public class StarDustCard extends Card {
         super(graphic,
               "Polvere Stellare",
               "Ogni giocatore perde " + 1 + " giorno di volo per ogni connettore esposto!",
-              level,
-              1);
+              level);
     }
 
     @Override
     public void execute(Board board) {
-        ArrayList<Player> players = new ArrayList<>(board.getPlayers());
+        ArrayList<Player> players = board.getPlayers();
         Collections.reverse(players); 
 
         graphic.printMessage("Evento speciale: Polvere Stellare!");
 
         for (Player player : players) {
-            int exposedConnectors = player.getShip().getVoidConnectors();
-            int daysToLose = getFlyDays() * exposedConnectors;
+            int daysToLose = player.getShip().getVoidConnectors();
 
-            if (exposedConnectors > 0) {
-                graphic.printMessage(player.getName() + " ha " + exposedConnectors +
+            if (daysToLose > 0) {
+                graphic.printMessage(player.getName() + " ha " + daysToLose +
                                      " connettori esposti e perde " + daysToLose + " giorni di volo.");
                 board.moveBack(daysToLose, player);
             } else {
