@@ -8,9 +8,9 @@ import entities.ship.Ship;
 import titles.Title;
 import titles.TitleType;
 
-public class TitleCruiseCaptain extends Title {
+public class CruiseCaptain extends Title {
 
-	public TitleCruiseCaptain() {
+	public CruiseCaptain() {
 		super(TitleType.CRUISE_CAPTAIN);
 	}
 

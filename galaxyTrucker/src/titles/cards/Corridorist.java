@@ -13,9 +13,9 @@ import entities.ship.ShipTile;
 import titles.Title;
 import titles.TitleType;
 
-public class TitleCorridorist extends Title {
+public class Corridorist extends Title {
 
-	public TitleCorridorist() {
+	public Corridorist() {
 		super(TitleType.CORRIDORIST);
 	}
 
