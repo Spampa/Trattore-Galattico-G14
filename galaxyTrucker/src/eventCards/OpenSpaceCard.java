@@ -24,7 +24,7 @@ public class OpenSpaceCard extends Card {
 
         for (Player player : players) {
             Ship ship = player.getShip();
-            graphic.printMessage("🚀 " + player.getName() + ", tocca a te.");
+            graphic.printMessage(player.getName() + ", tocca a te.");
 
             int power = ship.getMotorPower(); 
             if (power == 0) {
