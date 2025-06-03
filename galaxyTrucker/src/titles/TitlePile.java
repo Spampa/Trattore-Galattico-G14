@@ -11,12 +11,12 @@ public class TitlePile {
 	private final Graphic graphic;
 	public TitlePile(Graphic graphic) {
 		this.titles=new ArrayList<Title>();
-		this.titles.add(new TitleFreightHauler());
-		this.titles.add(new TitlePowerTrucker());
-		this.titles.add(new TitleMasterEngineer());
-		this.titles.add(new TitleCruiseCaptain());
-		this.titles.add(new TitleXenoquartermaster());
-		this.titles.add(new TitleCorridorist());
+		this.titles.add(new FreightHauler());
+		this.titles.add(new PowerTrucker());
+		this.titles.add(new MasterEngineer());
+		this.titles.add(new CruiseCaptain());
+		this.titles.add(new Xenoquartermaster());
+		this.titles.add(new Corridorist());
 		this.graphic=graphic;
 	}
 	

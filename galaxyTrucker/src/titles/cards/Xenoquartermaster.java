@@ -2,6 +2,7 @@ package titles.cards;
 
 import java.util.ArrayList;				//serve per 2a versione di findNearestHousingUnit
 import java.util.Arrays;
+import java.util.HashMap;
 
 import components.Component;
 import components.enums.Side;
@@ -14,9 +15,9 @@ import titles.Title;
 import titles.TitleType;
 import entities.GameLevel;
 
-public class TitleXenoquartermaster extends Title{
+public class Xenoquartermaster extends Title{
 
-	public TitleXenoquartermaster() {
+	public Xenoquartermaster() {
 		super(TitleType.XENOQUARTERMASTER);
 	}
 
@@ -32,6 +33,7 @@ public class TitleXenoquartermaster extends Title{
 					for(int k = 0; k < s.getGameLevel().getBoardX(); k++) {
 						Component c=s.getShipComponets()[j][k].getComponent();
 						if(c instanceof Component /* TODO replace Component with LifeSupportSystem when defined*/) {   //ci possono essere al massimo due LifeSupportSystem su una nave
+							
 							count+= findNearestHousingUnit(/*c.getPosition()*/new Position(k,j), s.getShipComponets(), s.getGameLevel());							
 					}
 				} 
@@ -50,6 +52,8 @@ public class TitleXenoquartermaster extends Title{
 		return max;
 	}
 	
+	//versione ERRATA di findNearestHousingUnit (partiva dal metodo di ship findPathToCore, ma quin non va bene)
+	/*
 	private static int findNearestHousingUnit(Position p, ShipTile[][] shipComponents, GameLevel level) {//per come è ora trova un path fino ad una housingunit, ma non è detto che sia il più vicino
 		 int [] r=new int[4];																				//TODO aggiungere un attributo countVisited in ShipTile + due metodi (un get e un get)
 		 																									//scopo: realizzazione dell'alg di Dijkstra
@@ -90,10 +94,22 @@ public class TitleXenoquartermaster extends Title{
 	        Arrays.sort(r);			//ordina vettore r in maniera crescente
 	        return r[0]; 			//restituisce l'elemento in cima(il più piccolo)
 	}
+	*/
 	
+	//versione 2 di findNearestHousingUnit
 	
-	//TODO versione 2 di findNearestHousingUnit
-/*	
+	private static HashMap<ShipTile, Integer> createEmptyMap(ShipTile[][] shipComponents, GameLevel level){
+		HashMap<ShipTile, Integer> shipmap=new HashMap<>();
+		for(int j = 0; j < level.getBoardY(); j++) {
+			for(int k = 0; k < level.getBoardX(); k++) {
+				if(shipComponents[j][k].getComponent()!=null ) {
+					shipmap.put(shipComponents[j][k], 0);	
+				}			
+			}
+		}
+		return shipmap;
+	}
+	
 	private static ArrayList<ShipTile> getNeighbours(Position p,ShipTile[][] shipComponents, GameLevel level){
 		ArrayList<ShipTile> temp=new ArrayList<ShipTile>(); 
 		if(p.getY()+1 < level.getBoardY() 
@@ -126,25 +142,30 @@ public class TitleXenoquartermaster extends Title{
 	
 	private static int findNearestHousingUnit(Position source, ShipTile[][] shipComponents, GameLevel level) {
 		boolean trovato=false;
-		int count;
+		int count=0;
 		ArrayList<ShipTile> aggiunti=new ArrayList<ShipTile>(); 
 		aggiunti.add(shipComponents[source.getY()][source.getX()]);
+		HashMap<ShipTile, Integer> shipmap=createEmptyMap(shipComponents, level);
 		Position p=source;
 		while(!trovato) {
 			ArrayList<ShipTile> vicini=getNeighbours(p, shipComponents, level);
 			for(int i=0; i<vicini.size();i++) {
 				if(vicini.get(i).getComponent()instanceof HousingUnit) {
-					count=shipComponents[p.getY()][p.getX()].getCountVisited()+1;
+					//count=shipComponents[p.getY()][p.getX()].getCountVisited()+1;
+					count=shipmap.get(shipComponents[p.getY()][p.getX()])+1;
 					trovato=true;
 				}
 				else {
 					if(!aggiunti.contains(vicini.get(i))) {
 						aggiunti.add(vicini.get(i));
-						vicini.get(i).setCountVisited(shipComponents[p.getY()][p.getX()].getCountVisited()+1);
+						//vicini.get(i).setCountVisited(shipComponents[p.getY()][p.getX()].getCountVisited()+1);
+						shipmap.replace(vicini.get(i), shipmap.get(shipComponents[p.getY()][p.getX()])+1);
 					}
 					else {
-						if(vicini.get(i).getCountVisited()>(shipComponents[p.getY()][p.getX()].getCountVisited()+1)) {
-							vicini.get(i).setCountVisited(shipComponents[p.getY()][p.getX()].getCountVisited()+1);
+						if(shipmap.get(vicini.get(i))>(shipmap.get(shipComponents[p.getY()][p.getX()])+1)) {
+						//if(vicini.get(i).getCountVisited()>(shipComponents[p.getY()][p.getX()].getCountVisited()+1)) {
+							//vicini.get(i).setCountVisited(shipComponents[p.getY()][p.getX()].getCountVisited()+1);
+							shipmap.replace(vicini.get(i), shipmap.get(shipComponents[p.getY()][p.getX()])+1);
 						}
 					}
 				}
@@ -162,6 +183,6 @@ public class TitleXenoquartermaster extends Title{
 		}	
 		return count;
 	}
-    */
+    
 }
 

@@ -5,9 +5,9 @@ import entities.ship.Ship;
 import titles.Title;
 import titles.TitleType;
 
-public class TitleMasterEngineer extends Title {
+public class MasterEngineer extends Title {
 
-	public TitleMasterEngineer() {
+	public MasterEngineer() {
 		super(TitleType.MASTER_ENGINEER);
 	}
 

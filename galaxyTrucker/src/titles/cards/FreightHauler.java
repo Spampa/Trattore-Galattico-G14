@@ -1,16 +1,15 @@
 package titles.cards;
 
-import components.Component;
-import components.models.*;
+import components.models.containers.WareStorage;
 import entities.Player;
 import entities.ship.Ship;
 import titles.Title;
 import titles.TitleType;
 
-public class TitlePowerTrucker extends Title {
+public class FreightHauler extends Title{
 
-	public TitlePowerTrucker() {
-		super(TitleType.POWER_TRUCKER);
+	public FreightHauler() {
+		super(TitleType.FREIGHT_HAULER);
 	}
 
 	@Override
@@ -24,9 +23,9 @@ public class TitlePowerTrucker extends Title {
 				Ship s=players[i].getShip();
 				for(int j = 0; j < s.getGameLevel().getBoardY(); j++) {
 					for(int k = 0; k < s.getGameLevel().getBoardX(); k++) {
-						Component c=s.getShipComponets()[j][k].getComponent();
-						if(c instanceof Engine || c instanceof Cannon || c instanceof Shield) {	
-							count++;
+						if(s.getShipComponets()[j][k].getComponent() instanceof WareStorage) {
+							if(((WareStorage) (s.getShipComponets()[i][j].getComponent())).getCurrentCapacity()>0)
+								count++;
 						}	
 					}
 				} 
@@ -43,6 +42,5 @@ public class TitlePowerTrucker extends Title {
 		int max_i=findMax(counters, players);
 		return max_i;		
 	}
-
 }
 
