@@ -22,7 +22,11 @@ public class Ship {
 	private ArrayList<Engine> engines = new ArrayList<Engine>(); 
     private ArrayList<Shield> shields = new ArrayList<Shield>(); 
 	private ArrayList<WareStorage> wareStorages = new ArrayList<WareStorage>(); 
+<<<<<<< Updated upstream
 	private ArrayList<SpacemanUnit> spacemanUnits = new ArrayList<SpacemanUnit>(); 
+=======
+	//private ArrayList<AlienUnit> AlienUnits = new ArrayList<AlienUnit>();
+>>>>>>> Stashed changes
 	private ArrayList<BatteryStorage> batteryStorages = new ArrayList<BatteryStorage>();
 	// private ArrayList<AlienHousingUnit> AlieUnits;
 
@@ -79,26 +83,35 @@ public class Ship {
         if(p.getY()+1 < level.getBoardY() 
         && !shipComponents[p.getY()+1][p.getX()].isScanned() 
         && shipComponents[p.getY()+1][p.getX()].getComponent() != null 
+        && getComponent(p).getConnector(Side.DOWN) != Connector.EMPTY 
+        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP) != Connector.EMPTY 
         && checkConnectors(getComponent(p).getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))){
             r1 = findPathToCore(new Position(p.getX(), p.getY()+1)); 
         }
         
         if(p.getY()-1 >= 0 
         && !shipComponents[p.getY()-1][p.getX()].isScanned() 
-        && shipComponents[p.getY()-1][p.getX()].getComponent() != null 
+        && shipComponents[p.getY()-1][p.getX()].getComponent() != null
+        && getComponent(p).getConnector(Side.UP) != Connector.EMPTY 
+        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.DOWN) != Connector.EMPTY 
         && checkConnectors(getComponent(p).getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))){
             r2 = findPathToCore(new Position(p.getX(), p.getY()-1));
         }
 
         if(p.getX()+1 < level.getBoardX() 
         && !shipComponents[p.getY()][p.getX()+1].isScanned() 
-        && shipComponents[p.getY()][p.getX()+1].getComponent() != null 
+        && shipComponents[p.getY()][p.getX()+1].getComponent() != null
+        && getComponent(p).getConnector(Side.RIGHT) != Connector.EMPTY 
+        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.LEFT) != Connector.EMPTY 
         && checkConnectors(getComponent(p).getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))){
             r3 = findPathToCore(new Position(p.getX()+1, p.getY()));
         }
 
-        if(p.getX()-1 > 0 && !shipComponents[p.getY()][p.getX()-1].isScanned() 
+        if(p.getX()-1 > 0 
+        && !shipComponents[p.getY()][p.getX()-1].isScanned() 
         && shipComponents[p.getY()][p.getX()-1].getComponent() != null 
+        && getComponent(p).getConnector(Side.LEFT) != Connector.EMPTY 
+        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.RIGHT) != Connector.EMPTY 
         && checkConnectors(getComponent(p).getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))){
             r4 = findPathToCore( new Position(p.getX()-1, p.getY()) );
         }
