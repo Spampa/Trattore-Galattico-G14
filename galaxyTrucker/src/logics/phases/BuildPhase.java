@@ -17,7 +17,7 @@ public class BuildPhase extends  Phase{
 
     public BuildPhase(GameLogic game, Graphic graphic){
         super(game, graphic);
-        this.pool = new ComponentPool();
+        this.pool = new ComponentPool(game.getLevel());
         finishedPlayers = new ArrayList<Player>();
     }
     

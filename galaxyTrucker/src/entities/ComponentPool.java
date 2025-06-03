@@ -12,8 +12,8 @@ public class ComponentPool {
 	private static List<Component> pool;
 	private Component lastDrawComponent;
 	
-	public ComponentPool() {
-		ComponentRandomizer cr = new ComponentRandomizer();
+	public ComponentPool(GameLevel level) {
+		ComponentRandomizer cr = new ComponentRandomizer(level);
 		
 		pool = cr.generateComponentsSet();
 		discardedComponents = new ArrayList<Component>();
@@ -60,12 +60,5 @@ public class ComponentPool {
 		lastDrawComponent = null;
 		return status;
 	}
-	
-	public static void main(String[] args) {
-		ComponentPool p = new ComponentPool();
-		
-		for(int i = 0; i < 10; i++) {
-			System.out.println(p.draw() + "\n");
-		}
-	}
+
 }

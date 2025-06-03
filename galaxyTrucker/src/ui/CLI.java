@@ -4,7 +4,7 @@ import components.Component;
 import components.enums.Side;
 import components.models.*;
 import components.models.containers.BatteryStorage;
-import components.models.containers.HousingUnit;
+import components.models.containers.SpacemanUnit;
 import components.models.containers.WareStorage;
 import entities.GameLevel;
 import entities.Player;
@@ -142,7 +142,7 @@ public class CLI implements Graphic{
 			case WareStorage con ->{
 				icon = "S";
 			}
-			case HousingUnit house ->{
+			case SpacemanUnit house ->{
 				if(house.isCore()) icon = "N";
 				else icon = "H";
 			}

@@ -38,7 +38,7 @@ public abstract class Title {
 		Player previous=this.getTitleHolder();
 		int new_max=this.findElibiglePlayer(players);
 		if(previous==players[new_max]) {
-			switch(gl.getLevel()) {
+			switch(gl.toInt()) {
 			case 2:{
 				goldTier=true;
 				//TODO this.player.incrementCosmicCredits(4);

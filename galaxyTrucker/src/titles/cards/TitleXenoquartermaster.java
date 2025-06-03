@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import components.Component;
 import components.enums.Side;
-import components.models.containers.HousingUnit;
+import components.models.containers.SpacemanUnit;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
@@ -54,7 +54,7 @@ public class TitleXenoquartermaster extends Title{
 		 int [] r=new int[4];																				//TODO aggiungere un attributo countVisited in ShipTile + due metodi (un get e un get)
 		 																									//scopo: realizzazione dell'alg di Dijkstra
 	        if(shipComponents[p.getY()][p.getX()].getComponent() != null){
-	            if(shipComponents[p.getY()][p.getX()].getComponent() instanceof HousingUnit){
+	            if(shipComponents[p.getY()][p.getX()].getComponent() instanceof SpacemanUnit){
 	                return 1;
 	            }
 	            else shipComponents[p.getY()][p.getX()].setScanned(true);

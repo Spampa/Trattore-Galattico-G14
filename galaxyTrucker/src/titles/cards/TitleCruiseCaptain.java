@@ -2,7 +2,7 @@ package titles.cards;
 
 import components.Component;
 import components.enums.Side;
-import components.models.containers.HousingUnit;
+import components.models.containers.SpacemanUnit;
 import entities.Player;
 import entities.ship.Ship;
 import titles.Title;
@@ -26,8 +26,8 @@ public class TitleCruiseCaptain extends Title {
 				for(int j = 0; j < s.getGameLevel().getBoardY(); j++) {
 					for(int k = 0; k < s.getGameLevel().getBoardX(); k++) {
 						Component c=s.getShipComponets()[j][k].getComponent();
-						if(c instanceof HousingUnit) {
-							if(((HousingUnit) c).getCurrentCapacity()>0) {
+						if(c instanceof SpacemanUnit) {
+							if(((SpacemanUnit) c).getCurrentCapacity()>0) {
 								for(int q=0; q<4; q++) {
 									if(c.getConnectors()[q].getNumber()==0) {
 										Side sd=Side.values()[q];

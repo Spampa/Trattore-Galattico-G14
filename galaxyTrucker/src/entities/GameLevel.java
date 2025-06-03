@@ -23,7 +23,7 @@ public enum GameLevel {
         return boardY;
     }
 
-    public int getLevel() {
+    public int toInt() {
         return level;
     }
 

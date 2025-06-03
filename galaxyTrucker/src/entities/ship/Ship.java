@@ -22,7 +22,7 @@ public class Ship {
 	private ArrayList<Engine> engines = new ArrayList<Engine>(); 
     private ArrayList<Shield> shields = new ArrayList<Shield>(); 
 	private ArrayList<WareStorage> wareStorages = new ArrayList<WareStorage>(); 
-	private ArrayList<HousingUnit> housingUnits = new ArrayList<HousingUnit>(); 
+	private ArrayList<SpacemanUnit> spacemanUnits = new ArrayList<SpacemanUnit>(); 
 	private ArrayList<BatteryStorage> batteryStorages = new ArrayList<BatteryStorage>();
 	// private ArrayList<AlienHousingUnit> AlieUnits;
 
@@ -70,7 +70,7 @@ public class Ship {
         boolean r1 = false, r2 = false, r3 = false, r4 = false;
 
         if(getComponent(p) != null){
-            if(getComponent(p) instanceof HousingUnit possibleCore){
+            if(getComponent(p) instanceof SpacemanUnit possibleCore){
                 if(possibleCore.isCore()) return true;
             }
             else shipComponents[p.getY()][p.getX()].setScanned(true);
@@ -166,7 +166,7 @@ public class Ship {
         this.cannons = new ArrayList<>();  
 	    this.engines = new ArrayList<>(); 
 	    this.wareStorages = new ArrayList<>(); 
-	    this.housingUnits = new ArrayList<>(); 
+	    this.spacemanUnits = new ArrayList<>(); 
 	    this.batteryStorages = new ArrayList<>();
 
         for(int i = 0; i < level.getBoardX(); i++){
@@ -198,8 +198,8 @@ public class Ship {
                            break;
                         }
     
-                        case HousingUnit h ->{
-                            housingUnits.add(h);
+                        case SpacemanUnit h ->{
+                            spacemanUnits.add(h);
                             break;
                         }
                         
@@ -338,7 +338,7 @@ public class Ship {
             }
 
             case  Spaceman s ->{
-                for(HousingUnit hu : housingUnits){
+                for(SpacemanUnit hu : spacemanUnits){
                     if(hu.add(s)) return true;
                 }
                 return false;
@@ -376,7 +376,7 @@ public class Ship {
             }
 
             case  Spaceman s ->{
-                for(HousingUnit hu : housingUnits){
+                for(SpacemanUnit hu : spacemanUnits){
                     if(hu.getCurrentCapacity() > 0){
                         hu.remove();
                         return true;
@@ -439,7 +439,7 @@ public class Ship {
                 s[4][4] = new ShipTile();
                 s[4][5] = new ShipTile();
                 
-                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new HousingUnit(c, true));
+                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new SpacemanUnit(c, true));
             }
             case GameLevel.II -> {
                 s[0][2] = new ShipTile();
@@ -474,7 +474,7 @@ public class Ship {
                 s[4][5] = new ShipTile();
                 s[4][6] = new ShipTile();
                 
-                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new HousingUnit(c, true));
+                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new SpacemanUnit(c, true));
             }
             case GameLevel.III ->{
                 s[0][4] = new ShipTile();
@@ -519,7 +519,7 @@ public class Ship {
                 s[5][7] = new ShipTile();
                 s[5][8] = new ShipTile();
 
-                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new HousingUnit(c, true));
+                s[level.getBoardY()/2][level.getBoardX()/2].setComponent(new SpacemanUnit(c, true));
             }
         }
 
@@ -620,7 +620,7 @@ public class Ship {
 
     public int getSpacemans() {
         int value = 0;
-        for(HousingUnit h : housingUnits){
+        for(SpacemanUnit h : spacemanUnits){
             value += h.getCurrentCapacity();
         }
         return value;

@@ -26,6 +26,8 @@ public class BatteryStorage extends Container<Battery> {
 	}
 	
 	private void fill(int numOfItems) {
+		if(numOfItems > super.getMaxCapacity()) throw new IllegalArgumentException("numOfItems is more than container size");
+		
 		for(int i = 0; i < numOfItems; i++) {
 			super.add(new Battery());
 		}

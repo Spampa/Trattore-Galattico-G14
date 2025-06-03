@@ -222,7 +222,7 @@ public class SaveLoadManager {
 				break;
 			}
 			case "HousingUnit": {
-				component = new HousingUnit(connectors, true, Integer.parseInt(fields[9]));
+				component = new SpacemanUnit(connectors, true, Integer.parseInt(fields[9]));
 				break;
 			}
 			case "NormalWareStorage": {

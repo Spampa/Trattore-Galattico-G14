@@ -2,18 +2,23 @@ package randomizer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import components.Component;
 import components.enums.*;
 import components.models.*;
 import components.models.containers.*;
+import entities.GameLevel;
+import items.enums.AlienType;
 
 public class ComponentRandomizer {
 	
 	private ConnectorsRandomizer connectorsRandomizer = new ConnectorsRandomizer();
 	private List<Component> componentSet;
+	private final GameLevel level;
 	
-	public ComponentRandomizer() {
+	public ComponentRandomizer(GameLevel level) {
+		this.level = level;
 		componentSet = new ArrayList<Component>();
 	}
 	
@@ -36,9 +41,14 @@ public class ComponentRandomizer {
 		componentSet.addAll(this.generateNormalStorage(6, ContainerSize.BIG));
 		componentSet.addAll(this.generateNormalStorage(9, ContainerSize.SMALL));
 		
-		componentSet.addAll(this.generateHousingUnit(17));
+		componentSet.addAll(this.generateSpacemanUnit(17));
 		
 		componentSet.addAll(this.generateShields(8));
+		
+		if(level.toInt() >= 2) {
+			componentSet.addAll(this.generateLifeSupport(7, AlienType.PURPLE));
+			componentSet.addAll(this.generateLifeSupport(7, AlienType.BROWN));
+		}
 		
 		return componentSet;
 	}
@@ -91,10 +101,18 @@ public class ComponentRandomizer {
 		return s;
 	}
 	
-	private List<Component> generateHousingUnit(int max) {
+	private List<Component> generateSpacemanUnit(int max) {
 		List<Component> s = new ArrayList<Component>();
 		for(int i = 0; i < max; i++) {
-			s.add(new HousingUnit(connectorsRandomizer.getRandomConnectors()));
+			s.add(new SpacemanUnit(connectorsRandomizer.getRandomConnectors()));
+		}
+		return s;
+	}
+	
+	private List<Component> generateLifeSupport(int max, AlienType type) {
+		List<Component> s = new ArrayList<Component>();
+		for(int i = 0; i < max; i++) {
+			s.add(new LifeSupport(connectorsRandomizer.getRandomConnectors(), type));
 		}
 		return s;
 	}
