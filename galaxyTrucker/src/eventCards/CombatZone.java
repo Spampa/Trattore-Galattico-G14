@@ -18,8 +18,8 @@ public class CombatZone extends Card {
     private final Shoot FIRST_SHOOT;
     private final Shoot SECOND_SHOOT;
     
-    public CombatZone(Graphic graphic, String name, String description, GameLevel level) {
-        super(graphic, name, description, level);
+    public CombatZone(Graphic graphic) {
+        super(graphic, "Zona di guerra", "Sei entrato in una zona di guerra!");
         this.FIRST_SHOOT  = new Shoot(graphic, Side.DOWN, ProjectileType.SMALL_CANNON);
         this.SECOND_SHOOT  = new Shoot(graphic, Side.DOWN, ProjectileType.BIG_CANNON);
     }

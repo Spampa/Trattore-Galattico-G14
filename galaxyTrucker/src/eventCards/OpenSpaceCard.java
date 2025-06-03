@@ -9,10 +9,9 @@ import java.util.ArrayList;
 
 public class OpenSpaceCard extends Card {
 
-    public OpenSpaceCard(GameLevel level, Graphic graphic) {
+    public OpenSpaceCard(Graphic graphic) {
         super(graphic, "Spazio Aperto", 
-              "Ogni giocatore può guadagnare giorni di volo in base alla potenza dei suoi motori.", 
-              level, 0);
+              "Ogni giocatore può guadagnare giorni di volo in base alla potenza dei suoi motori.");
     }
 
     @Override

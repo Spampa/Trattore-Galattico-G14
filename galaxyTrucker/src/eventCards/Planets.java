@@ -18,26 +18,23 @@ public class Planets extends Card {
 	private ItemsRandomizer itemsRandomizer = new ItemsRandomizer();
 	
 
-	public Planets(Graphic graphic, int numberOfPlanets) {
-		super(graphic, "Planets", "", GameLevel.I, 2);
+	/*public Planets(Graphic graphic, GameLevel level, int numberOfPlanets) {
+		super(graphic, "Planets", "", level, new Random().nextInt(level.toInt())+2);
 		
 		if(numberOfPlanets < MIN_PLANETS || numberOfPlanets > MAX_PLANETS) throw new IllegalArgumentException("Number of planets must be between 2 and 4.");
 		this.planets = new Planet[numberOfPlanets];
 		
-	}
+	}*/
 	
-	public Planets(Graphic graphic) {
-		super(graphic, "Planets", "", GameLevel.I, 2);
+	public Planets(Graphic graphic, GameLevel level, int lostdays, Planet[] planets) {
+		super(graphic, "Planets", "", level, lostdays);
 		
-		Random random = new Random();
-		int numberOfPlanets = random.nextInt(3) + 2;
-		this.planets = new Planet[numberOfPlanets];
+		this.planets = planets;
 	}
 
 	@Override
 	public void execute(Board board) {
 		ArrayList<Player> players = board.getPlayers();
-		this.initPlanets();
 		
 		for(Planet planet : planets) {
 			graphic.printMessage(planet.getName() + " contiene: " + planet.toStringItems());
@@ -71,14 +68,6 @@ public class Planets extends Card {
 			graphic.printMessage(planet.getPlayer().getName() + " inizia lo sbarco: ");
 			planet.start();
 			super.lostFlyDays(board, planet.getPlayer());
-		}
-	}
-	
-	private void initPlanets() {
-		String[] planetsNames = new String[] {"Marte", "Giove", "Venere", "Saturno"};
-		
-		for(int i = 0; i < planets.length; i++) {
-			planets[i] = new Planet(super.graphic, planetsNames[i], itemsRandomizer.getRandomWares(1, 4));
 		}
 	}
 	

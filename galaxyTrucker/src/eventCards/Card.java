@@ -20,7 +20,23 @@ public abstract class Card {
         this.level = level;
         this.flyDays = 0;
     }
+    
+    public Card(Graphic graphic, String name, String description) {
+    	this.graphic = graphic;
+        this.name = name;
+        this.description = description;
+        this.level = GameLevel.I;
+        this.flyDays = 0;
+    }
 
+    public Card(Graphic graphic, String name, String description, int flyDays) {
+    	this.graphic = graphic;
+        this.name = name;
+        this.description = description;
+        this.level = GameLevel.I;
+        this.flyDays = flyDays;
+    }
+    
     public Card(Graphic graphic, String name, String description, GameLevel level, int flyDays) {
     	this.graphic = graphic;
         this.name = name;

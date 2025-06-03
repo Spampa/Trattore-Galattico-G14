@@ -1,6 +1,7 @@
 package eventCards;
 
 import components.Component;
+import entities.GameLevel;
 import entities.Player;
 import entities.Position;
 import entities.board.Board;
@@ -17,8 +18,7 @@ public class AlienSabotageCard extends Card {
     public AlienSabotageCard(Graphic graphic) {
         super(graphic, "Sabotaggio Alieno", 
              "Gli alieni sabotano componenti casuali", 
-             null,  
-             2);    
+             GameLevel.III);    
     }
 
     @Override

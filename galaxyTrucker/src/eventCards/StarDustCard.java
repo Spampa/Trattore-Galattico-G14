@@ -8,11 +8,10 @@ import ui.Graphic;
 
 public class StarDustCard extends Card {
 
-    public StarDustCard(GameLevel level, Graphic graphic) {
+    public StarDustCard(Graphic graphic) {
         super(graphic,
               "Polvere Stellare",
-              "Ogni giocatore perde " + 1 + " giorno di volo per ogni connettore esposto!",
-              level);
+              "Ogni giocatore perde " + 1 + " giorno di volo per ogni connettore esposto!");
     }
 
     @Override

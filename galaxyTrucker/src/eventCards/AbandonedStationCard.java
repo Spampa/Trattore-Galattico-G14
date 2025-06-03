@@ -14,13 +14,13 @@ public class AbandonedStationCard extends Card {
 	
 	private final int spacemanCost;
 
-    public AbandonedStationCard(GameLevel level, Graphic graphic, int spacemanCost) {
-        super(graphic, "Stazione Abbandonata", "",  level, 1);
+    public AbandonedStationCard(Graphic graphic, int spacemanCost) {
+        super(graphic, "Stazione Abbandonata", "", 1);
         this.spacemanCost = spacemanCost;
     }
     
-    public AbandonedStationCard(GameLevel level, Graphic graphic) {
-        super(graphic, "Stazione Abbandonata", "",  level, 1);
+    public AbandonedStationCard(Graphic graphic) {
+        super(graphic, "Stazione Abbandonata", "", 1);
         Random r = new Random();
         this.spacemanCost = r.nextInt(4)+2;
     }

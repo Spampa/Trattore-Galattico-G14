@@ -12,10 +12,9 @@ import ui.Graphic;
 public class AsteroidSwarm extends Card {
 	private final Shoot[] shoots;
     
-    public AsteroidSwarm(GameLevel level, Graphic graphic) {
+    public AsteroidSwarm(Graphic graphic) {
         super(graphic, "Campo Asteroidi", 
-              "2 danni casuali alla nave (1 se motori >= 3)", 
-              level);
+              "2 danni casuali alla nave (1 se motori >= 3");
         this.shoots = getShoots();
     }
     

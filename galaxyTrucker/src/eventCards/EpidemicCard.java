@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import entities.GameLevel;
 import entities.Player;
 import entities.ship.Ship;
 import entities.ship.ShipTile;
@@ -18,8 +19,7 @@ public class EpidemicCard extends Card {
     public EpidemicCard(Graphic graphic) {
         super(graphic, "Epidemia", 
              "Malattia contagiosa", 
-             null,  
-             2);    
+             GameLevel.II);    
     }
 
     @Override

@@ -9,8 +9,8 @@ public class PirateAttackCard extends Card {
     private final int projectileCount;
     private final Side direction;
 
-    public PirateAttackCard(GameLevel level, Graphic graphic) {
-        super(graphic, "Incursione Pirata", "Attacco con proiettili da destra", level);
+    public PirateAttackCard(Graphic graphic) {
+        super(graphic, "Incursione Pirata", "Attacco con proiettili da destra");
         this.projectileCount = 3;
         this.direction = Side.RIGHT;
     }

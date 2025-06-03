@@ -5,11 +5,10 @@ import entities.board.Board;
 import ui.Graphic;
 
 public class SlaverShipCard extends Card {
-    public SlaverShipCard(GameLevel level, Graphic graphic) {
+    public SlaverShipCard(Graphic graphic) {
         super(graphic,
             "Nave Schiavista", 
-            "Perdi 1 equipaggio, puoi contrattattaccare.", 
-            level);
+            "Perdi 1 equipaggio, puoi contrattattaccare.");
     }
 
      @Override
