@@ -8,7 +8,11 @@ import entities.GameLevel;
 import entities.Position;
 import gameEvents.enums.*;
 import items.*;
+import items.enums.AlienType;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import ui.Graphic;
 
 public class Ship {
@@ -22,11 +26,8 @@ public class Ship {
 	private ArrayList<Engine> engines = new ArrayList<Engine>(); 
     private ArrayList<Shield> shields = new ArrayList<Shield>(); 
 	private ArrayList<WareStorage> wareStorages = new ArrayList<WareStorage>(); 
-<<<<<<< Updated upstream
 	private ArrayList<SpacemanUnit> spacemanUnits = new ArrayList<SpacemanUnit>(); 
-=======
-	//private ArrayList<AlienUnit> AlienUnits = new ArrayList<AlienUnit>();
->>>>>>> Stashed changes
+	private ArrayList<AlienUnit> alienUnits = new ArrayList<AlienUnit>();
 	private ArrayList<BatteryStorage> batteryStorages = new ArrayList<BatteryStorage>();
 	// private ArrayList<AlienHousingUnit> AlieUnits;
 
@@ -49,26 +50,6 @@ public class Ship {
 		return (shipComponents[(level.getBoardY()/2)][(level.getBoardX()/2)].getComponent() != null);
 	}
 
-    private boolean checkConnectors(Connector c1, Connector c2){
-
-        switch (c1) {
-            case UNIVERSAL -> {
-                if(c2 != Connector.EMPTY) return true;
-            }
-            case DOUBLE -> {
-                if(c2 == Connector.DOUBLE || c2 == Connector.UNIVERSAL) return true;
-            }
-            case SINGLE -> {
-                if(c2 == Connector.SINGLE || c2 == Connector.UNIVERSAL) return true;
-            }
-            case EMPTY ->{
-                if(c2 == Connector.EMPTY) return true;  //rischio falso positivo
-            }
-        }
-
-        return false;
-    }
-
     private boolean  findPathToCore(Position p){
 
         boolean r1 = false, r2 = false, r3 = false, r4 = false;
@@ -85,7 +66,7 @@ public class Ship {
         && shipComponents[p.getY()+1][p.getX()].getComponent() != null 
         && getComponent(p).getConnector(Side.DOWN) != Connector.EMPTY 
         && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP) != Connector.EMPTY 
-        && checkConnectors(getComponent(p).getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))){
+        && Connector.checkConnectors(getComponent(p).getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))){
             r1 = findPathToCore(new Position(p.getX(), p.getY()+1)); 
         }
         
@@ -94,7 +75,7 @@ public class Ship {
         && shipComponents[p.getY()-1][p.getX()].getComponent() != null
         && getComponent(p).getConnector(Side.UP) != Connector.EMPTY 
         && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.DOWN) != Connector.EMPTY 
-        && checkConnectors(getComponent(p).getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))){
+        && Connector.checkConnectors(getComponent(p).getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))){
             r2 = findPathToCore(new Position(p.getX(), p.getY()-1));
         }
 
@@ -103,7 +84,7 @@ public class Ship {
         && shipComponents[p.getY()][p.getX()+1].getComponent() != null
         && getComponent(p).getConnector(Side.RIGHT) != Connector.EMPTY 
         && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.LEFT) != Connector.EMPTY 
-        && checkConnectors(getComponent(p).getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))){
+        && Connector.checkConnectors(getComponent(p).getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))){
             r3 = findPathToCore(new Position(p.getX()+1, p.getY()));
         }
 
@@ -112,7 +93,7 @@ public class Ship {
         && shipComponents[p.getY()][p.getX()-1].getComponent() != null 
         && getComponent(p).getConnector(Side.LEFT) != Connector.EMPTY 
         && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.RIGHT) != Connector.EMPTY 
-        && checkConnectors(getComponent(p).getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))){
+        && Connector.checkConnectors(getComponent(p).getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))){
             r4 = findPathToCore( new Position(p.getX()-1, p.getY()) );
         }
 
@@ -172,6 +153,57 @@ public class Ship {
             }
         }
     }
+    
+    
+    private boolean convertToAlien(Position p) {
+    	HashSet<AlienType> supports = new HashSet<AlienType>();
+    	SpacemanUnit su;
+    	
+    	try {
+    		su = (SpacemanUnit)getComponent(p);
+    	}
+    	catch(Exception ex){
+    		throw new IllegalArgumentException("elemento non convertibile nel tipo richiesto");
+    	}
+    	
+    	if(getComponent(p).getConnector(Side.DOWN) != Connector.EMPTY && shipComponents[p.getY()+1][p.getX()].getComponent() instanceof LifeSupport ls) {
+    		if(Connector.checkConnectors(getComponent(p).getConnector(Side.DOWN), ls.getConnector(Side.UP))) {
+    			supports.add(ls.getAlienType());
+    		}
+    	}
+    	
+    	if(getComponent(p).getConnector(Side.UP) != Connector.EMPTY && shipComponents[p.getY()-1][p.getX()].getComponent() instanceof LifeSupport ls) {
+    		if(Connector.checkConnectors(getComponent(p).getConnector(Side.UP), ls.getConnector(Side.DOWN))) {
+    			supports.add(ls.getAlienType());
+    		}
+    	}
+    	
+    	if(getComponent(p).getConnector(Side.RIGHT) != Connector.EMPTY && shipComponents[p.getY()][p.getX()+1].getComponent() instanceof LifeSupport ls) {
+    		if(Connector.checkConnectors(getComponent(p).getConnector(Side.RIGHT), ls.getConnector(Side.LEFT))) {
+    			supports.add(ls.getAlienType());
+    		}
+    	}
+    	
+    	if(getComponent(p).getConnector(Side.LEFT) != Connector.EMPTY && shipComponents[p.getY()][p.getX()-1].getComponent() instanceof LifeSupport ls) {
+    		if(Connector.checkConnectors(getComponent(p).getConnector(Side.LEFT), ls.getConnector(Side.RIGHT))) {
+    			supports.add(ls.getAlienType());
+    		}
+    	}
+    	
+    	if(supports.size() > 1) {
+    		if(g.askUser("scegli il tipo in cui convertire la unit (0: viola, 1: marrone)")) {
+    			shipComponents[p.getY()][p.getX()].setComponent(new AlienUnit(su.getConnectors() ,AlienType.BROWN));
+    		}
+    		else shipComponents[p.getY()][p.getX()].setComponent(new AlienUnit(su.getConnectors() ,AlienType.PURPLE));
+    		
+    		
+    		alienUnits.add((AlienUnit)getComponent(p));
+    		
+    		return true;
+    	}
+    	
+    	return false;
+    }
 
 
     public  void scanShip(){
@@ -212,8 +244,15 @@ public class Ship {
                         }
     
                         case SpacemanUnit h ->{
-                            spacemanUnits.add(h);
+                        	if(!convertToAlien(new Position(j, i))) {
+                        		spacemanUnits.add(h);	
+                        	}
                             break;
+                        }
+                        
+                        case AlienUnit au ->{
+                        	alienUnits.add(au);
+                        	break;
                         }
                         
                         case WareStorage ws->{

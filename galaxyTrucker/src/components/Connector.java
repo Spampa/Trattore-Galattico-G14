@@ -26,4 +26,24 @@ public enum Connector {
 			
 		}
 	}
+	
+	public static boolean checkConnectors(Connector c1, Connector c2){
+
+        switch (c1) {
+            case UNIVERSAL -> {
+                if(c2 != Connector.EMPTY) return true;
+            }
+            case DOUBLE -> {
+                if(c2 == Connector.DOUBLE || c2 == Connector.UNIVERSAL) return true;
+            }
+            case SINGLE -> {
+                if(c2 == Connector.SINGLE || c2 == Connector.UNIVERSAL) return true;
+            }
+            case EMPTY ->{
+                if(c2 == Connector.EMPTY) return true;  //rischio falso positivo
+            }
+        }
+
+        return false;
+    }
 }
