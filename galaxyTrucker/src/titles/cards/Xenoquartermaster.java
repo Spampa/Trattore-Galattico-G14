@@ -150,7 +150,7 @@ public class Xenoquartermaster extends Title{
 		while(!trovato) {
 			ArrayList<ShipTile> vicini=getNeighbours(p, shipComponents, level);
 			for(int i=0; i<vicini.size();i++) {
-				if(vicini.get(i).getComponent()instanceof HousingUnit) {
+				if(vicini.get(i).getComponent()instanceof SpacemanUnit) {
 					//count=shipComponents[p.getY()][p.getX()].getCountVisited()+1;
 					count=shipmap.get(shipComponents[p.getY()][p.getX()])+1;
 					trovato=true;

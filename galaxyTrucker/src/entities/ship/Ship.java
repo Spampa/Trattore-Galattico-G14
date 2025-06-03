@@ -29,6 +29,7 @@ public class Ship {
 	private ArrayList<SpacemanUnit> spacemanUnits = new ArrayList<SpacemanUnit>(); 
 	private ArrayList<AlienUnit> alienUnits = new ArrayList<AlienUnit>();
 	private ArrayList<BatteryStorage> batteryStorages = new ArrayList<BatteryStorage>();
+	private ArrayList<Component> lostComponents = new ArrayList<Component>();
 	// private ArrayList<AlienHousingUnit> AlieUnits;
 
     public Ship(GameLevel level, Graphic g){
@@ -340,32 +341,32 @@ public class Ship {
         }
     }
 
-    public boolean breakComponent(Position p, ProjectileType pType, Side s){
+    public Component breakComponent(Position p, ProjectileType pType, Side s){
 
         switch (pType) {
             case ProjectileType.SMALL_ASTEROID -> {
                 if(getComponent(p).getConnector(s) == Connector.EMPTY || shipComponents[p.getY()][p.getX()].isShieldProtected()){
-                    return false;
+                    return null;
                 }
             }
             case ProjectileType.BIG_ASTEROID -> {
                 if(shipComponents[p.getY()][p.getX()].isCannonProtected()){
-                    return false;
+                    return null;
                 }
             }
             case ProjectileType.SMALL_CANNON -> {
                 if(shipComponents[p.getY()][p.getX()].isShieldProtected()){
-                    return false;
+                    return null;
                 }
             }
             case ProjectileType.BIG_CANNON ->{
                 break;
             }
         }
-        
+        lostComponents.add(getComponent(p));
         shipComponents[p.getY()][p.getX()].setComponent(null);
         scanShip();
-        return true;
+        return lostComponents.getLast();
     }
 
     public boolean addItem(Position p, Item i) {
@@ -685,9 +686,17 @@ public class Ship {
         }
         return value;
     }
+    
+    public int getNumLostComponent() {
+    	return lostComponents.size();
+    }
 
     public int getAliensCounter() {
-        return 0;
+    	int value = 0;
+        for(AlienUnit au : alienUnits) {
+        	value += au.getCurrentCapacity();
+        }
+        return value;
 	}
 
     public GameLevel getGameLevel(){

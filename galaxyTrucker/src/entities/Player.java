@@ -8,9 +8,10 @@ import ui.Graphic;
 
 public class Player implements Comparable<Player> {
 
-    private final Ship ship;
+    private Ship ship;
     private final String name;
 	private int moves;
+	private int cosmicCredit = 0;
 
     public Player(String name, Ship ship) {
         this.ship = ship;
@@ -21,6 +22,8 @@ public class Player implements Comparable<Player> {
     public Ship getShip() {
         return ship;
     }
+    
+    
 
     public boolean checkPlayer() {
         return ship.isPlayable();
@@ -99,6 +102,21 @@ public class Player implements Comparable<Player> {
 		}
 		return chosen;
 	}
+
+	public int getCosmicCredit() {
+		return cosmicCredit;
+	}
+
+	public void addCosmicCredit(int cosmicCredit) {
+		if(cosmicCredit < 0) throw new IllegalArgumentException("non sono ammessi valori negativi per l'aggiunta dei crediti cosmici (utilizzare removeCosmicCredit()...)");
+		this.cosmicCredit += cosmicCredit;
+	}
+	
+	public void removeCosmicCredit(int cosmicCredit) {
+		if(cosmicCredit < 0) throw new IllegalArgumentException("non sono ammessi valori negativi per la rimozione dei crediti cosmici (utilizzare addCosmicCredit()...)");
+		this.cosmicCredit -= cosmicCredit;
+	}
+
 }
 
 
