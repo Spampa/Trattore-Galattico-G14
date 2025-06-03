@@ -26,12 +26,13 @@ public class Deck {
     	
     		cards.add(new PirateAttackCard(graphic));
     		cards.add(new SlaverShipCard(graphic));
-    		//cards.add(new Smugglers() x1);
+    		cards.add(new Smugglers(graphic,1,getRandom(level.toInt(),6),getRandom(level.toInt(),2),generateWares(1,3)));
     		cards.add(new CombatZone(graphic));
     		cards.add(new StarDustCard(graphic));
     		cards.add(new AbandonedStationCard(graphic));
     		cards.add(new AbandonedStationCard(graphic));
-    		//cards.add(new AbandonedShip) x2;
+    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),2), getRandom(level.toInt(),3)));
+    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),2), getRandom(level.toInt(),3)));
     		cards.add(new OpenSpaceCard(graphic));
     		cards.add(new OpenSpaceCard(graphic));
     		cards.add(new OpenSpaceCard(graphic));
@@ -47,12 +48,13 @@ public class Deck {
     	if(level.toInt() >= GameLevel.II.toInt()) {
     		cards.add(new PirateAttackCard(graphic));
     		cards.add(new SlaverShipCard(graphic));
-    		//cards.add(new Smugglers()) x1;
+    		cards.add(new Smugglers(graphic,1,getRandom(level.toInt(),7),getRandom(level.toInt(),3),generateWares(2,4)));
     		cards.add(new CombatZone(graphic));
     		cards.add(new StarDustCard(graphic));
     		cards.add(new AbandonedStationCard(graphic));
     		cards.add(new AbandonedStationCard(graphic));
-    		//cards.add(new AbandonedShip) x2;
+    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),3), getRandom(level.toInt(),4)));
+    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),3), getRandom(level.toInt(),4)));
     		cards.add(new OpenSpaceCard(graphic));
     		cards.add(new OpenSpaceCard(graphic));
     		cards.add(new OpenSpaceCard(graphic));
@@ -69,11 +71,12 @@ public class Deck {
     	if(level.toInt() >= GameLevel.III.toInt()) {
     		cards.add(new PirateAttackCard(graphic));
     		cards.add(new SlaverShipCard(graphic));
-    		//cards.add(new Smugglers()) x1;
+    		cards.add(new Smugglers(graphic,2,getRandom(level.toInt(),8),getRandom(level.toInt(),4),generateWares(3,5)));
     		cards.add(new CombatZone(graphic));
     		cards.add(new AbandonedStationCard(graphic));
     		cards.add(new AbandonedStationCard(graphic));
-    		//cards.add(new AbandonedShip) x2; 
+    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),4), getRandom(level.toInt(),5)));
+    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),4), getRandom(level.toInt(),5)));
     		cards.add(new OpenSpaceCard(graphic));
     		cards.add(new OpenSpaceCard(graphic));
     		cards.add(new OpenSpaceCard(graphic));
@@ -100,15 +103,15 @@ public class Deck {
 		Planet[] planets = new Planet[length];
 		
 		for(int i = 0; i < length; i++) {
-			planets[i] = new Planet(graphic, planetsNames[i], this.getRandomWares(level.toInt() + 1, 5));
+			planets[i] = new Planet(graphic, planetsNames[i], this.generateWares(level.toInt() + 1, 5));
 		}
 		
 		return planets;
 	}
     
-    private Ware[] getRandomWares(int number, int offeset) {
+    private Ware[] generateWares(int min, int max) {
     	ItemsRandomizer r = new ItemsRandomizer();
-    	return r.getRandomWares(number, offeset);
+    	return r.getRandomWares(min, max);
     }
 
     public Card drawCard() {
