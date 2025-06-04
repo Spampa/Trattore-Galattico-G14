@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import entities.Player;
 import entities.board.Board;
-import events.AddItem;
 import events.RemoveItem;
 import items.Item;
 import items.Spaceman;
-import items.Ware;
 import ui.Graphic;
 
 public class AbandonedShip extends Card{

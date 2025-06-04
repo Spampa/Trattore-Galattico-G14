@@ -1,10 +1,10 @@
 package titles.cards;
 
 import java.util.ArrayList;				//serve per 2a versione di findNearestHousingUnit
-import java.util.Arrays;
 import java.util.HashMap;
 
 import components.Component;
+import components.Connector;
 import components.enums.Side;
 import components.models.containers.SpacemanUnit;
 import entities.Player;
@@ -114,25 +114,33 @@ public class Xenoquartermaster extends Title{
 		ArrayList<ShipTile> temp=new ArrayList<ShipTile>(); 
 		if(p.getY()+1 < level.getBoardY() 
 	        && shipComponents[p.getY()+1][p.getX()].getComponent() != null 
-	        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) {
+	        && shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN)!=Connector.EMPTY
+	        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP)!=Connector.EMPTY
+	        && Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) {
 			temp.add(shipComponents[p.getY()+1][p.getX()]);
 		}
 		
 		if(p.getX()+1 < level.getBoardX() 
 		        && shipComponents[p.getY()][p.getX()+1].getComponent() != null 
-		        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) {
+		        && shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT)!=Connector.EMPTY
+		    	&& shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT)!=Connector.EMPTY
+		        && Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) {
 				temp.add(shipComponents[p.getY()][p.getX()+1]);
 			}
 		
-		if(p.getY()-1 > 0
+		if(p.getY()-1 >= 0
 		        && shipComponents[p.getY()-1][p.getX()].getComponent() != null 
-		        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) {
+		        && shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP)!=Connector.EMPTY
+		        && shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN)!=Connector.EMPTY
+		        && Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) {
 				temp.add(shipComponents[p.getY()-1][p.getX()]);
 			}
 		
-		if(p.getX()-1 >0
+		if(p.getX()-1 >= 0
 		        && shipComponents[p.getY()][p.getX()-1].getComponent() != null 
-		        && checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) {
+		        && shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT)!=Connector.EMPTY
+		        && shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT)!=Connector.EMPTY
+		        && Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) {
 				temp.add(shipComponents[p.getY()][p.getX()-1]);
 			}
 		

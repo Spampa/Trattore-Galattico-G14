@@ -75,28 +75,36 @@ public class Corridorist extends Title {
 			//Position p=(wantedTiles.get(i)).getPosition();		//getPosition not in ShipTile
 	        if(p.getY()+1 < level.getBoardY() 
 	        		&& shipComponents[p.getY()+1][p.getX()].getComponent() != null 
-	        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) {
+	        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN)!=Connector.EMPTY
+	        		&& shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP)!=Connector.EMPTY
+	        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) {
 	        		if(wantedTiles.contains(shipComponents[p.getY()+1][p.getX()]))
 	        			temp++;
 	        }
 	        
 	        if(p.getX()+1 < level.getBoardX() 
 	        		&& shipComponents[p.getY()][p.getX()+1].getComponent() != null 
-	        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) {
+	        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT)!=Connector.EMPTY
+	        		&& shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT)!=Connector.EMPTY
+	        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) {
 	        		if(wantedTiles.contains(shipComponents[p.getY()][p.getX()+1]))
 	        			temp++;
 	        }
 	        
-	        if(p.getY()-1 > 0
+	        if(p.getY()-1 >= 0
 	        		&& shipComponents[p.getY()-1][p.getX()].getComponent() != null 
-	        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) {
+	        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP)!=Connector.EMPTY
+	        		&& shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN)!=Connector.EMPTY
+	        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) {
 	        		if(wantedTiles.contains(shipComponents[p.getY()-1][p.getX()]))
 	        			temp++;
 	        }
 	        
-	        if(p.getX()-1 > 0
+	        if(p.getX()-1 >= 0
 	        		&& shipComponents[p.getY()][p.getX()-1].getComponent() != null 
-	        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) {
+	        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT)!=Connector.EMPTY
+	        		&& shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT)!=Connector.EMPTY
+	        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) {
 	        		if(wantedTiles.contains(shipComponents[p.getY()][p.getX()-1]))
 	        			temp++;
 	        }
@@ -129,7 +137,9 @@ public class Corridorist extends Title {
 			while(count<wantedTiles.size()) {
 				if(p.getY()+1 < level.getBoardY() 
 		        		&& shipComponents[p.getY()+1][p.getX()].getComponent() != null 
-		        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) {
+		        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN)!=Connector.EMPTY
+		    	    	&& shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP)!=Connector.EMPTY
+		        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.DOWN), shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.UP))) {
 		        		if(temp.contains(shipComponents[p.getY()+1][p.getX()])) {
 		        				tempLength++;
 		        				p.setY(p.getY()+1);
@@ -141,7 +151,9 @@ public class Corridorist extends Title {
 		        
 		        if(p.getX()+1 < level.getBoardX() 
 		        		&& shipComponents[p.getY()][p.getX()+1].getComponent() != null 
-		        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) {
+		        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT)!=Connector.EMPTY
+		    	        && shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT)!=Connector.EMPTY
+		        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))) {
 		        			if(temp.contains(shipComponents[p.getY()][p.getX()+1])) {
 		        				tempLength++;
 		        				p.setX(p.getX()+1);
@@ -150,9 +162,11 @@ public class Corridorist extends Title {
 	        		}
 		        }
 		        
-		        if(p.getY()-1 > 0
+		        if(p.getY()-1 >= 0
 		        		&& shipComponents[p.getY()-1][p.getX()].getComponent() != null 
-		        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) {
+		        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP)!=Connector.EMPTY
+		    	    	&& shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN)!=Connector.EMPTY
+		        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))) {
 		        		if(temp.contains(shipComponents[p.getY()-1][p.getX()])) {
 		        			tempLength++;
 		        			p.setY(p.getY()-1);
@@ -161,9 +175,11 @@ public class Corridorist extends Title {
 	        		}
 		        }
 		        
-		        if(p.getX()-1 > 0
+		        if(p.getX()-1 >= 0
 		        		&& shipComponents[p.getY()][p.getX()-1].getComponent() != null 
-		        		&& checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) {
+		        		&& shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT)!=Connector.EMPTY
+		    	        && shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT)!=Connector.EMPTY
+		        		&& Connector.checkConnectors(shipComponents[p.getY()][p.getX()].getComponent().getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))) {
 		        	if(temp.contains(shipComponents[p.getY()][p.getX()-1])) {
 	        			tempLength++;	
 	        			p.setX(p.getX()-1);

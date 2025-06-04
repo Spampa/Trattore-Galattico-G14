@@ -2,7 +2,6 @@ package titles;
 
 import java.util.Random;
 
-import components.Connector;
 import entities.GameLevel;
 import entities.Player;
 
@@ -41,16 +40,16 @@ public abstract class Title {
 			switch(gl.toInt()) {
 			case 2:{
 				goldTier=true;
-				//TODO this.player.incrementCosmicCredits(4);
+				this.player.addCosmicCredit(4);
 			}
 			
 			case 3:
 			{
 				if(goldTier) {
-					//TODO this.player.incrementCosmicCredits(12);
+					this.player.addCosmicCredit(12);
 				}
 				else {
-					//TODO this.player.incrementCosmicCredits(6);
+					this.player.addCosmicCredit(6);
 				}
 			}
 			
@@ -60,9 +59,8 @@ public abstract class Title {
 	
 	public void assignToPlayer(Player[] players, int max_i) throws SpecialAssignmentException {
 		if(max_i>=0) {							//caso classico: titolo assegnato al giocatore con counter maggiore (per quella categoria)
-			//this.taken=true;
 			this.player=players[max_i];
-			//TODO this.player.incrementCosmicCredits(2);
+			this.player.addCosmicCredit(2);
 		}
 		else 										//casi particolari:
 		{
@@ -98,28 +96,6 @@ public abstract class Title {
 		int num_players=players.length;
 		int rand_index=new Random().nextInt()%num_players;
 		this.player=players[rand_index];
-		//this.taken=true;
 	}
 	
-    public static boolean checkConnectors(Connector c1, Connector c2){     
-    	////TODO to be removed once checkConnectors is put elsewhere other than Ship or made public
-
-        switch (c1) {
-            case UNIVERSAL -> {
-                if(c2 != Connector.EMPTY) return true;
-            }
-            case DOUBLE -> {
-                if(c2 == Connector.DOUBLE || c2 == Connector.UNIVERSAL) return true;
-            }
-            case SINGLE -> {
-                if(c2 == Connector.SINGLE || c2 == Connector.UNIVERSAL) return true;
-            }
-            case EMPTY ->{
-                if(c2 == Connector.EMPTY) return true;
-            }
-        }
-
-        return false;
-    }
-
 }

@@ -1,15 +1,9 @@
 package eventCards;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
-import components.Component;
-import components.models.containers.BatteryStorage;
-import components.models.containers.WareStorage;
+import java.util.Arrays;
 import entities.Player;
-import entities.Position;
 import entities.board.Board;
-import entities.ship.Ship;
 import events.AddItem;
 import events.RemoveItem;
 import items.Battery;
@@ -35,7 +29,7 @@ public class Smugglers extends Card {
 		
 		ArrayList<Player> players=board.getPlayers();
 		ArrayList<Ware> waresofplayer=null;
-		ArrayList<Battery> batteriesofplayer=null;
+		int batteriesofplayer=0;
 		ArrayList<Item> itemstoremove=new ArrayList<Item>();
 		
 		for(Player p:players) {
@@ -74,18 +68,17 @@ public class Smugglers extends Card {
 			
 			if(toBePunished) {
 				graphic.printMessage("Devi perdere parti dei tuoi beni!");
-				waresofplayer=getWares(p.getShip());
-				batteriesofplayer=getBatteries(p.getShip());
-				for(int i=1;i<=waresToLose;i++) {
+				waresofplayer=(ArrayList<Ware>)Arrays.asList(p.getShip().getWares());
+				batteriesofplayer=p.getShip().getBatteries();
+				for(int i=0;i<waresToLose;i++) {
 					if(waresofplayer.size()>0)
 					{
-						itemstoremove.add(waresofplayer.getFirst());
-						waresofplayer.removeFirst();
+						itemstoremove.add(waresofplayer.get(i));
 					}
 					else {
-						if(batteriesofplayer.size()>0) {
-							itemstoremove.add(batteriesofplayer.getFirst());
-							batteriesofplayer.removeFirst();
+						if(batteriesofplayer>0) {
+							itemstoremove.add(new Battery());
+							batteriesofplayer--;
 						}
 					}
 				}
@@ -96,35 +89,4 @@ public class Smugglers extends Card {
 		graphic.printAlert("Evento" + super.getName() + " terminato!...");
         graphic.waitForUser("premi per continuare...");    
 	}
-	
-	//questi due metodi potrebbero essere spostati dentro ship (da chiedere a Simone)
-	private ArrayList<Ware> getWares(Ship s){
-		ArrayList<Ware> wares=new ArrayList<Ware>();
-		Component c=null;
-		for(int i=0;i<s.getGameLevel().getBoardY();i++) {
-			for(int j=0;j<s.getGameLevel().getBoardX();j++) {
-				c=s.getComponent(new Position(j,i));
-				if(c instanceof WareStorage) {
-					wares.addAll(((WareStorage)c).getContent());
-				}
-			}
-		}
-		Collections.sort(wares);
-		return wares;
-	}
-	
-	private ArrayList<Battery> getBatteries(Ship s){
-		ArrayList<Battery> batteries=new ArrayList<Battery>();
-		Component c=null;
-		for(int i=0;i<s.getGameLevel().getBoardY();i++) {
-			for(int j=0;j<s.getGameLevel().getBoardX();j++) {
-				c=s.getComponent(new Position(j,i));
-				if(c instanceof BatteryStorage) {
-					batteries.addAll(((BatteryStorage)c).getContent());
-				}
-			}
-		}
-		return  batteries;
-	}
-
 }
