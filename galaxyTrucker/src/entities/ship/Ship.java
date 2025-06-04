@@ -11,6 +11,7 @@ import items.*;
 import items.enums.AlienType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 import ui.Graphic;
@@ -340,6 +341,14 @@ public class Ship {
             return true; 
         }
     }
+    
+    public Component breakComponent(Position p) {
+    	Component c = getComponent(p);
+    	
+    	this.shipComponents[p.getY()][p.getX()].setComponent(null);
+    	
+    	return c;	
+    }
 
     public Component breakComponent(Position p, ProjectileType pType, Side s){
 
@@ -378,27 +387,30 @@ public class Ship {
             		return storage.add(b);
             	}
             	else {
-            		//TODO: thorw erro
-            		return false;
+            		throw new WrongComponentPosition();
             	}
             }
 
             case Ware w ->{
-                for(WareStorage ws : wareStorages){
-                    if(ws.add(w)) return true;
-                }
-                return false;
+            	if(c instanceof WareStorage storage) {
+            		return storage.add(w);
+            	}
+            	else {
+            		throw new WrongComponentPosition();
+            	}
             }
 
             case  Spaceman s ->{
-                for(SpacemanUnit hu : spacemanUnits){
-                    if(hu.add(s)) return true;
-                }
-                return false;
+            	if(c instanceof SpacemanUnit storage) {
+            		return storage.add(s);
+            	}
+            	else {
+            		throw new WrongComponentPosition();
+            	}
             }
 
             default ->{
-                return false;
+                throw new UknownItemType();
             }
         }
 
@@ -406,36 +418,40 @@ public class Ship {
     }
 
     public boolean removeItem(Position p, Item i) {
+    	Component c = this.getComponent(p);
     	
     	    switch (i){
             case Battery b ->{
-                for(BatteryStorage bs : batteryStorages){
-                    if(bs.getCurrentCapacity() > 0){
-                        bs.remove();
-                        return true;
-                    }
-                }
-                return false;
+            	
+            	if(c instanceof BatteryStorage storage) {
+            		return storage.remove() != null;
+            	}
+            	else {
+            		throw new WrongComponentPosition();
+            	}
+            	
             }
 
             case Ware w ->{
-                for(WareStorage ws : wareStorages){
-                    if(ws.getCurrentCapacity() > 0){
-                        ws.remove();
-                        return true;
-                    }
-                }
-                return false;
+            	
+            	if(c instanceof WareStorage storage) {
+            		return storage.remove(w.getName()) != null;
+            	}
+            	else {
+            		throw new WrongComponentPosition();
+            	}
+            	
             }
 
             case  Spaceman s ->{
-                for(SpacemanUnit hu : spacemanUnits){
-                    if(hu.getCurrentCapacity() > 0){
-                        hu.remove();
-                        return true;
-                    }
-                }
-                return false;
+            	
+            	if(c instanceof SpacemanUnit storage) {
+            		return storage.remove() != null;
+            	}
+            	else {
+            		throw new WrongComponentPosition();
+            	}
+            	
             }
 
             default ->{
@@ -454,7 +470,7 @@ public class Ship {
                 }
                 if(n == 0) return true;
             }
-
+            //TODO
             // for(int i = 0; i < n; i++){
             //     removeItem(position, item);
             // }
@@ -640,6 +656,19 @@ public class Ship {
             }
         }
         return value;
+    }
+    
+    public Ware[] getWares() {
+    	ArrayList<Ware> wares = new ArrayList<Ware>();
+    	
+    	for(WareStorage ws : wareStorages) {
+    		for(Ware w : ws.getContent()) {
+    			wares.add(w);
+    		}
+    	}
+    	
+    	Collections.sort(wares);
+    	return (Ware[])wares.toArray();
     }
 
     private int numberOfVoidConnectors(Position p){

@@ -30,6 +30,10 @@ public abstract class Container<T extends Item> extends Component implements Rot
 		return content.removeFirst();
 	}
 	
+	public T remove(int i) {
+		return content.remove(i);
+	}
+	
 	public int getCurrentCapacity() {
 		return content.size();
 	}
