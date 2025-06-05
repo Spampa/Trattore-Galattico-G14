@@ -11,18 +11,18 @@ import ui.Graphic;
 
 public class BuildPhase extends  Phase{
 	
-	private final ComponentPool pool;
+	private ComponentPool pool;
 	private ArrayList<Player> players;
 	private ArrayList<Player> finishedPlayers;
 
     public BuildPhase(GameLogic game, Graphic graphic){
         super(game, graphic);
-        this.pool = new ComponentPool(game.getLevel());
         finishedPlayers = new ArrayList<Player>();
     }
     
     @Override
     public void start() {
+    	this.pool = new ComponentPool(game.getLevel());
         this.players = game.getPlayers();
         System.out.println("Starting Building Phase");
     }

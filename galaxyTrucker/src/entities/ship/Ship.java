@@ -13,6 +13,7 @@ import items.enums.AlienType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import ui.Graphic;
 
@@ -76,7 +77,7 @@ public class Ship {
         && !shipComponents[p.getY()-1][p.getX()].isScanned() 
         && shipComponents[p.getY()-1][p.getX()].getComponent() != null
         && getComponent(p).getConnector(Side.UP) != Connector.EMPTY 
-        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.DOWN) != Connector.EMPTY 
+        && shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN) != Connector.EMPTY 
         && Connector.checkConnectors(getComponent(p).getConnector(Side.UP), shipComponents[p.getY()-1][p.getX()].getComponent().getConnector(Side.DOWN))){
             r2 = findPathToCore(new Position(p.getX(), p.getY()-1));
         }
@@ -85,7 +86,7 @@ public class Ship {
         && !shipComponents[p.getY()][p.getX()+1].isScanned() 
         && shipComponents[p.getY()][p.getX()+1].getComponent() != null
         && getComponent(p).getConnector(Side.RIGHT) != Connector.EMPTY 
-        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.LEFT) != Connector.EMPTY 
+        && shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT) != Connector.EMPTY 
         && Connector.checkConnectors(getComponent(p).getConnector(Side.RIGHT), shipComponents[p.getY()][p.getX()+1].getComponent().getConnector(Side.LEFT))){
             r3 = findPathToCore(new Position(p.getX()+1, p.getY()));
         }
@@ -94,7 +95,7 @@ public class Ship {
         && !shipComponents[p.getY()][p.getX()-1].isScanned() 
         && shipComponents[p.getY()][p.getX()-1].getComponent() != null 
         && getComponent(p).getConnector(Side.LEFT) != Connector.EMPTY 
-        && shipComponents[p.getY()+1][p.getX()].getComponent().getConnector(Side.RIGHT) != Connector.EMPTY 
+        && shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT) != Connector.EMPTY 
         && Connector.checkConnectors(getComponent(p).getConnector(Side.LEFT), shipComponents[p.getY()][p.getX()-1].getComponent().getConnector(Side.RIGHT))){
             r4 = findPathToCore( new Position(p.getX()-1, p.getY()) );
         }
@@ -158,14 +159,14 @@ public class Ship {
     
     
     private boolean convertToAlien(Position p) {
-    	HashSet<AlienType> supports = new HashSet<AlienType>();
+    	Set<AlienType> supports = new HashSet<AlienType>();
     	SpacemanUnit su;
     	
     	try {
     		su = (SpacemanUnit)getComponent(p);
     	}
     	catch(Exception ex){
-    		throw new IllegalArgumentException("elemento non convertibile nel tipo richiesto");
+    		throw new WrongComponentPosition();
     	}
     	
     	if(getComponent(p).getConnector(Side.DOWN) != Connector.EMPTY && shipComponents[p.getY()+1][p.getX()].getComponent() instanceof LifeSupport ls) {
@@ -198,9 +199,12 @@ public class Ship {
     		}
     		else shipComponents[p.getY()][p.getX()].setComponent(new AlienUnit(su.getConnectors() ,AlienType.PURPLE));
     		
-    		
     		alienUnits.add((AlienUnit)getComponent(p));
-    		
+    		return true;
+    	}
+    	else if(supports.size() > 0) {
+    		shipComponents[p.getY()][p.getX()].setComponent(new AlienUnit(su.getConnectors() , supports.iterator().next()));
+    		alienUnits.add((AlienUnit)getComponent(p));
     		return true;
     	}
     	
@@ -455,7 +459,7 @@ public class Ship {
             }
 
             default ->{
-                return false;
+                throw new UknownItemType();
             }
         }
     }
@@ -658,7 +662,7 @@ public class Ship {
         return value;
     }
     
-    public Ware[] getWares() {
+    public ArrayList<Ware> getWares() {
     	ArrayList<Ware> wares = new ArrayList<Ware>();
     	
     	for(WareStorage ws : wareStorages) {
@@ -668,7 +672,7 @@ public class Ship {
     	}
     	
     	Collections.sort(wares);
-    	return (Ware[])wares.toArray();
+    	return wares;
     }
 
     private int numberOfVoidConnectors(Position p){

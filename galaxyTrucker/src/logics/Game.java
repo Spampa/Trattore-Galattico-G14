@@ -2,6 +2,7 @@ package logics;
 
 import java.util.Scanner;
 
+import entities.GameLevel;
 import ui.CLI;
 import ui.Graphic;
 

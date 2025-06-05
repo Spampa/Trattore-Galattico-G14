@@ -68,7 +68,7 @@ public class Smugglers extends Card {
 			
 			if(toBePunished) {
 				graphic.printMessage("Devi perdere parti dei tuoi beni!");
-				waresofplayer=(ArrayList<Ware>)Arrays.asList(p.getShip().getWares());
+				waresofplayer=p.getShip().getWares();
 				batteriesofplayer=p.getShip().getBatteries();
 				for(int i=0;i<waresToLose;i++) {
 					if(waresofplayer.size()>0)
