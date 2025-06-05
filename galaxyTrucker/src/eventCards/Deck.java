@@ -23,75 +23,113 @@ public class Deck {
     }
 
     private void initializeDeck() {
-    	
-    		cards.add(new PirateAttackCard(graphic));
-    		cards.add(new SlaverShipCard(graphic));
-    		cards.add(new Smugglers(graphic,1,getRandom(level.toInt(),6),getRandom(level.toInt(),2),generateWares(1,3)));
-    		cards.add(new CombatZone(graphic));
-    		cards.add(new StarDustCard(graphic));
-    		cards.add(new AbandonedStationCard(graphic));
-    		cards.add(new AbandonedStationCard(graphic));
-    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),2), getRandom(level.toInt(),3)));
-    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),2), getRandom(level.toInt(),3)));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new AsteroidSwarm(graphic));
-    	
-    	if(level.toInt() >= GameLevel.II.toInt()) {
-    		cards.add(new PirateAttackCard(graphic));
-    		cards.add(new SlaverShipCard(graphic));
-    		cards.add(new Smugglers(graphic,1,getRandom(level.toInt(),7),getRandom(level.toInt(),3),generateWares(2,4)));
-    		cards.add(new CombatZone(graphic));
-    		cards.add(new StarDustCard(graphic));
-    		cards.add(new AbandonedStationCard(graphic));
-    		cards.add(new AbandonedStationCard(graphic));
-    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),3), getRandom(level.toInt(),4)));
-    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),3), getRandom(level.toInt(),4)));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new EpidemicCard(graphic));
-    	}
-    	
-    	if(level.toInt() >= GameLevel.III.toInt()) {
-    		cards.add(new PirateAttackCard(graphic));
-    		cards.add(new SlaverShipCard(graphic));
-    		cards.add(new Smugglers(graphic,2,getRandom(level.toInt(),8),getRandom(level.toInt(),4),generateWares(3,5)));
-    		cards.add(new CombatZone(graphic));
-    		cards.add(new AbandonedStationCard(graphic));
-    		cards.add(new AbandonedStationCard(graphic));
-    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),4), getRandom(level.toInt(),5)));
-    		cards.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),4), getRandom(level.toInt(),5)));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new OpenSpaceCard(graphic));
-    		cards.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new AsteroidSwarm(graphic));
-    		cards.add(new EpidemicCard(graphic));
-    		cards.add(new AlienSabotageCard(graphic));
-    	}
+    		
+    		addCardsFromLvl1();
+    		
+    		if(level.toInt()>1) {
+    			addCardsFromLvl2();
+    		}
+    		if(level.toInt()>2) {
+    			addCardsFromLvl3();
+    		}
        
         Collections.shuffle(cards);
+    }
+    
+    private void addCardsFromLvl1(){
+    	Stack<Card> temp=new Stack<Card>();
+    	int number=8;
+    	temp.add(new PirateAttackCard(graphic));
+		temp.add(new SlaverShipCard(graphic));
+		temp.add(new Smugglers(graphic,1,getRandom(level.toInt(),6),getRandom(level.toInt(),2),generateWares(1,3)));
+		temp.add(new CombatZone(graphic));
+		temp.add(new StarDustCard(graphic));
+		temp.add(new AbandonedStationCard(graphic));
+		temp.add(new AbandonedStationCard(graphic));
+		temp.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),2), getRandom(level.toInt(),3)));
+		temp.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),2), getRandom(level.toInt(),3)));
+		temp.add(new OpenSpaceCard(graphic));
+		temp.add(new OpenSpaceCard(graphic));
+		temp.add(new OpenSpaceCard(graphic));
+		temp.add(new OpenSpaceCard(graphic));
+		temp.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
+		temp.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
+		temp.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
+		temp.add(new Planets(graphic, GameLevel.I, getRandom(level.toInt(),2), generatePlanets(getRandom(level.toInt(),1), level)));
+		temp.add(new AsteroidSwarm(graphic));
+		temp.add(new AsteroidSwarm(graphic));
+		temp.add(new AsteroidSwarm(graphic));
+		Collections.shuffle(temp);
+		if(level!=GameLevel.I) {
+			number=4;
+		}
+		for(int i=0;i<number;i++) {
+			cards.add(temp.pop());
+		}
+		
+    }
+    
+    private void addCardsFromLvl2(){
+    	Stack<Card> temp=new Stack<Card>();
+    	int number=8;
+    	temp.add(new PirateAttackCard(graphic));
+    	temp.add(new SlaverShipCard(graphic));
+    	temp.add(new Smugglers(graphic,1,getRandom(level.toInt(),7),getRandom(level.toInt(),3),generateWares(2,4)));
+    	temp.add(new CombatZone(graphic));
+    	temp.add(new StarDustCard(graphic));
+    	temp.add(new AbandonedStationCard(graphic));
+    	temp.add(new AbandonedStationCard(graphic));
+    	temp.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),3), getRandom(level.toInt(),4)));
+    	temp.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),3), getRandom(level.toInt(),4)));
+    	temp.add(new OpenSpaceCard(graphic));
+    	temp.add(new OpenSpaceCard(graphic));
+    	temp.add(new OpenSpaceCard(graphic));
+    	temp.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new Planets(graphic, GameLevel.II, getRandom(level.toInt(),3), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new AsteroidSwarm(graphic));
+    	temp.add(new AsteroidSwarm(graphic));
+    	temp.add(new AsteroidSwarm(graphic));
+    	temp.add(new EpidemicCard(graphic));
+		Collections.shuffle(temp);
+		if(level!=GameLevel.II) {
+			number=4;
+		}
+		for(int i=0;i<number;i++) {
+			cards.add(temp.pop());
+		}
+		
+    }
+    
+    private void addCardsFromLvl3(){
+    	Stack<Card> temp=new Stack<Card>();
+    	int number=8;
+    	temp.add(new PirateAttackCard(graphic));
+    	temp.add(new SlaverShipCard(graphic));
+    	temp.add(new Smugglers(graphic,2,getRandom(level.toInt(),8),getRandom(level.toInt(),4),generateWares(3,5)));
+    	temp.add(new CombatZone(graphic));
+    	temp.add(new AbandonedStationCard(graphic));
+    	temp.add(new AbandonedStationCard(graphic));
+    	temp.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),4), getRandom(level.toInt(),5)));
+    	temp.add(new AbandonedShip(graphic, getRandom(level.toInt(),2), getRandom(level.toInt(),4), getRandom(level.toInt(),5)));
+    	temp.add(new OpenSpaceCard(graphic));
+    	temp.add(new OpenSpaceCard(graphic));
+    	temp.add(new OpenSpaceCard(graphic));
+    	temp.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new Planets(graphic, GameLevel.III, getRandom(level.toInt(),4), generatePlanets(getRandom(level.toInt(),1), level)));
+    	temp.add(new AsteroidSwarm(graphic));
+    	temp.add(new AsteroidSwarm(graphic));
+    	temp.add(new AsteroidSwarm(graphic));
+    	temp.add(new EpidemicCard(graphic));
+    	temp.add(new AlienSabotageCard(graphic));
+		Collections.shuffle(temp);
+		for(int i=0;i<number;i++) {
+			cards.add(temp.pop());
+		}
+		
     }
     
     private int getRandom(int number, int offset) {
