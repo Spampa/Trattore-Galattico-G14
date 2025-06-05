@@ -23,6 +23,7 @@ public class BuildPhase extends  Phase{
     @Override
     public void start() {
     	this.pool = new ComponentPool(game.getLevel());
+        this.pool = new ComponentPool(game.getLevel());
         this.players = game.getPlayers();
         System.out.println("Starting Building Phase");
     }
@@ -58,7 +59,7 @@ public class BuildPhase extends  Phase{
     		
     		//set endTurn
     		graphic.printShip(player.getShip());
-    		if(graphic.askUser("Hai finito di costruire la nave?")) {
+    		if(graphic.askBooleanUser("Hai finito di costruire la nave?")) {
     			finishedPlayers.add(player);
     		}
     	}
@@ -75,11 +76,11 @@ public class BuildPhase extends  Phase{
     }
     
     private boolean insertComponent(Player player, Component component) {
-		if(graphic.askUser("Vuoi mantenere il componente?")) {
+		if(graphic.askBooleanUser("Vuoi mantenere il componente?")) {
 			this.rotateComponent(component);
 			
 			graphic.printShip(player.getShip());
-			Position position = graphic.askComponentPosition();
+			Position position = graphic.askComponentPosition(game.getLevel());
 			
 			boolean isSet = player.getShip().setComponent(component, position);
 			if(isSet) {
@@ -100,7 +101,7 @@ public class BuildPhase extends  Phase{
     	if(!(component instanceof Rotatable)) return;
     	
 		//rotate loop
-		while(graphic.askUser("Vuoi ruotare il componente?")) {
+		while(graphic.askBooleanUser("Vuoi ruotare il componente?")) {
 			((Rotatable) component).rotate();
 			graphic.printComponent(component);
 		}

@@ -63,7 +63,7 @@ public class EpidemicCard extends Card {
             
             
             if (hasMedicalFacilities(ship) && 
-                graphic.askUser(player.getName() + ": Usare risorse mediche (" + MEDICAL_COST + ")?")) {
+                graphic.askBooleanUser(player.getName() + ": Usare risorse mediche (" + MEDICAL_COST + ")?")) {
                 applyTreatment(ship);
                 continue;
             }

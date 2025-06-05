@@ -63,6 +63,7 @@ public class SaveLoadManager {
 	            		}
 	            		case PLAYER_TAG: {
 	            			Player player = new Player(playerName, new Ship(game.getLevel(), game.getGraphic(), shipTile));
+	            			shipTile = Ship.getShipLevelBoard(game.getLevel());
 	            			player.setMoves(playerMoves);
 	            			players.add(player);
 	            			continue;
@@ -100,6 +101,7 @@ public class SaveLoadManager {
             			if(shipTile == null) {
             				throw new NullPointerException("Level not saved!");
             			}
+            			
             			shipTile[p.getY()][p.getX()].setComponent(this.getComponent(row));
             			break;
             		}
@@ -221,7 +223,7 @@ public class SaveLoadManager {
 				component = new BatteryStorage(ContainerSize.valueOf(fields[8]), connectors, Integer.parseInt(fields[9]));
 				break;
 			}
-			case "HousingUnit": {
+			case "SpacemanUnit": {
 				component = new SpacemanUnit(connectors, true, Integer.parseInt(fields[9]));
 				break;
 			}

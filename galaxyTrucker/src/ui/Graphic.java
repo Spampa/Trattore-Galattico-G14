@@ -16,9 +16,9 @@ public interface Graphic {
 	public void printMessage(String message);
 	public void printShip(Ship s);
 	public String getComponentIcon(Component c);
-	public Position askComponentPosition();
+	public Position askComponentPosition(GameLevel level);
 	public void waitForUser(String message);
-	public boolean askUser(String message);
+	public boolean askBooleanUser(String message);
 	public int askIntUser(String message, int minValue, int maxValue);
 	
 	//initialize phase functions

@@ -46,7 +46,7 @@ public class Planets extends Card {
 			int planetIndex;
 			boolean isPlanetSet = true;
 			do {
-				if(graphic.askUser(player.getName() + " vuoi atterrare?")) {
+				if(graphic.askBooleanUser(player.getName() + " vuoi atterrare?")) {
 					planetIndex = graphic.askIntUser( player.getName() + " seleziona il pianeta su cui atterrare ", 1, planets.length) - 1;
 					isPlanetSet = planets[planetIndex].getPlayer() != null;
 					
@@ -65,6 +65,9 @@ public class Planets extends Card {
 		}
 		
 		for(Planet planet : planets) {
+			if(planet.getPlayer() == null) {
+				continue;
+			}
 			graphic.printMessage(planet.getPlayer().getName() + " inizia lo sbarco: ");
 			planet.start();
 			super.lostFlyDays(board, planet.getPlayer());

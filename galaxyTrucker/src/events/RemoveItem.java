@@ -1,5 +1,6 @@
 package events;
 
+import entities.GameLevel;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
@@ -10,11 +11,13 @@ public class RemoveItem extends Event {
 	
 	private final Item[] items;
 	private final Player player;
+	private final GameLevel level;
 	
 	public RemoveItem(Graphic graphic, Item[] items, Player player) {
 		super(graphic);
 		this.items = items;
 		this.player = player;
+		this.level = player.getShip().getGameLevel();
 	}
 
 	@Override
@@ -24,7 +27,7 @@ public class RemoveItem extends Event {
 			boolean loop = true;
 			do {
 				graphic.printMessage("Inserisci posizione del contenitore da cui rimuovere: " + item.getName());
-				position = graphic.askComponentPosition();
+				position = graphic.askComponentPosition(level);
 				
 				loop = !this.isItemRemoved(item, position, player.getShip());
 				if(loop) {

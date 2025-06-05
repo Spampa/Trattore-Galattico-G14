@@ -16,8 +16,8 @@ public class StarDustCard extends Card {
 
     @Override
     public void execute(Board board) {
-        ArrayList<Player> players = board.getPlayers();
-        Collections.reverse(players); 
+    	Collections.reverse(board.getPlayers());
+    	Player[] players = board.getPlayers().toArray(new Player[0]);
 
         graphic.printMessage("Evento speciale: Polvere Stellare!");
 

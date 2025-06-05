@@ -43,7 +43,7 @@ public class AbandonedStationCard extends Card {
     		if(p.getShip().getSpacemans() < this.spacemanCost) {
     			graphic.printAlert(p.getName() + " OOOPS! non hai abbastanza equipaggio per approfittare dell' evento!");
     		}
-    		else if(graphic.askUser(p.getName()+  " vuoi atterrare sulla stazione abbandonata?")) {
+    		else if(graphic.askBooleanUser(p.getName()+  " vuoi atterrare sulla stazione abbandonata?")) {
     			AddItem a = new AddItem(graphic, wares, p);
     			a.start();
     			super.lostFlyDays(b, p);

@@ -194,7 +194,7 @@ public class Ship {
     	}
     	
     	if(supports.size() > 1) {
-    		if(g.askUser("scegli il tipo in cui convertire la unit (0: viola, 1: marrone)")) {
+    		if(g.askBooleanUser("scegli il tipo in cui convertire la unit (0: viola, 1: marrone)")) {
     			shipComponents[p.getY()][p.getX()].setComponent(new AlienUnit(su.getConnectors() ,AlienType.BROWN));
     		}
     		else shipComponents[p.getY()][p.getX()].setComponent(new AlienUnit(su.getConnectors() ,AlienType.PURPLE));
@@ -631,7 +631,7 @@ public class Ship {
         for(Cannon c : cannons){
             if(c.getBatteryRequired() > 0){
 
-                if(g.askUser("vuoi utilizzare batterie per attivare un cannone doppio?") && useBattery(c.getBatteryRequired())) power += c.getFirePower();
+                if(g.askBooleanUser("vuoi utilizzare batterie per attivare un cannone doppio?") && useBattery(c.getBatteryRequired())) power += c.getFirePower();
 
             }
             else power += c.getFirePower();
@@ -644,7 +644,7 @@ public class Ship {
         for(Engine e : engines){
             if(e.getBatteryRequired() > 0){
 
-                if(g.askUser("vuoi utilizzare batterie per attivare un cannone doppio?") && useBattery(e.getBatteryRequired())) power += e.getEnginePower();
+                if(g.askBooleanUser("vuoi utilizzare batterie per attivare un cannone doppio?") && useBattery(e.getBatteryRequired())) power += e.getEnginePower();
 
             }
             else power += e.getEnginePower();

@@ -1,5 +1,6 @@
 package events;
 
+import entities.GameLevel;
 import entities.Player;
 import entities.Position;
 import entities.ship.Ship;
@@ -11,11 +12,13 @@ public class AddItem extends Event {
 	
 	private final Item[] items;
 	private final Player player;
+	private final GameLevel level;
 	
 	public AddItem(Graphic graphic, Item[] items, Player player) {
 		super(graphic);
 		this.items = items;
 		this.player = player;
+		this.level = player.getShip().getGameLevel();
 	}
 	
 	
@@ -24,10 +27,10 @@ public class AddItem extends Event {
 		for(Item item: items) {
 			boolean loop = false;
 			do {
-				if(graphic.askUser("Vuoi aggiungere la merce " + item.getName() + " alla tua nave?")) {
+				if(graphic.askBooleanUser("Vuoi aggiungere la merce " + item.getName() + " alla tua nave?")) {
 					Position position;
 					graphic.printMessage("Inserisci posizione del contenitore di " + item.getName());
-					position = graphic.askComponentPosition();
+					position = graphic.askComponentPosition(level);
 					
 					loop = !this.isItemAdded(item, position, player.getShip());
 					if(loop) {

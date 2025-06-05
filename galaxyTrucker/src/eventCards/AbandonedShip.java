@@ -29,7 +29,7 @@ public class AbandonedShip extends Card{
 		for(Player p:players) {
 			
 			if(p.getShip().getSpacemans()>=spacemen.length) {
-				if(graphic.askUser(p.getName()+" vuoi salire sulla nave abbandonata?")) {
+				if(graphic.askBooleanUser(p.getName()+" vuoi salire sulla nave abbandonata?")) {
 					RemoveItem loseSpacemen= new RemoveItem(graphic, spacemen, p);
 					loseSpacemen.start();
 					p.addCosmicCredit(credits);

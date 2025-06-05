@@ -6,7 +6,7 @@ import java.util.Collections;
 import entities.GameLevel;
 import entities.Player;
 
-public class Board {			//flight board has 18 spaces
+public class Board {			
 	private Space[] spaces;
 	private final ArrayList<Player> players;
 	private final GameLevel level;

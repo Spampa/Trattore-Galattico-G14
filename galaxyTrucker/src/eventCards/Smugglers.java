@@ -36,11 +36,11 @@ public class Smugglers extends Card {
 			boolean toBePunished=false;
 			graphic.printMessage(p.getName()+" sei il prossimo bersaglio!");
 			if(p.getShip().getMaxFirePower()>=firepower) {
-				if(graphic.askUser("Hai i mezzi per difenderti! Lo vuoi fare?")){
+				if(graphic.askBooleanUser("Hai i mezzi per difenderti! Lo vuoi fare?")){
 					float fp=p.getShip().getFirePower();
 					if(fp>firepower) {
 						graphic.printMessage("Hai vinto! Ecco il tuo bottino: "+wares.toString()); //orribile ma yolo
-						if(graphic.askUser("Lo accetti?")) {
+						if(graphic.askBooleanUser("Lo accetti?")) {
 							AddItem putWares=new AddItem(graphic,wares,p);
 							putWares.start();
 							super.lostFlyDays(board, p);

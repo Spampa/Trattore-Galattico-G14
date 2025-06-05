@@ -3,14 +3,14 @@ package logics;
 import java.util.Scanner;
 
 import entities.GameLevel;
-import ui.CLI;
+import ui.askBoolUser;
 import ui.Graphic;
 
 public class Game {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		Graphic graphic = new CLI();
+		Graphic graphic = new askBoolUser();
 		GameLogic game = new GameLogic(graphic);
 		
 		game.play();

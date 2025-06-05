@@ -42,7 +42,7 @@ public class GameLogic {
 	
 	public void play() {
 		if(!slm.isVoid()) {
-			if(graphic.askUser("Caricare partita precedente?")) {
+			if(graphic.askBooleanUser("Caricare partita precedente?")) {
 				slm.loadGame();
 			}
 		}

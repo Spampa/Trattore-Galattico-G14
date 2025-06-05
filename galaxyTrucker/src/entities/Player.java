@@ -85,7 +85,7 @@ public class Player implements Comparable<Player> {
 				for(int i=0;i<players.length;i++) {
 					plyrs=new int[players.length];
 					if(plyrs[i]==0) {
-						a=graphic.askUser("Dare a giocatore "+players[i].name+ " visto che non ha titoli?");
+						a=graphic.askBooleanUser("Dare a giocatore "+players[i].name+ " visto che non ha titoli?");
 					}
 					if(a) {
 						graphic.printMessage("Hai assegnato il titolo al giocatore "+players[i].name);

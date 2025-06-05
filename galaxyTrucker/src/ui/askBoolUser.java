@@ -14,15 +14,16 @@ import entities.board.Space;
 import entities.ship.Ship;
 import entities.ship.ShipTile;
 import eventCards.Card;
+import logics.GameLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI implements Graphic{
+public class askBoolUser implements Graphic{
 	Scanner sc;
 	
-	public CLI() {
+	public askBoolUser() {
 		sc = new Scanner(System.in);
 	}
 	
@@ -163,79 +164,74 @@ public class CLI implements Graphic{
 	}
 	
 	@Override
-	public Position askComponentPosition() {
-		Position position = new Position();
-		
-		System.out.print("Inserire posizione x del componente sulla nave: ");
-		position.setX(Integer.parseInt(sc.nextLine()));
-				
-		System.out.print("Inserire posizione y del componente sulla nave: ");
-		position.setY(Integer.parseInt(sc.nextLine()));
-		
-		return position;
+	public boolean askBooleanUser(String message) {
+		int answer = -1;
+		this.printRow();
+		do { 
+			try {
+				System.out.print(message + " (NO: 0, SI: 1): ");
+				answer = Integer.parseInt(sc.nextLine());
+			}
+			catch(NumberFormatException exception) {
+				this.printAlert("Valore non valido! Inserisci valori NO: 0, SI: 1");
+			}
+		} while (answer < 0 || answer > 1);
+
+		return answer == 1;
 	}
 	
 	@Override
 	public int askIntUser(String message, int minValue, int maxValue) {
-		int answer;
+		int answer = 0;
+		boolean loop = true;
 		
 		do {
-			System.out.print(message + "(" + minValue + "-" + maxValue + "): ");
-			
-			answer = Integer.parseInt(sc.nextLine());
-			
-			if(minValue < 1 || maxValue > 3) this.printAlert("Sono accetati solo valori compresi tra " + minValue + " e " + maxValue + "!");
-			
-		}while(answer < minValue || answer > maxValue);
+			loop = false;
+			try {
+				System.out.print(message + " (" + minValue + "-" + maxValue + "): ");
+				answer = Integer.parseInt(sc.nextLine());
+				
+				if(answer < minValue || answer > maxValue) {
+					this.printAlert("Sono accetati solo valori numerici compresi tra " + minValue + " e " + maxValue + "!");
+					loop = true;
+				}
+			}
+			catch(NumberFormatException exception) {
+				this.printAlert("Sono accetati solo valori numerici compresi tra " + minValue + " e " + maxValue + "!");
+				loop = true;
+			}
+		}while(loop);
 		
 		return answer;
+	}
+	
+	@Override
+	public Position askComponentPosition(GameLevel level) {
+		Position position = new Position();
+		
+		position.setX(
+			this.askIntUser("Inserire posizione x del componente sulla nave: ", 0, level.getBoardX() - 1)
+		);
+		
+		position.setY(
+			this.askIntUser("Inserire posizione y del componente sulla nave: ", 0, level.getBoardY() - 1)
+		);
+		
+		this.clear();
+		return position;
 	}
 	
 	//initialize game functions
 	@Override
 	public GameLevel setGameLevel() {
-		int level;
-		do {
-			System.out.print("Selezione il livello della Partita (1-3): ");
-			
-			level = Integer.parseInt(sc.nextLine());
-			
-			if(level < 1 || level > 3) System.out.println("Sono accettati solo da 1 a 3 giocatori! \n");
-			
-		}while(level < 1 || level > 3);
-		
-		this.clear();
-		
-		switch (level) {
-			case 1 ->{
-				return GameLevel.I;
-			}
-			case 2 ->{
-				return GameLevel.II;
-			}
-			case 3 ->{
-				return GameLevel.III;
-			}
-			default ->{
-				System.out.println("error");
-				return null;
-			}
-		}
+		return GameLevel.intToLevel(
+			this.askIntUser("Selezione il livello della Partita", 1, 3)
+		);
 	}
 
 	@Override
 	public int setPlayerCount() {
-		int playerCount;
-		do {
-			System.out.print("Inserisci il numero di giocatori: ");
-			
-			playerCount = Integer.parseInt(sc.nextLine());
-			
-			if(playerCount < 2 || playerCount > 4) System.out.println("Sono accettati solo da 2 a 4 giocatori! \n");
-			
-		}while(playerCount < 2 || playerCount > 4);
-		this.clear();
-		return playerCount;
+		return askIntUser("Inserisci il numero di giocatori: ", 2, 4);
 	}
 
 	@Override
@@ -255,25 +251,30 @@ public class CLI implements Graphic{
 	@Override
 	public int drawOrPeekComponent(int poolSize) {
 		int choice;
+		boolean loop = true;
 		do {
 			System.out.println("---- FAI LA TUA MOSSA ----");
     		System.out.println("0 - pescare un nuovo componente");
     		System.out.println("1 - pescare dalla pila degli scarti");
+    		System.out.println();
+
+    		choice = askIntUser("Scelta", 0, 1);
     		
-    		System.out.print("\nScelta: ");
-    		choice = Integer.parseInt(sc.nextLine());
     		
     		if(choice == 1 && poolSize == 0) {
     			this.printAlert("La pila degli scarti è vuota!");
     		}
-		}while((choice != 0 && choice != 1) || (choice == 1 && poolSize == 0));
+    		else {
+    			loop = false;
+    		}
+		}while(loop);
+		
 		this.clear();
 		return choice;
 	}
 
 	@Override
 	public void printComponent(Component component) {
-		// TODO Auto-generated method stub
 		System.out.println("Hai ottenuto:\n");
 		System.out.println(component);
 		this.printRow();
@@ -292,17 +293,7 @@ public class CLI implements Graphic{
 	
 	@Override
 	public int getDiscardComponentIndex(int size) {
-		int choice;
-		do {
-			System.out.println("Inserisci indice del componente da scegliere (valori tra 0 - " + (size - 1) + "):");
-			choice = Integer.parseInt(sc.nextLine());
-			
-			if(choice < 0 || choice >= size) {
-				this.printAlert("Valore non valido!");
-			}
-		}while(choice < 0 || choice >= size);
-		
-		return choice;
+		return askIntUser("Inserisci indice del componente da scegliere", 0, size - 1);
 	}
 
     @Override
@@ -333,18 +324,6 @@ public class CLI implements Graphic{
         }
         this.waitForUser("premere un tasto per continuare...");
         this.clear();
-	}
-
-	@Override
-	public boolean askUser(String message) {
-		int answer;
-		this.printRow();
-		do { 
-			System.out.print(message + "(NO: 0, SI: 1): ");
-			answer = Integer.parseInt(sc.nextLine());
-		} while (answer < 0 && answer > 1);
-
-		return answer == 1;
 	}
 	
 	//TODO: optimize

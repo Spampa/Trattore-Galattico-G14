@@ -48,10 +48,14 @@ public class Shoot extends Event {
             	
                 for(int i = 0; i < s.getGameLevel().getBoardY(); i++){     
                     if(s.getShipComponets()[i][comingTile].getComponent() != null){
-                        s.breakComponent(new Position(comingTile, i), type, direction);
+                        if(s.breakComponent(new Position(comingTile, i), type, direction) != null) {
+                        	 graphic.printAlert("L'asteroide ha colpito!");
+                        }
+                       
                         break;
                     }
                 }
+                break;
                 
             }
 
@@ -67,6 +71,7 @@ public class Shoot extends Event {
                         break;
                     }
                 }
+                break;
             }
 
             case Side.LEFT -> {
@@ -81,6 +86,7 @@ public class Shoot extends Event {
                         break;
                     }
                 }
+                break;
             }
 
             case Side.RIGHT -> {
@@ -95,6 +101,7 @@ public class Shoot extends Event {
                         break;
                     }
                 }
+                break;
             }
 
         }
