@@ -7,9 +7,9 @@ import ui.Graphic;
 
 import java.util.ArrayList;
 
-public class OpenSpaceCard extends Card {
+public class OpenSpace extends Card {
 
-    public OpenSpaceCard(Graphic graphic) {
+    public OpenSpace(Graphic graphic) {
         super(graphic, "Spazio Aperto", 
               "Ogni giocatore può guadagnare giorni di volo in base alla potenza dei suoi motori.");
     }

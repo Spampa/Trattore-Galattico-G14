@@ -1,22 +1,16 @@
 package eventCards;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import entities.GameLevel;
 import entities.Player;
 import entities.board.Board;
 import events.Planet;
-import randomizer.ItemsRandomizer;
 import ui.Graphic;
 
 public class Planets extends Card {
 	
 	private Planet[] planets;
-	public static final int MIN_PLANETS = 2;
-	public static final int MAX_PLANETS = 4;
-	private ItemsRandomizer itemsRandomizer = new ItemsRandomizer();
-	
 
 	/*public Planets(Graphic graphic, GameLevel level, int numberOfPlanets) {
 		super(graphic, "Planets", "", level, new Random().nextInt(level.toInt())+2);
@@ -26,10 +20,10 @@ public class Planets extends Card {
 		
 	}*/
 	
-	public Planets(Graphic graphic, GameLevel level, int lostdays, Planet[] planets) {
-		super(graphic, "Planets", "", level, lostdays);
-		
-		this.planets = planets;
+	public Planets(Graphic graphic, GameLevel level) {
+		super(graphic, "Planets", "", level, Deck.getRandom(level.toInt(),3));  //giorni di volo sono randomici in base a livello della carta
+		this.planets = new Planet[Deck.getRandom(level.toInt(), 2)];			//idem numero di pianeti (lvl 1 avrà massimo 2 pianeti, lvl 2 massimo 4)
+		this.generatePlanets();
 	}
 
 	@Override
@@ -72,6 +66,16 @@ public class Planets extends Card {
 			planet.start();
 			super.lostFlyDays(board, planet.getPlayer());
 		}
+	}
+	
+	private Planet[] generatePlanets() {
+		String[] planetsNames = new String[] {"Marte", "Giove", "Venere", "Saturno"};
+		
+		for(int i = 0; i < planets.length; i++) {
+			planets[i] = new Planet(super.graphic, planetsNames[i], Deck.generateWares(level.toInt() + 1, 5)); //numero di merci sarà mediamente maggiore per livelli di partita più difficili
+		}
+		
+		return planets;
 	}
 	
 	private boolean areAllPlayersLandedOnAllPlanets() {

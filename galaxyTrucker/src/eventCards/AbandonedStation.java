@@ -4,34 +4,24 @@ import entities.*;
 import entities.board.Board;
 import events.AddItem;
 import items.Ware;
-import randomizer.ItemsRandomizer;
 
 import java.util.ArrayList;
-import java.util.Random;
 import ui.Graphic;
 
-public class AbandonedStationCard extends Card {
+public class AbandonedStation extends Card {
 	
 	private final int spacemanCost;
 
-    public AbandonedStationCard(Graphic graphic, int spacemanCost) {
+    public AbandonedStation(Graphic graphic, GameLevel level) {
         super(graphic, "Stazione Abbandonata", "", 1);
-        this.spacemanCost = spacemanCost;
+        this.spacemanCost = Deck.getRandom(level.toInt(), 5);
     }
     
-    public AbandonedStationCard(Graphic graphic) {
-        super(graphic, "Stazione Abbandonata", "", 1);
-        Random r = new Random();
-        this.spacemanCost = r.nextInt(4)+2;
-    }
-
-
+    
     @Override
     public void execute(Board b) {
     	ArrayList<Player> players = b.getPlayers();
-    	
-    	ItemsRandomizer ir = new ItemsRandomizer();
-    	Ware[] wares = ir.getRandomWares(1, 4);
+    	Ware[] wares = Deck.generateWares(level.toInt()+1, 4);
     	
     	String s = "";
     	for(Ware w : wares) {
@@ -47,9 +37,12 @@ public class AbandonedStationCard extends Card {
     			AddItem a = new AddItem(graphic, wares, p);
     			a.start();
     			super.lostFlyDays(b, p);
-    			return;
+    			break;
     		}
     	}
+    	
+    	graphic.printAlert("Evento" + super.getName() + " terminato!...");
+        graphic.waitForUser("premi per continuare..."); 
     }
 
 }

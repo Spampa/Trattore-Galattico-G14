@@ -1,7 +1,8 @@
 package eventCards;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import entities.GameLevel;
 import entities.Player;
 import entities.board.Board;
 import events.AddItem;
@@ -13,15 +14,15 @@ import ui.Graphic;
 
 public class Smugglers extends Card {
 
-	private int firepower;
-	private int waresToLose;
-	private Ware[] wares;
+	private final int firepower;
+	private final int waresToLose;
+	private final Ware[] wares;
 	
-	public Smugglers(Graphic graphic, int lostdays, int firepower, int waresToLose, Ware[] wares) {
-		super(graphic, "Contrabbandieri", "", lostdays);
-		this.firepower=firepower;
-		this.waresToLose=waresToLose;
-		this.wares=wares;
+	public Smugglers(Graphic graphic, GameLevel level) {
+		super(graphic, "Contrabbandieri", "",level, 2);
+		this.firepower=Deck.getRandom(level.toInt(), 8);
+		this.waresToLose=Deck.getRandom(level.toInt(), 3);
+		this.wares=Deck.generateWares(2, 5);
 	}
 
 	@Override

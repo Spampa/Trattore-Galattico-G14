@@ -2,6 +2,7 @@ package eventCards;
 
 import java.util.ArrayList;
 
+import entities.GameLevel;
 import entities.Player;
 import entities.board.Board;
 import events.RemoveItem;
@@ -14,11 +15,11 @@ public class AbandonedShip extends Card{
 	private Item[] spacemen;
 	private int credits;
 	
-	public AbandonedShip(Graphic graphic, int lostdays,int spacemen, int credits) {
-		super(graphic, "Nave abbandonata", "", lostdays);
-		this.credits=credits;
-		this.spacemen=new Item[spacemen];
-		for(int i=0; i<spacemen;i++) {
+	public AbandonedShip(Graphic graphic, GameLevel level) {
+		super(graphic, "Nave abbandonata", "", level, Deck.getRandom(level.toInt(), 2));
+		this.credits=Deck.getRandom(level.toInt(),4);
+		this.spacemen=new Item[Deck.getRandom(level.toInt(),3)];
+		for(int i=0; i<spacemen.length;i++) {
 			this.spacemen[i]=new Spaceman();
 		}
 	}

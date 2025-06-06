@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import ui.Graphic;
 
 public class CombatZone extends Card { 
-    private final static int DAY_TO_LOSE = 3;
-    private final static Item[] SPACEMAN_TO_LOSE = {new Spaceman(), new Spaceman()};
+    private final Item[] spacemen;
 
     private final Shoot FIRST_SHOOT;
     private final Shoot SECOND_SHOOT;
     
-    public CombatZone(Graphic graphic) {
-        super(graphic, "Zona di guerra", "Sei entrato in una zona di guerra!");
+    public CombatZone(Graphic graphic, GameLevel level) {
+        super(graphic, "Zona di guerra", "Sei entrato in una zona di guerra!", level, Deck.getRandom(level.toInt(), 3));
+        this.spacemen=new Item[Deck.getRandom(level.toInt(), 2)];
+        for(int i=0;i<spacemen.length;i++) {
+        	spacemen[i]=new Spaceman();
+        }
         this.FIRST_SHOOT  = new Shoot(graphic, Side.DOWN, ProjectileType.SMALL_CANNON);
         this.SECOND_SHOOT  = new Shoot(graphic, Side.DOWN, ProjectileType.BIG_CANNON);
     }
@@ -37,8 +40,8 @@ public class CombatZone extends Card {
                 firstToPunish = p;
             }
         }
-        graphic.printMessage(firstToPunish.getName() + "sei il Giocatore con meno equipaggio mi spiace ma perderai " + DAY_TO_LOSE + " giorni di volo!...");
-        board.moveBack(DAY_TO_LOSE, firstToPunish);
+        graphic.printMessage(firstToPunish.getName() + "sei il Giocatore con meno equipaggio mi spiace ma perderai " + flyDays + " giorni di volo!...");
+        super.lostFlyDays(board, firstToPunish);
         graphic.waitForUser("primo per continuare...");
 
 
@@ -54,8 +57,8 @@ public class CombatZone extends Card {
                 }
             }
         }
-        loseSpaceman = new RemoveItem(graphic, SPACEMAN_TO_LOSE, secondToPunish);
-        graphic.printMessage(secondToPunish.getName() + "sei il Giocatore con meno potenza motrice mi spiace ma perderai " + SPACEMAN_TO_LOSE.length + " membri dell'equipaggio!...");
+        loseSpaceman = new RemoveItem(graphic, spacemen, secondToPunish);
+        graphic.printMessage(secondToPunish.getName() + "sei il Giocatore con meno potenza motrice mi spiace ma perderai " + spacemen.length + " membri dell'equipaggio!...");
         loseSpaceman.start();
         graphic.waitForUser("primo per continuare...");
 
