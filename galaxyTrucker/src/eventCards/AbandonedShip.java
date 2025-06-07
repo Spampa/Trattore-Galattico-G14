@@ -34,6 +34,7 @@ public class AbandonedShip extends Card{
 					RemoveItem loseSpacemen= new RemoveItem(graphic, spacemen, p);
 					loseSpacemen.start();
 					p.addCosmicCredit(credits);
+					graphic.printMessage("Crediti posseduti: "+p.getCosmicCredit());
 					super.lostFlyDays(board, p);
 					break;
 				}
@@ -43,7 +44,8 @@ public class AbandonedShip extends Card{
 				graphic.printAlert("Non puoi sbarcare su questa nave!");
 			}
 		}
-		graphic.printAlert("Evento" + super.getName() + " terminato!...");
+		graphic.printBoard(board);
+		graphic.printAlert("Evento " + super.getName() + " terminato!...");
         graphic.waitForUser("premi per continuare...");   	
 	}
 }

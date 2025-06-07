@@ -39,6 +39,8 @@ public class BuildPhase extends  Phase{
     		graphic.printMessage("Giocatore \u001B[34m" + player.getName() + "\u001B[0m tocca a te!");
     		int choice = graphic.drawOrPeekComponent(pool.getDiscardedComponents().size());
     		
+    		graphic.printShip(player.getShip());
+    		
     		if(choice == 0) { //draw component
     			Component component = pool.draw();
     			graphic.printComponent(component);

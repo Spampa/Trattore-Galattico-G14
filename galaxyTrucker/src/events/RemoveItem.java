@@ -26,6 +26,7 @@ public class RemoveItem extends Event {
 			Position position;
 			boolean loop = true;
 			do {
+				graphic.printShip(player.getShip());
 				graphic.printMessage("Inserisci posizione del contenitore da cui rimuovere: " + item.getName());
 				position = graphic.askComponentPosition(level);
 				

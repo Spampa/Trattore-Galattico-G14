@@ -18,7 +18,8 @@ public class Deck {
         this.cards = new Stack<>();
         this.graphic = graphic;
         this.level=level;
-        initializeDeck();
+        cards.add(new Sabotage(graphic));
+        //initializeDeck();
     }
 
     private void initializeDeck() {

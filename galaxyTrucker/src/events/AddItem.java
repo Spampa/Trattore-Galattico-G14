@@ -29,6 +29,7 @@ public class AddItem extends Event {
 			do {
 				if(graphic.askBooleanUser("Vuoi aggiungere la merce " + item.getName() + " alla tua nave?")) {
 					Position position;
+					graphic.printShip(player.getShip());
 					graphic.printMessage("Inserisci posizione del contenitore di " + item.getName());
 					position = graphic.askComponentPosition(level);
 					

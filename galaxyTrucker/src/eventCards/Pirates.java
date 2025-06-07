@@ -68,15 +68,17 @@ public class Pirates extends Card {
 		}
 		
 		if(targets.size()>0) {
-			for(Shoot h:hits) {
-				for(Player t:targets) {
+			for(Player t:targets) {
+				for(Shoot h:hits) {
 					h.setPlayer(t);
 					h.start();
+					graphic.printShip(t.getShip());
 				}
 			}
 		}
 		
-		graphic.printAlert("Evento" + super.getName() + " terminato!...");
+		graphic.printBoard(board);
+		graphic.printAlert("Evento " + super.getName() + " terminato!...");
         graphic.waitForUser("premi per continuare...");    
     }    
 }

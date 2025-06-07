@@ -17,22 +17,29 @@ public class OpenSpace extends Card {
     @Override
     public void execute(Board board) {
         ArrayList<Player> players = board.getPlayers(); 
-
+        Player[] v=new Player[players.size()];
+        for(int i=0;i<v.length;i++) {
+        	v[i]=players.get(i);
+        }
         
         graphic.printMessage("Ogni giocatore avanza in ordine di rotta in base alla propria potenza motrice.");
 
-        for (Player player : players) {
-            Ship ship = player.getShip();
-            graphic.printMessage(player.getName() + ", tocca a te.");
+        for (int i=0;i<v.length;i++) {
+            Ship ship = v[i].getShip();
+            graphic.printMessage(v[i].getName() + ", tocca a te.");
 
             int power = ship.getMotorPower(); 
             if (power == 0) {
-                graphic.printAlert(player.getName() + " non ha potenza motrice disponibile.");
+                graphic.printAlert(v[i].getName() + " non ha potenza motrice disponibile.");
                 continue;
             }
 
-            board.moveForward(power, player);  
-            graphic.printMessage(player.getName() + " avanza di " + power + " spazi.");
+            board.moveForward(power, v[i]);  
+            graphic.printMessage(v[i].getName() + " avanza di " + power + " spazi.");
+            graphic.waitForUser("premi per continuare...");  
         }
+        graphic.printBoard(board);
+        graphic.printAlert("Evento " + super.getName() + " terminato!...");
+        graphic.waitForUser("premi per continuare...");  
     }
 }

@@ -27,10 +27,16 @@ public class StarDustCard extends Card {
             if (daysToLose > 0) {
                 graphic.printMessage(player.getName() + " ha " + daysToLose +
                                      " connettori esposti e perde " + daysToLose + " giorni di volo.");
-                super.lostFlyDays(board, player);
+                //super.lostFlyDays(board, player);
+                board.moveBack(daysToLose, player);
             } else {
                 graphic.printMessage(player.getName() + " non ha connettori esposti. Nessuna perdita di volo.");
             }
+            
+            graphic.waitForUser("premi per continuare...");  
         }
+        graphic.printBoard(board);
+        graphic.printAlert("Evento " + super.getName() + " terminato!...");
+        graphic.waitForUser("premi per continuare...");  
     }
 }

@@ -83,11 +83,17 @@ public class Smugglers extends Card {
 						}
 					}
 				}
-				RemoveItem r=new RemoveItem(graphic,(Item[]) itemstoremove.toArray(),p);
+				Item[] it=new Item[itemstoremove.size()];
+				for(int i=0;i<it.length;i++) {
+					it[i]=itemstoremove.get(i);
+				}
+				RemoveItem r=new RemoveItem(graphic,it,p);
 				r.start();
+				itemstoremove.clear();
 			}
 		}
-		graphic.printAlert("Evento" + super.getName() + " terminato!...");
+		graphic.printBoard(board);
+		graphic.printAlert("Evento " + super.getName() + " terminato!...");
         graphic.waitForUser("premi per continuare...");    
 	}
 }

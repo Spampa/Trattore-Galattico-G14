@@ -321,7 +321,8 @@ public class Ship {
         } 
         else{
             if(c instanceof Engine){
-                shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
+            	if(p.getY()+1<level.getBoardY())
+            		shipComponents[p.getY()+1][p.getX()].setIsSpace(true);
             }
     
             if(c instanceof Cannon){

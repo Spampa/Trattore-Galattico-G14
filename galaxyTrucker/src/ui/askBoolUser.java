@@ -86,13 +86,13 @@ public class askBoolUser implements Graphic{
 					}
 					else if(board[y][x].getComponent() == null) {
 						if(sideIndex == 0) {
-							out += this.printSingleSymbol("+");
+							out += this.printSingleSymbol("-");
 						}
 						else if(sideIndex == 1) {
-							out += printTripleLayer("+", "X", "+");
+							out += printTripleLayer("|", "X", "|");
 						}
 						else {
-							out += this.printSingleSymbol("+");
+							out += this.printSingleSymbol("-");
 						}
 					}
 					else {

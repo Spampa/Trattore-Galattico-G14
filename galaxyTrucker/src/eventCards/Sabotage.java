@@ -63,10 +63,14 @@ public class Sabotage extends Card {
         for(int i=1; i<=3;i++) {
         	row=dices.roll();
         	column=dices.roll();
-        	graphic.printMessage("Riga: "+row+" Colonna: "+column);		//faccio -4 perchè usiamo un offeset di 4 rispetto al gioco fisico
-        	if((row-4<ship.getGameLevel().getBoardY()&&column-4<ship.getGameLevel().getBoardX()) ||(row -4>=0 && column-4>=0)) {
-        		if(ship.getShipComponets()[row][column].getComponent()!=null) {
-        			ship.breakComponent(new Position(column,row));
+        	graphic.printMessage("Riga: "+(row-4)+" Colonna: "+(column-4));		//faccio -4 perchè usiamo un offeset di 4 rispetto al gioco fisico
+        	if(row-4<ship.getGameLevel().getBoardY()&&column-4<ship.getGameLevel().getBoardX() && row -4>=0 && column-4>=0) {
+        		if(ship.getShipComponets()[row-4][column-4].getComponent()!=null) {
+        			graphic.printMessage("Sabotaggio avvenuto con successo");
+        			graphic.printShip(ship);
+        			ship.breakComponent(new Position(column-4,row-4));
+        			graphic.printShip(ship);
+        			break;
         		}
         		else {
         			if(i!=3) graphic.printMessage("Tentativo numero "+i+ " fallito. Nuovo tentativo!");
